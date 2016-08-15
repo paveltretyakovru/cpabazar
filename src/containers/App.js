@@ -38,8 +38,7 @@ class App extends Component {
     )
   }
 
-  componentWillMount() {
-    console.log('componentWillMount', this.props.appActions.fetchPage)
+  componentDidMount() {
     this.props.appActions.fetchPage()
   }
 }
