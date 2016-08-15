@@ -1,20 +1,12 @@
-'use strict';
-
-// import div from 'material-ui/Paper';
-import React, {Component, PropTypes} from 'react';
-// import {browserHistory} from 'react-router'
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as campaignsActions from '../actions/campaigns';
-import {GridList, GridTile} from 'material-ui/GridList';
+import { connect } from 'react-redux'
 import IconButton from 'material-ui/IconButton';
-import ContentLink from 'material-ui/svg-icons/content/link';
-// import {push} from 'react-router-redux';
+import ContentLink from 'material-ui/svg-icons/content/link'
+import React, { Component } from 'react'
+import {GridList, GridTile} from 'material-ui/GridList'
+import { bindActionCreators } from 'redux'
+import * as campaignsActions from '../actions/campaigns'
 
 class Campaigns extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   get styles() {
     return {
@@ -27,12 +19,8 @@ class Campaigns extends Component {
     }
   }
 
-  handleClickCampaign(link) {
-    this.props.goPage(link);
-  }
-
   render() {
-    return(
+    return (
       <div className="container-fluid row">
         <div className="col-xs-12 fadeInRight" style={{marginTop: 24}}>
           <GridList
@@ -69,7 +57,7 @@ class Campaigns extends Component {
                 <img
                   src={campaign.pap.logourl}
                   style={this.styles.gridTileImg}
-                  onClick={() => this.handleClickCampaign(link)}
+                  onClick={() => this.props.actions.routeToCampaign(link)}
                 />
                 </GridTile>
               })
@@ -77,29 +65,20 @@ class Campaigns extends Component {
           </GridList>
         </div>
       </div>
-    );
+    )
   }
 }
 
-Campaigns.propTypes = {
-  campaigns:  PropTypes.array,
-}
-
-const mapStateToProps = (state) => {
+function mapStateToProps (state) {
   return {
-    campaigns: state.page.campaigns,
+    campaigns: state.app.campaigns,
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  const goPage = (page) => {
-    console.log('Test action page', page);
-  }
-
+function mapDispatchToProps(dispatch) {
   return {
-    goPage: goPage,
-    campaignsActions: bindActionCreators(campaignsActions, dispatch),
+    actions: bindActionCreators(campaignsActions, dispatch),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Campaigns);
+export default connect(mapStateToProps, mapDispatchToProps)(Campaigns)

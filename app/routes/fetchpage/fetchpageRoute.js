@@ -7,9 +7,12 @@ var Campaign = require('../../Campaign');
 router.get('/', (req, res) => {
 
   Campaign.fetchAll().then(campaigns => {
-    campaigns.load(['pap']).then(campaigns => {
-      res.json({campaigns: campaigns.toJSON()});
-    });
+
+    setTimeout(function(){
+      campaigns.load(['pap']).then(campaigns => {
+        res.json({campaigns: campaigns.toJSON()});
+      });
+    }, 5000)
   });
 });
 

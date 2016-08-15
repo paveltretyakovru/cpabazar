@@ -1,11 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 
 class Campaign extends Component {
   render() {
-    return(
-      <div>TEST CAMPAIGN</div>
-    );
+    return <div>1 Campaigns container -> </div>
   }
 }
 
-export default Campaign;
+export default Campaign

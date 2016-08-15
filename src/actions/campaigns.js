@@ -1,10 +1,7 @@
-import {ROUTE_TO_CAMPAIGN} from '../constants/campaigns';
+import { push } from 'react-router-redux'
 
-export function routeToCampaign(id) {
-  console.log('ROUTE TO CAMPAIGN', id);
-
-  return {
-    type: ROUTE_TO_CAMPAIGN,
-    payload: id,
-  };
+export function routeToCampaign(link) {
+  return (dispatch) => {
+    return dispatch(push(link))
+  }
 }

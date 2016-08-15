@@ -1,21 +1,23 @@
-'use strict';
+import AppBar from 'material-ui/AppBar'
+import { connect } from 'react-redux'
+import LinearProgress from 'material-ui/LinearProgress'
+import * as appActions from '../actions/app'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
-import React, {Component} from 'react';
-import AppBar from 'material-ui/AppBar';
-import {connect} from 'react-redux';
-import * as pageActions from '../actions/page';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import CircularProgress from 'material-ui/CircularProgress';
-import LinearProgress from 'material-ui/LinearProgress';
-import {bindActionCreators} from 'redux';
+// Import CSS
+import '../styles/app.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    injectTapEventPlugin()
+  }
+
   render() {
-    let children = this.props.children;
-
-    console.log('CHILDRENS!', children);
-
-    return (
+    return(
       <MuiThemeProvider>
         <div>
           <AppBar title="Megalead" showMenuIconButton={false} />
@@ -27,33 +29,31 @@ class App extends Component {
                   <LinearProgress />
                 </div>
               } else {
-                return children
+                return this.props.children
               }
             })()}
           </div>
         </div>
       </MuiThemeProvider>
-    );
+    )
   }
 
   componentWillMount() {
-    let {fetchPage} = this.props.pageActions;
-    fetchPage();
+    console.log('componentWillMount', this.props.appActions.fetchPage)
+    this.props.appActions.fetchPage()
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+function mapStateToProps (state) {
   return {
-    pageActions: bindActionCreators(pageActions, dispatch),
+    fetching: state.app.fetching,
   }
 }
 
-
-const mapStateToProps = (state) => {
+function mapDispatchToProps(dispatch) {
   return {
-    fetching : state.page.fetching,
-    campaigns: state.page.campaigns,
+    appActions: bindActionCreators(appActions, dispatch),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App)
