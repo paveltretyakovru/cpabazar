@@ -4,7 +4,7 @@
   "description": "Сайт с отображением только кампаний ",
   "main": "index.js",
   "scripts": {
-    "start": "supervisor --watch 'app,src' server.js ",
+    "start": "supervisor --watch 'app' server.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tretyakov Pavel",

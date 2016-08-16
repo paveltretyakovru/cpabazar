@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card'
-// CardHeader,
+import Subheader from 'material-ui/Subheader'
 import FlatButton from 'material-ui/FlatButton'
+import {List, ListItem} from 'material-ui/List'
+import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 
 class Campaign extends Component {
 
@@ -28,10 +29,6 @@ class Campaign extends Component {
 
     return (
       <Card className="col-xs-12 fadeInRight" style={cardStyle}>
-        {/* <CardHeader
-          title={title}
-          subtitle={subtitle}
-        /> */}
         <CardMedia
           style={imgStyle}
           overlay={<CardTitle title={title} subtitle={subtitle} />}
@@ -47,13 +44,41 @@ class Campaign extends Component {
             </span>
           }
         />
-        <CardText>{longdescription}</CardText>
+        <CardText className="row">
+          <div className="col-xs-12 row">{longdescription}</div>
+          <div className="row col-xs-12">
+            <List className="col-xs-6">
+              <Subheader>Лендинги</Subheader>
+              {
+                this.props.data.banners.map(banner => {
+                  return <ListItem key={banner.bannerid}>
+                    {banner.destinationurl}
+                  </ListItem>
+                })
+              }
+            </List>
+            <div className="col-xs-6">123</div>
+          </div>
+        </CardText>
         <CardActions>
-          <FlatButton label="Предложить комиссию" />
+          <FlatButton primary={true} label="Предложить комиссию" />
         </CardActions>
       </Card>
     )
   }
 }
+
+// Campaign.defaultProps = {
+//   data: {
+//     price: 0,
+//
+//     pap: {
+//       name: '',
+//       logourl: '',
+//       description: '',
+//
+//     },
+//   },
+// }
 
 export default Campaign
