@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
       campaigns.load(['pap']).then(campaigns => {
         res.json({campaigns: campaigns.toJSON()});
       });
-    }, 5000)
+    }, 1000)
   });
 });
 

@@ -13,6 +13,12 @@ const history = syncHistoryWithStore(hashHistory, Store, {
 
 // console.log('TEST STORE', Store.getState());
 
+function Test() {
+  return (
+    <div>Test route</div>
+  )
+}
+
 ReactDOM.render(
   <Provider store={Store}>
     { /* Tell the Router to use our enhanced history */ }
@@ -22,6 +28,7 @@ ReactDOM.render(
           if(!Store.getState().app.fetching) {
             return(
               <div>
+                <Route path="test" component={Test} />
                 <IndexRedirect to="campaigns/0" />
                 {/* <Route path="campaigns/0" component={Campaigns} /> */}
                 <Route path="campaigns/:id" component={Campaigns} />

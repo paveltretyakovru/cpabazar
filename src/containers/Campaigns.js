@@ -2,16 +2,18 @@ import { connect } from 'react-redux'
 import Campaign from './Campaign'
 import IconButton from 'material-ui/IconButton';
 import ContentLink from 'material-ui/svg-icons/content/link'
-import React, { Component } from 'react'
+import React from 'react'
 import {GridList, GridTile} from 'material-ui/GridList'
 import { bindActionCreators } from 'redux'
 import * as campaignsActions from '../actions/campaigns'
-import { push } from 'react-router-redux'
 
-class Campaigns extends Component {
+class Campaigns extends React.Component {
 
   get styles() {
     return {
+      gridList: {
+        marginTop: 24,
+      },
       titlePrice: {
         fontWeight: 700,
       },
@@ -22,71 +24,69 @@ class Campaigns extends Component {
   }
 
   render() {
-    let campaign = false;
-
-    if(this.props.params.id) {
-      campaign = this.props.campaigns.filter((element) => {
-        return element.id === parseInt(this.props.params.id)
-      })
-      campaign = campaign[0]
-    }
+    let id = parseInt(this.props.params.id);
 
     return (
       <div className="container-fluid row">
-        {(() => {
-          if(!campaign) {
-            return(<div className="col-xs-12 fadeInRight" style={{marginTop: 24}}>
-              <GridList
-                cols={2}
-                cellHeight={250}
-                padding={1}
-              >
-                {
-                  this.props.campaigns.map((campaign) => {
+        {
+          (() => {
+            if(id) {
+              let findCampaign = this.props.campaigns.filter(el => {
+                return id === el.id
+              })
+              let dataCampaigns = findCampaign[0]
 
-                    // Формирование заголовка для карточки
-                    let title = <span>
-                      {campaign.pap.name} &nbsp;
-                      <span style={this.styles.titlePrice}>
-                        {campaign.price} &nbsp;
-                        <del>P</del>
-                      </span>
-                    </span>;
+              return <Campaign data={dataCampaigns} />
+            } else {
+              return (
+                <GridList
+                  style={this.styles.gridList}
+                  className="col-xs-12 fadeInRight"
+                >
+                  {
+                    (
+                      () => {
+                        return this.props.campaigns.map(campaign => {
 
-                    let link = `campaigns/${campaign.id}`;
+                          let link = `/campaigns/${campaign.id}`
 
-                    return <GridTile
-                      key={campaign.id}
-                      title={title}
-                      actionIcon={
-                        <IconButton tooltip="Cайт">
-                          <ContentLink color="white" />
-                        </IconButton>
+                          let title = (<span>
+                            {campaign.pap.name} &nbsp;
+                            <span style={this.styles.titlePrice}>
+                              {campaign.price} &nbsp;
+                              <del>P</del>
+                            </span>
+                          </span>)
+
+                          return (
+                            <GridTile
+                              key={campaign.id}
+                              title={title}
+                              actionIcon={
+                                <IconButton tooltip="Cайт">
+                                  <ContentLink color="white" />
+                                </IconButton>
+                              }
+                              actionPosition="right"
+                              titlePosition="top"
+                              subtitle={campaign.pap.description}
+                            >
+                              <img
+                                src={campaign.pap.logourl}
+                                style={this.styles.gridTileImg}
+                                onClick={() => this.props.actions.routeToCampaign(link)}
+                              />
+                            </GridTile>
+                          )
+                        })
                       }
-                      actionPosition="right"
-                      titlePosition="top"
-                      subtitle={campaign.pap.description}
-                    >
-                    <img
-                      src={campaign.pap.logourl}
-                      style={this.styles.gridTileImg}
-                      onClick={
-                        () => this.props.goToRoute(link)
-                      }
-                    />
-                    </GridTile>
-                  })
-                }
-              </GridList>
-            </div>)
-          } else {
-            return (
-              <div className="col-xs-12 fadeInRight" style={{marginTop: 24}}>
-                <Campaign data={campaign} />
-              </div>
-            )
-          }
-        })()}
+                    )()
+                  }
+                </GridList>
+              )
+            }
+          })()
+        }
       </div>
     )
   }
@@ -99,11 +99,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  function goToRoute(link) {
-    dispatch(push(link));
-  }
   return {
-    goToRoute: goToRoute,
     actions: bindActionCreators(campaignsActions, dispatch),
   }
 }
