@@ -4,7 +4,7 @@
   "description": "Сайт с отображением только кампаний ",
   "main": "index.js",
   "scripts": {
-    "start": "supervisor --watch 'app' server.js ",
+    "start": "supervisor --watch app server.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tretyakov Pavel",
@@ -36,6 +36,7 @@
     "babel-polyfill": "^6.13.0",
     "babel-runtime": "^6.11.6",
     "bookshelf": "^0.10.0",
+    "isomorphic-fetch": "^2.2.1",
     "knex": "^0.11.10",
     "material-ui": "^0.15.3",
     "mysql": "^2.11.1",
