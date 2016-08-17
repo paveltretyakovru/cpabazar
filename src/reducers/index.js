@@ -1,1 +1,2 @@
-export app from './app';
+export app from './app'
+export campaign from './campaign'

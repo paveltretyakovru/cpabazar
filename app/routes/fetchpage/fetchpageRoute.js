@@ -49,102 +49,102 @@ router.get('/', (req, res) => {
 
     return promises
   }
+  
+  Promise.all([Campaigns, RequestPromise(offersStatUrl)]).then(values => {
+    // Сохраняем полученные обещания
+    let campaigns = values[0].toArray();
+    let offersStatistic = JSON.parse(values[1]).offer;
 
-  setTimeout(function(){
-    Promise.all([Campaigns, RequestPromise(offersStatUrl)]).then(values => {
-      // Сохраняем полученные обещания
-      let campaigns = values[0].toArray();
-      let offersStatistic = JSON.parse(values[1]).offer;
+    let result = campaigns.map(element => {
+      let campaign = element.toJSON();
+      let geo = getCountrycodes(campaign.commissiontypes);
+      let statistic = _.find(offersStatistic, {'id': campaign.pap.campaignid})
+      let approve = (statistic) ? statistic.response.approve : 0
 
-      let result = campaigns.map(element => {
-        let campaign = element.toJSON();
-        let geo = getCountrycodes(campaign.commissiontypes);
-        let statistic = _.find(offersStatistic, {'id': campaign.pap.campaignid})
-        let approve = (statistic) ? statistic.response.approve : 0
+      // Формируем резульатат запроса
+      return {
+        id: campaign.id,
+        geo: geo,
+        hot: campaign.hot,
+        new: campaign.new,
+        pap: campaign.pap,
+        male: campaign.male,
+        price: campaign.price,
+        ageto: campaign.ageto,
+        mobile: campaign.mobile,
+        famale: campaign.famale,
+        callto: campaign.callto,
+        approve: approve,
+        banners: campaign.banners,
+        agefrom: campaign.agefrom,
+        comment: campaign.comment,
+        callfrom: campaign.callfrom,
+        interests: campaign.interests,
+        campaignid: campaign.pap.campaignid,
+        avgcommission: campaign.avgcommission,
+      }
+    });
 
-        // Формируем резульатат запроса
-        return {
-          id: campaign.id,
-          geo: geo,
-          hot: campaign.hot,
-          new: campaign.new,
-          pap: campaign.pap,
-          male: campaign.male,
-          price: campaign.price,
-          ageto: campaign.ageto,
-          mobile: campaign.mobile,
-          famale: campaign.famale,
-          callto: campaign.callto,
-          approve: approve,
-          banners: campaign.banners,
-          agefrom: campaign.agefrom,
-          comment: campaign.comment,
-          callfrom: campaign.callfrom,
-          interests: campaign.interests,
-          campaignid: campaign.pap.campaignid,
-        }
-      });
+    let geoCommissionsPromises = [];
 
-      let geoCommissionsPromises = [];
+    _.forEach(result, resEl => {
+      geoCommissionsPromises = _.concat(geoCommissionsPromises, getCountryCommission(resEl.geo))
+    })
 
-      _.forEach(result, resEl => {
-        geoCommissionsPromises = _.concat(geoCommissionsPromises, getCountryCommission(resEl.geo))
-      })
+    Promise.all(geoCommissionsPromises).then(commissionsModels => {
+      commissionsModels.map((commissionModel => {
+        let commission = commissionModel.toJSON()
 
-      Promise.all(geoCommissionsPromises).then(commissionsModels => {
-        commissionsModels.map((commissionModel => {
-          let commission = commissionModel.toJSON()
-
-          _.forEach(result, resEl => {
-            let resGeo = _.find(resEl.geo, {commtypeid: commission.commtypeid})
-            if(resGeo) {
-              resGeo.value = commission.commissionvalue
-            }
-          })
-        }))
-
-        result = result.map(resCampaign => {
-          return {
-            id: resCampaign.id,
-            hot: resCampaign.hot,
-            new: resCampaign.new,
-            name: resCampaign.pap.name,
-            price: resCampaign.price,
-            mobile: resCampaign.mobile,
-            approve: resCampaign.approve,
-            logourl: resCampaign.pap.logourl,
-            campaignid: resCampaign.pap.campaignid,
-            commissions: resCampaign.geo,
-            description: resCampaign.pap.description,
-            longdescription: resCampaign.pap.longdescription,
-
-            male: resCampaign.male,
-            famale: resCampaign.famale,
-            agefrom: resCampaign.agefrom,
-            ageto: resCampaign.ageto,
-            callfrom: resCampaign.callfrom,
-            callto: resCampaign.callto,
-            interests: resCampaign.interests,
-            comment: resCampaign.comment,
-
-            landings: resCampaign.banners.map(banner => {
-              return {
-                id: banner.bannerid,
-                name: banner.name,
-                description: banner.description,
-                dateinserted: banner.dateinserted,
-                destinationurl: banner.destinationurl,
-              }
-            }),
-
+        _.forEach(result, resEl => {
+          let resGeo = _.find(resEl.geo, {commtypeid: commission.commtypeid})
+          if(resGeo) {
+            resGeo.value = commission.commissionvalue
           }
         })
+      }))
 
-        res.json({campaigns: result});
-      });
+      result = result.map(resCampaign => {
+        return {
+          id: resCampaign.id,
+          hot: resCampaign.hot,
+          new: resCampaign.new,
+          name: resCampaign.pap.name,
+          price: resCampaign.price,
+          mobile: resCampaign.mobile,
+          approve: resCampaign.approve,
+          logourl: resCampaign.pap.logourl,
+          campaignid: resCampaign.pap.campaignid,
+          commissions: resCampaign.geo,
+          description: resCampaign.pap.description,
+          avgcommission: resCampaign.avgcommission,
+          longdescription: resCampaign.pap.longdescription,
 
+          male: resCampaign.male,
+          ageto: resCampaign.ageto,
+          famale: resCampaign.famale,
+          callto: resCampaign.callto,
+          agefrom: resCampaign.agefrom,
+          comment: resCampaign.comment,
+          callfrom: resCampaign.callfrom,
+          interests: resCampaign.interests,
+
+          landings: resCampaign.banners.map(banner => {
+            return {
+              id: banner.bannerid,
+              name: banner.name,
+              description: banner.description,
+              dateinserted: banner.dateinserted,
+              destinationurl: banner.destinationurl,
+            }
+          }),
+
+        }
+      })
+
+      res.json({campaigns: result});
     });
-  }, 1000);
+
+  });
 
 });
 

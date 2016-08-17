@@ -1,20 +1,23 @@
+import * as campaignActions from '../actions/campaign'
+
 import Avatar from 'material-ui/Avatar'
+import CakeVariantIcon from 'mdi-react/CakeVariantIcon'
+import Chip from 'material-ui/Chip'
 import ContentLink from 'material-ui/svg-icons/content/link'
 import FlatButton from 'material-ui/FlatButton'
+import GenderFemaleIcon from 'mdi-react/GenderFemaleIcon'
+import GenderMaleIcon from 'mdi-react/GenderMaleIcon'
 import IconButton from 'material-ui/IconButton'
+import PhoneClassicIcon from 'mdi-react/PhoneClassicIcon'
+import RowingIcon from 'mdi-react/RowingIcon'
 import Subheader from 'material-ui/Subheader'
 import React, { Component } from 'react'
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import {List, ListItem} from 'material-ui/List'
 import {blue500} from 'material-ui/styles/colors'
-import Chip from 'material-ui/Chip'
-
-import GenderFemaleIcon from 'mdi-react/GenderFemaleIcon'
-import GenderMaleIcon from 'mdi-react/GenderMaleIcon'
-import RowingIcon from 'mdi-react/RowingIcon'
-import CakeVariantIcon from 'mdi-react/CakeVariantIcon'
-import PhoneClassicIcon from 'mdi-react/PhoneClassicIcon'
-
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import ProfferCommissionDialog from '../components/ProfferCommissionDialog'
 
 class Campaign extends Component {
 
@@ -177,11 +180,37 @@ class Campaign extends Component {
           </div>
         </CardText>
         <CardActions>
-          <FlatButton primary={true} label="Предложить комиссию" />
+          <FlatButton
+            label="Предложить комиссию"
+            primary={true}
+            onTouchTap={::this.props.campaignActions.switchDialog}
+          />
         </CardActions>
+
+        <ProfferCommissionDialog
+          open={this.props.campaign.openProfferModal}
+          switchDialog={::this.props.campaignActions.switchDialog}
+          avgcommission={this.props.data.avgcommission}
+          profferFormData={this.props.campaign.profferFormData}
+          updateFormData={::this.props.campaignActions.updateProfferFormData}
+        />
+
+
       </Card>
     )
   }
 }
 
-export default Campaign
+let mapStateToProps = (state) => {
+  return {
+    campaign: state.campaign,
+  }
+}
+
+let mapDispatchToProps = (dispatch) => {
+  return {
+    campaignActions: bindActionCreators(campaignActions, dispatch),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Campaign)
