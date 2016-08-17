@@ -13,7 +13,7 @@ import GenderFemaleIcon from 'mdi-react/GenderFemaleIcon'
 import GenderMaleIcon from 'mdi-react/GenderMaleIcon'
 import RowingIcon from 'mdi-react/RowingIcon'
 import CakeVariantIcon from 'mdi-react/CakeVariantIcon'
-
+import PhoneClassicIcon from 'mdi-react/PhoneClassicIcon'
 
 
 class Campaign extends Component {
@@ -51,20 +51,21 @@ class Campaign extends Component {
     } = this.getStyles()
 
     let {
+      male,
       title,
       price,
-      logourl,
-      landings,
-      description,
-      longdescription,
-      commissions,
-      male,
-      famale,
-      agefrom,
       ageto,
-      // callfrom,
-      // callto,
+      callto,
+      famale,
+      logourl,
+      approve,
+      agefrom,
+      landings,
+      callfrom,
       interests,
+      description,
+      commissions,
+      longdescription,
       // comment,
     } = this.props.data
 
@@ -109,6 +110,16 @@ class Campaign extends Component {
               <Chip style={chipStyle}>
                 <Avatar icon={<RowingIcon />} />
                 {interests}
+              </Chip>
+
+              <Chip style={chipStyle}>
+                <Avatar icon={<PhoneClassicIcon />} />
+                {`${callfrom} - ${callto}`}
+              </Chip>
+
+              <Chip style={chipStyle}>
+                <Avatar size={32}>{approve}%</Avatar>
+                Approve
               </Chip>
 
             </div>

@@ -5,6 +5,9 @@ const Campaign = require('../../Campaign');
 const CommissionPap = require('../../CommissionPap');
 const Promise = require('promise');
 const _ = require('lodash');
+const RequestPromise = require('request-promise');
+
+const offersStatUrl = 'http://megalead.local/api/statistic?dateStart=2015-08-17&notDefault=1&notLanding=1&guest=1'
 
 /* GET home page. */
 router.get('/', (req, res) => {
@@ -48,13 +51,16 @@ router.get('/', (req, res) => {
   }
 
   setTimeout(function(){
-    Promise.all([Campaigns]).then(values => {
+    Promise.all([Campaigns, RequestPromise(offersStatUrl)]).then(values => {
       // Сохраняем полученные обещания
       let campaigns = values[0].toArray();
+      let offersStatistic = JSON.parse(values[1]).offer;
 
       let result = campaigns.map(element => {
         let campaign = element.toJSON();
         let geo = getCountrycodes(campaign.commissiontypes);
+        let statistic = _.find(offersStatistic, {'id': campaign.pap.campaignid})
+        let approve = (statistic) ? statistic.response.approve : 0
 
         // Формируем резульатат запроса
         return {
@@ -62,18 +68,20 @@ router.get('/', (req, res) => {
           geo: geo,
           hot: campaign.hot,
           new: campaign.new,
-          mobile: campaign.mobile,
           pap: campaign.pap,
-          price: campaign.price,
-          banners: campaign.banners,
           male: campaign.male,
-          famale: campaign.famale,
-          agefrom: campaign.agefrom,
+          price: campaign.price,
           ageto: campaign.ageto,
-          callfrom: campaign.callfrom,
+          mobile: campaign.mobile,
+          famale: campaign.famale,
           callto: campaign.callto,
-          interests: campaign.interests,
+          approve: approve,
+          banners: campaign.banners,
+          agefrom: campaign.agefrom,
           comment: campaign.comment,
+          callfrom: campaign.callfrom,
+          interests: campaign.interests,
+          campaignid: campaign.pap.campaignid,
         }
       });
 
@@ -103,7 +111,9 @@ router.get('/', (req, res) => {
             name: resCampaign.pap.name,
             price: resCampaign.price,
             mobile: resCampaign.mobile,
+            approve: resCampaign.approve,
             logourl: resCampaign.pap.logourl,
+            campaignid: resCampaign.pap.campaignid,
             commissions: resCampaign.geo,
             description: resCampaign.pap.description,
             longdescription: resCampaign.pap.longdescription,
