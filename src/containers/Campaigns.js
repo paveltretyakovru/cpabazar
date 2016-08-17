@@ -52,7 +52,7 @@ class Campaigns extends React.Component {
                             let link = `/campaigns/${campaign.id}`
 
                             let title = (<span>
-                              {campaign.pap.name} &nbsp;
+                              {campaign.name} &nbsp;
                               <span style={this.styles.titlePrice}>
                                 {campaign.price} &nbsp;
                                 <del>P</del>
@@ -70,10 +70,10 @@ class Campaigns extends React.Component {
                                 }
                                 actionPosition="right"
                                 titlePosition="top"
-                                subtitle={campaign.pap.description}
+                                subtitle={campaign.description}
                               >
                                 <img
-                                  src={campaign.pap.logourl}
+                                  src={campaign.logourl}
                                   style={this.styles.gridTileImg}
                                   onClick={() => this.props.actions.routeToCampaign(link)}
                                 />

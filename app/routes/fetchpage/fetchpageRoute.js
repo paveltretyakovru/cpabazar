@@ -27,7 +27,7 @@ function getCountrycodes(commissiontypes) {
       if(countrycodes !== '' && countrycodes !== null) {
         result.push({
           commtypeid: commission.commtypeid,
-          code: commission.countrycodes.split(','),
+          countries: commission.countrycodes.split(','),
         });
       }
     });
@@ -60,6 +60,9 @@ router.get('/', (req, res) => {
         return {
           id: campaign.id,
           geo: geo,
+          hot: campaign.hot,
+          new: campaign.new,
+          mobile: campaign.mobile,
           pap: campaign.pap,
           price: campaign.price,
           banners: campaign.banners,
@@ -79,10 +82,35 @@ router.get('/', (req, res) => {
           _.forEach(result, resEl => {
             let resGeo = _.find(resEl.geo, {commtypeid: commission.commtypeid})
             if(resGeo) {
-              resGeo.commissionvalue = commission.commissionvalue
+              resGeo.value = commission.commissionvalue
             }
           })
         }))
+
+        result = result.map(resCampaign => {
+          return {
+            id: resCampaign.id,
+            hot: resCampaign.hot,
+            new: resCampaign.new,
+            name: resCampaign.pap.name,
+            price: resCampaign.price,
+            mobile: resCampaign.mobile,
+            logourl: resCampaign.pap.logourl,
+            commissions: resCampaign.geo,
+            description: resCampaign.pap.description,
+            longdescription: resCampaign.pap.longdescription,
+            landings: resCampaign.banners.map(banner => {
+              return {
+                id: banner.bannerid,
+                name: banner.name,
+                description: banner.description,
+                dateinserted: banner.dateinserted,
+                destinationurl: banner.destinationurl,
+              }
+            }),
+
+          }
+        })
 
         res.json({campaigns: result});
       });
