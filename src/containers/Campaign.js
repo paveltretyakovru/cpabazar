@@ -1,12 +1,20 @@
+import Avatar from 'material-ui/Avatar'
 import ContentLink from 'material-ui/svg-icons/content/link'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
 import Subheader from 'material-ui/Subheader'
 import React, { Component } from 'react'
-import Avatar from 'material-ui/Avatar'
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import {List, ListItem} from 'material-ui/List'
 import {blue500} from 'material-ui/styles/colors'
+import Chip from 'material-ui/Chip'
+
+import GenderFemaleIcon from 'mdi-react/GenderFemaleIcon'
+import GenderMaleIcon from 'mdi-react/GenderMaleIcon'
+import RowingIcon from 'mdi-react/RowingIcon'
+import CakeVariantIcon from 'mdi-react/CakeVariantIcon'
+
+
 
 class Campaign extends Component {
 
@@ -18,16 +26,57 @@ class Campaign extends Component {
       imgStyle: {
         marginTop: 24,
       },
+      chipWrapperStyle: {
+        display: 'flex',
+        flexWrap: 'wrap',
+      },
+      chipStyle: {
+        margin: 4,
+      },
+      titlePStyle: {
+        marginRight: 24,
+      },
     }
   }
 
   render() {
     console.log('Campaign render', this.props.data);
 
-    let { cardStyle, imgStyle } = this.getStyles()
     let {
-      title, price, logourl, landings, description, longdescription,  commissions,
+      cardStyle,
+      imgStyle,
+      chipWrapperStyle,
+      chipStyle,
+      titlePStyle,
+    } = this.getStyles()
+
+    let {
+      title,
+      price,
+      logourl,
+      landings,
+      description,
+      longdescription,
+      commissions,
+      male,
+      famale,
+      agefrom,
+      ageto,
+      // callfrom,
+      // callto,
+      interests,
+      // comment,
     } = this.props.data
+
+    const MaleChip = <Chip style={chipStyle}>
+      <Avatar icon={<GenderMaleIcon />} />
+      M
+    </Chip>
+
+    const FamaleChip = <Chip style={chipStyle}>
+      <Avatar icon={<GenderFemaleIcon />} />
+      Ж
+    </Chip>
 
     return (
       <Card className="col-xs-12 fadeInRight" style={cardStyle}>
@@ -39,11 +88,30 @@ class Campaign extends Component {
         </CardMedia>
         <CardTitle
           title={
-            <span>
+            <div style={chipWrapperStyle}>
               {price}
               {' '}
-              <del>P</del>
-            </span>
+              <del style={titlePStyle}>P</del>
+
+              {
+                male ? MaleChip : null
+              }
+
+              {
+                famale ? FamaleChip : null
+              }
+
+              <Chip style={chipStyle}>
+                <Avatar icon={<CakeVariantIcon />} />
+                {agefrom}-{ageto}
+              </Chip>
+
+              <Chip style={chipStyle}>
+                <Avatar icon={<RowingIcon />} />
+                {interests}
+              </Chip>
+
+            </div>
           }
         />
         <CardText className="row">

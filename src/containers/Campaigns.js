@@ -1,12 +1,14 @@
-import { connect } from 'react-redux'
-import Campaign from './Campaign'
-import IconButton from 'material-ui/IconButton';
+import * as campaignsActions from '../actions/campaigns'
+
 import ContentLink from 'material-ui/svg-icons/content/link'
+import IconButton from 'material-ui/IconButton';
+import LinearProgress from 'material-ui/LinearProgress'
 import React from 'react'
 import {GridList, GridTile} from 'material-ui/GridList'
+import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as campaignsActions from '../actions/campaigns'
-import LinearProgress from 'material-ui/LinearProgress'
+
+import Campaign from './Campaign'
 
 class Campaigns extends React.Component {
 

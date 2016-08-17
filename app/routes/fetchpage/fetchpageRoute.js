@@ -6,46 +6,46 @@ const CommissionPap = require('../../CommissionPap');
 const Promise = require('promise');
 const _ = require('lodash');
 
-// Создаем обещание загрузки кампаний с зависимостями
-let Campaigns = new Promise(function(resolve, reject) {
-  // campaigns - collection
-  Campaign.fetchAll().then(campaigns => {
-    campaigns.load(['pap', 'banners', 'commissiontypes'])
-      .then(campaigns => {
-        return resolve(campaigns);
-      })
-      .catch(err => { return reject(err) });
-  });
-});
-
-function getCountrycodes(commissiontypes) {
-  let result = [];
-
-  if(commissiontypes) {
-    commissiontypes.map(commission => {
-      let countrycodes = commission.countrycodes
-      if(countrycodes !== '' && countrycodes !== null) {
-        result.push({
-          commtypeid: commission.commtypeid,
-          countries: commission.countrycodes.split(','),
-        });
-      }
-    });
-  }
-
-  return result;
-}
-
-function getCountryCommission(geos) {
-  let promises = geos.map(geo => {
-    return CommissionPap.where('commtypeid', geo.commtypeid).fetch()
-  })
-
-  return promises
-}
-
 /* GET home page. */
 router.get('/', (req, res) => {
+
+  // Создаем обещание загрузки кампаний с зависимостями
+  let Campaigns = new Promise(function(resolve, reject) {
+    // campaigns - collection
+    Campaign.fetchAll().then(campaigns => {
+      campaigns.load(['pap', 'banners', 'commissiontypes'])
+        .then(campaigns => {
+          return resolve(campaigns);
+        })
+        .catch(err => { return reject(err) });
+    });
+  });
+
+  function getCountrycodes(commissiontypes) {
+    let result = [];
+
+    if(commissiontypes) {
+      commissiontypes.map(commission => {
+        let countrycodes = commission.countrycodes
+        if(countrycodes !== '' && countrycodes !== null) {
+          result.push({
+            commtypeid: commission.commtypeid,
+            countries: commission.countrycodes.split(','),
+          });
+        }
+      });
+    }
+
+    return result;
+  }
+
+  function getCountryCommission(geos) {
+    let promises = geos.map(geo => {
+      return CommissionPap.where('commtypeid', geo.commtypeid).fetch()
+    })
+
+    return promises
+  }
 
   setTimeout(function(){
     Promise.all([Campaigns]).then(values => {
@@ -66,6 +66,14 @@ router.get('/', (req, res) => {
           pap: campaign.pap,
           price: campaign.price,
           banners: campaign.banners,
+          male: campaign.male,
+          famale: campaign.famale,
+          agefrom: campaign.agefrom,
+          ageto: campaign.ageto,
+          callfrom: campaign.callfrom,
+          callto: campaign.callto,
+          interests: campaign.interests,
+          comment: campaign.comment,
         }
       });
 
@@ -99,6 +107,16 @@ router.get('/', (req, res) => {
             commissions: resCampaign.geo,
             description: resCampaign.pap.description,
             longdescription: resCampaign.pap.longdescription,
+
+            male: resCampaign.male,
+            famale: resCampaign.famale,
+            agefrom: resCampaign.agefrom,
+            ageto: resCampaign.ageto,
+            callfrom: resCampaign.callfrom,
+            callto: resCampaign.callto,
+            interests: resCampaign.interests,
+            comment: resCampaign.comment,
+
             landings: resCampaign.banners.map(banner => {
               return {
                 id: banner.bannerid,
