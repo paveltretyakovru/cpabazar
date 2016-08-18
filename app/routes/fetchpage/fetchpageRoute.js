@@ -7,7 +7,7 @@ const Promise = require('promise');
 const _ = require('lodash');
 const RequestPromise = require('request-promise');
 
-const offersStatUrl = 'http://megalead.local/api/statistic?dateStart=2015-08-17&notDefault=1&notLanding=1&guest=1'
+const offersStatUrl = 'http://megalead.ru/api/statistic?dateStart=2015-08-17&notDefault=1&notLanding=1&guest=1'
 
 /* GET home page. */
 router.get('/', (req, res) => {
@@ -49,7 +49,7 @@ router.get('/', (req, res) => {
 
     return promises
   }
-  
+
   Promise.all([Campaigns, RequestPromise(offersStatUrl)]).then(values => {
     // Сохраняем полученные обещания
     let campaigns = values[0].toArray();

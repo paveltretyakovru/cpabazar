@@ -3,9 +3,11 @@ import Dialog from 'material-ui/Dialog'
 import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
-import { blue500, red300 } from 'material-ui/styles/colors'
 import LinearProgress from 'material-ui/LinearProgress'
+import { blue500, red300 } from 'material-ui/styles/colors'
+import {GridList, GridTile} from 'material-ui/GridList'
 import React, { Component, PropTypes } from 'react'
+import _ from 'lodash'
 
 const defaultProps = {
   fullWidth: true,
@@ -25,6 +27,13 @@ class ProfferCommissionForm extends Component {
       requesting: false,
       failSendProfferData: false,
       successSendProfferData: false,
+
+      interesting: {
+        campaigns: {
+          last:[],
+          popular: {},
+        },
+      },
     }
   }
 
@@ -57,6 +66,7 @@ class ProfferCommissionForm extends Component {
         email: this.state.email,
         skype: this.state.skype,
         message: this.state.message,
+        campaign: this.props.name,
         proffercommission: this.state.proffercommission,
       }
 
@@ -82,6 +92,7 @@ class ProfferCommissionForm extends Component {
             ...this.state,
             validation: true,
             requesting: false,
+            interesting: res.interesting,
             successSendProfferData: true,
           })
         })
@@ -165,30 +176,83 @@ class ProfferCommissionForm extends Component {
           (this.state.requesting) ? <LinearProgress mode="indeterminate" /> : null
         }
 
-        <span className="text-caption" style={{color: red300}}>
-          Все поля обязательны
-        </span>
+        {(() => {
+          if(!this.state.successSendProfferData) {
+            return(<div>
+              <span className="text-caption" style={{color: red300}}>
+              Все поля обязательны
+              </span>
 
-        {textFields}
+              {textFields}
 
-        <p style={yourProfferTextStyle}>
-          Ваше предложение: {' '}
-          <span style={proffercommissionWrapperStyle}>
-            {this.state.proffercommission} <del>P</del>
-          </span>
-        </p>
+              <p style={yourProfferTextStyle}>
+              Ваше предложение: {' '}
+              <span style={proffercommissionWrapperStyle}>
+              {this.state.proffercommission} <del>P</del>
+              </span>
+              </p>
 
-        <span className="text-caption">
-          Передвигайте ползунок слайдера для изменения суммы
-        </span>
+              <span className="text-caption">
+              Передвигайте ползунок слайдера для изменения суммы
+              </span>
 
-        <Slider
-          min={0}
-          max={1750}
-          step={5}
-          value={this.state.proffercommission}
-          onChange={::this.handleChangeSlider}
-        />
+              <Slider
+              min={0}
+              max={1750}
+              step={5}
+              value={this.state.proffercommission}
+              onChange={::this.handleChangeSlider}
+              />
+            </div>)
+          } else {
+            return(<div className="fadeInRight">
+              <div>
+                <p>Спасибо за Ваше предложение! В ближайшее время мы
+                с Вами свяжемся.</p> <br />
+                <p>С уважинем, команда Megalead</p> <br />
+              </div>
+              <div>
+                <span className="text-title">Вас так же может заинтересовать:</span>
+
+                <GridList
+                  className="fadeInRight"
+                >
+                  {
+                    (
+                      () => {
+                        let interestingCampaigns = _.concat(
+                          this.state.interesting.campaigns.last,
+                          [this.state.interesting.campaigns.popular],
+                        );
+
+                        return interestingCampaigns.map(campaign => {
+                          let link = `/campaigns/${campaign.id}`
+
+                          return (
+                            <GridTile
+                              key={campaign.id}
+                              title={campaign.name}
+                              subtitle={<span>
+                                {campaign.commission} <del>P</del>
+                              </span>}
+                              titlePosition="bottom"
+                            >
+                              <img
+                                src={campaign.image}
+                                style={{cursor: 'pointer'}}
+                                onClick={() => this.props.actions.routeToCampaign(link)}
+                              />
+                            </GridTile>
+                          )
+                        })
+                      }
+                    )()
+                  }
+                </GridList>
+              </div>
+            </div>)
+          }
+        })()}
 
         {/* Оповещающие сообщенрия */}
         {failSnackbarSendProfferData}

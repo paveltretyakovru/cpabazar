@@ -2,6 +2,9 @@
 const express = require('express')
 const router = express.Router()
 const CommissionProffers = require('../../CommissionProffers')
+const RequestPromise = require('request-promise');
+
+const fetchInterestingUrl = 'http://megalead.ru/api/campaigns/get-interesting'
 
 function addslashes( str ) {
     return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0')
@@ -14,6 +17,7 @@ router.post('/', (req, res) => {
     email: req.body.email,
     skype: req.body.skype,
     message: req.body.message,
+    campaign: req.body.campaign,
     proffercommission: req.body.proffercommission,
   }
 
@@ -24,7 +28,11 @@ router.post('/', (req, res) => {
   new CommissionProffers(data)
     .save()
     .then(model => {
-      res.json(model.toJSON())
+      RequestPromise(fetchInterestingUrl).then(result => {
+        console.log('Result', result);
+        const interesting = JSON.parse(result)
+        res.json({interesting, model})
+      })
     })
 })
 

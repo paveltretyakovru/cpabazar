@@ -49,7 +49,7 @@ class App extends Component {
               {/* Fetch page loader */}
               {(() => {
                 if(this.props.fetching) {
-                  return <LinearProgress mode="indeterminate" />
+                  return <LinearProgress mode="indeterminate" style={{borderRadius: 0}} />
                 } else {
                   return this.props.children
                 }
