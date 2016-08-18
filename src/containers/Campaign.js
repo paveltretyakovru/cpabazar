@@ -149,8 +149,8 @@ class Campaign extends Component {
                   sendProfferData={::this.props.campaignActions.sendProfferData}
                 />
               </Card>
-            </div>
-          </div>
+            </div> {/* col-xs-12 */}
+          </div> {/* row */}
 
 
           {
