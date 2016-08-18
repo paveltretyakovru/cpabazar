@@ -64,12 +64,12 @@ class Campaigns extends React.Component {
                                   key={campaign.id}
                                   title={title}
                                   actionIcon={
-                                    <IconButton tooltip="Cайт">
+                                    <IconButton tooltip="Cайт" tooltipPosition="top-left">
                                       <ContentLink color="white" />
                                     </IconButton>
                                   }
                                   actionPosition="right"
-                                  titlePosition="top"
+                                  titlePosition="bottom"
                                   subtitle={campaign.description}
                                 >
                                   <img
