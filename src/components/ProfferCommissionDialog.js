@@ -21,6 +21,7 @@ class ProfferCommissionForm extends Component {
       skype: '',
       email: '',
       message: '',
+      validation: true,
       requesting: false,
       failSendProfferData: false,
       successSendProfferData: false,
@@ -46,27 +47,48 @@ class ProfferCommissionForm extends Component {
   }
 
   handleSendProfferData() {
+    let data = {}
+
     this.setState({...this.state, requesting: true})
 
-    let promise = this.props.sendProfferData(this.state)
+    try {
+      data = {
+        name: this.state.name,
+        email: this.state.email,
+        skype: this.state.skype,
+        message: this.state.message,
+        proffcommission: this.state.proffcommission,
+      }
 
-    promise
-      .fail(res => {
-        console.error('Error send proffer data', res)
-        this.setState({
-          ...this.state,
-          requesting: false,
-          failSendProfferData: true,
+      for (var prop in data) {
+        if (data[prop] === '') throw new Error()
+      }
+
+      let promise = this.props.sendProfferData(data)
+
+      promise
+        .fail(res => {
+          console.error('Error send proffer data', res)
+          this.setState({
+            ...this.state,
+            requesting: false,
+            failSendProfferData: true,
+          })
         })
-      })
-      .done(res => {
-        console.info('Предложение успешно отправлено', res)
-        this.setState({
-          ...this.state,
-          requesting: false,
-          successSendProfferData: true,
+        .done(res => {
+          console.info('Предложение успешно отправлено', res)
+          this.setState({
+            ...this.state,
+            requesting: false,
+            successSendProfferData: true,
+          })
         })
-      })
+
+      this.setState({...this.state, validation: true})
+    } catch (e) {
+      this.setState({...this.state, validation: false})
+    }
+
   }
 
   handleFailSnackbarSendProfferData() {
@@ -83,7 +105,14 @@ class ProfferCommissionForm extends Component {
       {name: 'name', key: 'name', hintText: 'Наприме: Иван', floatingLabelText: 'Имя'},
       {name: 'skype', key: 'skype', hintText: 'Наприме: myskypelogin', floatingLabelText: 'Skype/ICQ'},
       {name: 'email', key: 'email', hintText: 'Наприме: mynick@gmail.com', floatingLabelText: 'Электронная почта'},
-      {name: 'message', key: 'message', rows: 2, multiLine: true, floatingLabelText: 'Сообщение для рекла'},
+      {
+        key: 'message',
+        name: 'message',
+        rows: 2,
+        hintText: 'Опишите от куда трафик и какие объёмы вы готовы предоставить - это существенно увеличит шансы получения положительного ответа',
+        multiLine: true,
+        floatingLabelText: 'Сообщение для рекла',
+      },
     ]
 
     const textFields = textFieldsData.map(field => {
@@ -91,6 +120,10 @@ class ProfferCommissionForm extends Component {
         <TextField
           {...defaultProps}
           {...field}
+          errorText={
+            (!this.state.validation && this.state[field.key] === '') ?
+              'Обязательное поле' : null
+          }
           value={this.state[field.name]}
           onChange={::this.handleChangeFields}
         />
@@ -124,9 +157,12 @@ class ProfferCommissionForm extends Component {
         actions={dialogActions}
       >
 
+        {/* Загрузчик */}
         {
           this.state.requesting ? <LinearProgress mode="indeterminate" /> : null
         }
+
+        <span className="text-caption">Все поля обязательны для заполнения</span>
 
         {textFields}
 
@@ -136,6 +172,10 @@ class ProfferCommissionForm extends Component {
             {this.state.proffcommission} <del>P</del>
           </span>
         </p>
+
+        <span className="text-caption">
+          Передвигайте ползунок слайдера для изменения суммы
+        </span>
 
         <Slider
           min={0}

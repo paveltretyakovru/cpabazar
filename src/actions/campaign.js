@@ -14,20 +14,14 @@ export function switchDialog() {
   }
 }
 
-export function sendProfferData(profferState) {
+export function sendProfferData(data) {
   return (dispatch) => {
 
     dispatch({
       type: SEND_PROFFER_DATA,
     })
 
-    return $.post(SEND_PROFFER_DATA_URL, {
-      name: profferState.name,
-      email: profferState.email,
-      skype: profferState.skype,
-      message: profferState.message,
-      proffcommission: profferState.proffcommission,
-    })
+    return $.post(SEND_PROFFER_DATA_URL, data)
       .done(res => {
         console.log('Success send', res);
         dispatch({
