@@ -55,13 +55,14 @@ class Campaign extends Component {
 
     let {
       male,
-      title,
+      name,
       price,
       ageto,
       callto,
       famale,
       logourl,
       approve,
+      comment,
       agefrom,
       landings,
       callfrom,
@@ -69,7 +70,6 @@ class Campaign extends Component {
       description,
       commissions,
       longdescription,
-      // comment,
     } = this.props.data
 
     const MaleChip = <Chip style={chipStyle}>
@@ -86,7 +86,7 @@ class Campaign extends Component {
       <Card className="col-xs-12 fadeInRight" style={cardStyle}>
         <CardMedia
           style={imgStyle}
-          overlay={<CardTitle title={title} subtitle={description} />}
+          overlay={<CardTitle title={name} subtitle={description} />}
         >
           <img src={logourl} />
         </CardMedia>
@@ -110,10 +110,12 @@ class Campaign extends Component {
                 {agefrom}-{ageto}
               </Chip>
 
-              <Chip style={chipStyle}>
-                <Avatar icon={<RowingIcon />} />
-                {interests}
-              </Chip>
+              {
+                interests ? <Chip style={chipStyle}>
+                  <Avatar icon={<RowingIcon />} />
+                  {interests}
+                </Chip> : null
+              }
 
               <Chip style={chipStyle}>
                 <Avatar icon={<PhoneClassicIcon />} />
@@ -130,7 +132,13 @@ class Campaign extends Component {
         />
         <CardText className="row">
           <div className="col-xs-12 row">
-            <p style={{marginBottom: 24}}>{longdescription}</p>
+            {
+              comment ? <div className="message">
+                <span>Комментарий рекла</span>
+                <p>{comment}</p>
+              </div> : null
+            }
+            <p style={{margin: '24px 0'}}>{longdescription}</p>
           </div>
           <div className="row col-xs-12">
             <List className="col-xs-6">
@@ -160,7 +168,7 @@ class Campaign extends Component {
             </List>
 
             <List className="col-xs-6">
-              <Subheader>Лендинги</Subheader>
+              <Subheader>Коммиссии</Subheader>
               {
                 commissions.map(commission => {
                   let countrycodes = commission.countries.join()
@@ -188,11 +196,11 @@ class Campaign extends Component {
         </CardActions>
 
         <ProfferCommissionDialog
+          name={name}
           open={this.props.campaign.openProfferModal}
           switchDialog={::this.props.campaignActions.switchDialog}
           avgcommission={this.props.data.avgcommission}
-          profferFormData={this.props.campaign.profferFormData}
-          updateFormData={::this.props.campaignActions.updateProfferFormData}
+          sendProfferData={::this.props.campaignActions.sendProfferData}
         />
 
 

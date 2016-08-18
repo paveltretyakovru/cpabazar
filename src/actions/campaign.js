@@ -1,9 +1,11 @@
+import $ from 'jquery'
+
 import {
-
   SWITCH_DIALOG,
-  UPDATE_PROFFER_FORM_DATA,
   SEND_PROFFER_DATA,
-
+  SEND_PROFFER_DATA_URL,
+  SEND_PROFFER_DATA_FAIL,
+  SEND_PROFFER_DATA_SUCCESS,
 } from '../constants/campaign';
 
 export function switchDialog() {
@@ -12,15 +14,31 @@ export function switchDialog() {
   }
 }
 
-export function updateProfferFormData(key, value) {
-  return {
-    type: UPDATE_PROFFER_FORM_DATA,
-    payload: { key: key, value: value },
-  }
-}
+export function sendProfferData(profferState) {
+  return (dispatch) => {
 
-export function sendProfferData() {
-  return {
-    type: SEND_PROFFER_DATA,
+    dispatch({
+      type: SEND_PROFFER_DATA,
+    })
+
+    return $.post(SEND_PROFFER_DATA_URL, {
+      name: profferState.name,
+      email: profferState.email,
+      skype: profferState.skype,
+      message: profferState.message,
+      proffcommission: profferState.proffcommission,
+    })
+      .done(res => {
+        console.log('Success send', res);
+        dispatch({
+          type: SEND_PROFFER_DATA_SUCCESS,
+        })
+      })
+      .fail(res => {
+        console.log('Error send', res);
+        dispatch({
+          type: SEND_PROFFER_DATA_FAIL,
+        })
+      })
   }
 }

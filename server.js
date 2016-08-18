@@ -1,8 +1,10 @@
+var config = require('./webpack.config');
 var webpack = require('webpack');
+var bodyParser = require('body-parser');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
-var config = require('./webpack.config');
 var fetchpageRoute = require('./app/routes/fetchpage/fetchpageRoute');
+const postprofferRoute = require('./app/routes/postproffer/postprofferRoute');
 
 var app = new (require('express'))();
 var port = 3000;
@@ -13,9 +15,12 @@ app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath,
 }));
 app.use(webpackHotMiddleware(compiler));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Init routes
 app.use('/fetchpage', fetchpageRoute);
+app.use('/postproffer', postprofferRoute);
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/public/index.html');

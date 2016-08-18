@@ -34,3 +34,31 @@ body {
    -webkit-animation-name: fadeInRight;
    animation-name: fadeInRight;
 }
+
+.message{
+  background:#E0E0E0;
+  display:inline-block;
+  padding:13px;
+  width:100%;
+  border-radius:2px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  position:relative;
+}
+.message:before{
+  content:"";
+  position:absolute;
+  display:block;
+  left:0;
+  border-right:6px solid #E0E0E0;
+  border-top: 6px solid transparent;
+  border-bottom:6px solid transparent;
+  top:10px;
+  margin-left:-6px;
+}
+.message span{
+  color:#555;
+  font-weight:bold;
+}
+.message p{
+  padding-top:5px;
+}
