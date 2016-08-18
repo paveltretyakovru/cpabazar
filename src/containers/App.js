@@ -1,3 +1,4 @@
+import {Link} from 'react-router'
 import AppBar from 'material-ui/AppBar'
 import { connect } from 'react-redux'
 import LinearProgress from 'material-ui/LinearProgress'
@@ -13,25 +14,47 @@ import '../styles/app.css';
 class App extends Component {
   constructor(props) {
     super(props)
+  }
+
+  componentWillMount() {
     injectTapEventPlugin()
   }
 
+  getStyles() {
+    return {
+      menuTitleStyle: {
+        textDecoration: 'none',
+        color: '#fff',
+      },
+    }
+  }
+
   render() {
+    let { menuTitleStyle } = this.getStyles()
+
     return(
       <MuiThemeProvider>
-        <div>
-          <AppBar title="Megalead" showMenuIconButton={false} />
-          <div>
-            {/* Fetch page loader */}
-            {(() => {
-              if(this.props.fetching) {
-                return <div style={{textAlign:'center'}} mode="indeterminate">
-                  <LinearProgress />
-                </div>
-              } else {
-                return this.props.children
-              }
-            })()}
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12">
+              <AppBar
+                title={<Link style={menuTitleStyle} to="/">Megalead</Link>}
+                showMenuIconButton={false}
+              />
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-xs-12">
+              {/* Fetch page loader */}
+              {(() => {
+                if(this.props.fetching) {
+                  return <LinearProgress mode="indeterminate" />
+                } else {
+                  return this.props.children
+                }
+              })()}
+            </div>
           </div>
         </div>
       </MuiThemeProvider>

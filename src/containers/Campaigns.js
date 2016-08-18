@@ -15,7 +15,7 @@ class Campaigns extends React.Component {
   get styles() {
     return {
       gridList: {
-        marginTop: 24,
+        marginTop: 8,
       },
       titlePrice: {
         fontWeight: 700,
@@ -28,8 +28,6 @@ class Campaigns extends React.Component {
 
   render() {
     return (
-      <div className="container-fluid row">
-        {
           (() => {
             if(this.props.campaigns.length) {
               let id = parseInt(this.props.params.id);
@@ -42,50 +40,50 @@ class Campaigns extends React.Component {
                 return <Campaign data={dataCampaigns} />
               } else {
                 return (
-                  <GridList
-                    style={this.styles.gridList}
-                    className="col-xs-12 fadeInRight"
-                  >
-                    {
-                      (
-                        () => {
-                          return this.props.campaigns.map(campaign => {
+                    <GridList
+                      style={this.styles.gridList}
+                      className="fadeInRight"
+                    >
+                      {
+                        (
+                          () => {
+                            return this.props.campaigns.map(campaign => {
 
-                            let link = `/campaigns/${campaign.id}`
+                              let link = `/campaigns/${campaign.id}`
 
-                            let title = (<span>
-                              {campaign.name} &nbsp;
-                              <span style={this.styles.titlePrice}>
-                                {campaign.price} &nbsp;
-                                <del>P</del>
-                              </span>
-                            </span>)
+                              let title = (<span>
+                                {campaign.name} &nbsp;
+                                <span style={this.styles.titlePrice}>
+                                  {campaign.price} &nbsp;
+                                  <del>P</del>
+                                </span>
+                              </span>)
 
-                            return (
-                              <GridTile
-                                key={campaign.id}
-                                title={title}
-                                actionIcon={
-                                  <IconButton tooltip="Cайт">
-                                    <ContentLink color="white" />
-                                  </IconButton>
-                                }
-                                actionPosition="right"
-                                titlePosition="top"
-                                subtitle={campaign.description}
-                              >
-                                <img
-                                  src={campaign.logourl}
-                                  style={this.styles.gridTileImg}
-                                  onClick={() => this.props.actions.routeToCampaign(link)}
-                                />
-                              </GridTile>
-                            )
-                          })
-                        }
-                      )()
-                    }
-                  </GridList>
+                              return (
+                                <GridTile
+                                  key={campaign.id}
+                                  title={title}
+                                  actionIcon={
+                                    <IconButton tooltip="Cайт">
+                                      <ContentLink color="white" />
+                                    </IconButton>
+                                  }
+                                  actionPosition="right"
+                                  titlePosition="top"
+                                  subtitle={campaign.description}
+                                >
+                                  <img
+                                    src={campaign.logourl}
+                                    style={this.styles.gridTileImg}
+                                    onClick={() => this.props.actions.routeToCampaign(link)}
+                                  />
+                                </GridTile>
+                              )
+                            })
+                          }
+                        )()
+                      }
+                    </GridList>
                 )
               }
 
@@ -97,8 +95,6 @@ class Campaigns extends React.Component {
           }
 
           })()
-        }
-      </div>
     )
   }
 }

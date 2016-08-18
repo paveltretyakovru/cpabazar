@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog'
 import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
-import { blue500 } from 'material-ui/styles/colors'
+import { blue500, red300 } from 'material-ui/styles/colors'
 import LinearProgress from 'material-ui/LinearProgress'
 import React, { Component, PropTypes } from 'react'
 
@@ -16,7 +16,7 @@ class ProfferCommissionForm extends Component {
     super(props)
 
     this.state = {
-      proffcommission: this.props.avgcommission,
+      proffercommission: this.props.avgcommission,
       name: '',
       skype: '',
       email: '',
@@ -32,7 +32,7 @@ class ProfferCommissionForm extends Component {
     yourProfferTextStyle: {
       marginTop: 24,
     },
-    proffcommissionWrapperStyle: {
+    proffercommissionWrapperStyle: {
       fontWeight: 700,
       color: blue500,
     },
@@ -43,7 +43,7 @@ class ProfferCommissionForm extends Component {
   }
 
   handleChangeSlider(event, value) {
-    this.setState({...this.state, proffcommission: value})
+    this.setState({...this.state, proffercommission: value})
   }
 
   handleSendProfferData() {
@@ -57,7 +57,7 @@ class ProfferCommissionForm extends Component {
         email: this.state.email,
         skype: this.state.skype,
         message: this.state.message,
-        proffcommission: this.state.proffcommission,
+        proffercommission: this.state.proffercommission,
       }
 
       for (var prop in data) {
@@ -71,6 +71,7 @@ class ProfferCommissionForm extends Component {
           console.error('Error send proffer data', res)
           this.setState({
             ...this.state,
+            validation: true,
             requesting: false,
             failSendProfferData: true,
           })
@@ -79,12 +80,12 @@ class ProfferCommissionForm extends Component {
           console.info('Предложение успешно отправлено', res)
           this.setState({
             ...this.state,
+            validation: true,
             requesting: false,
             successSendProfferData: true,
           })
         })
 
-      this.setState({...this.state, validation: true})
     } catch (e) {
       this.setState({...this.state, validation: false})
     }
@@ -98,18 +99,20 @@ class ProfferCommissionForm extends Component {
   render() {
     const {
       yourProfferTextStyle,
-      proffcommissionWrapperStyle,
+      proffercommissionWrapperStyle,
     } = this.getStyles();
 
     const textFieldsData = [
       {name: 'name', key: 'name', hintText: 'Наприме: Иван', floatingLabelText: 'Имя'},
       {name: 'skype', key: 'skype', hintText: 'Наприме: myskypelogin', floatingLabelText: 'Skype/ICQ'},
-      {name: 'email', key: 'email', hintText: 'Наприме: mynick@gmail.com', floatingLabelText: 'Электронная почта'},
+      {name: 'email', key: 'email', hintText: 'Наприме: mynick@gmail.com', floatingLabelText: 'Электронная почта', type: 'email'},
       {
         key: 'message',
         name: 'message',
         rows: 2,
-        hintText: 'Опишите от куда трафик и какие объёмы вы готовы предоставить - это существенно увеличит шансы получения положительного ответа',
+        hintText: 'Опишите от куда трафик и какие объёмы вы ' +
+                  'готовы предоставить - это существенно увеличит ' +
+                  'шансы получения положительного ответа',
         multiLine: true,
         floatingLabelText: 'Сообщение для рекла',
       },
@@ -159,17 +162,19 @@ class ProfferCommissionForm extends Component {
 
         {/* Загрузчик */}
         {
-          this.state.requesting ? <LinearProgress mode="indeterminate" /> : null
+          (this.state.requesting) ? <LinearProgress mode="indeterminate" /> : null
         }
 
-        <span className="text-caption">Все поля обязательны для заполнения</span>
+        <span className="text-caption" style={{color: red300}}>
+          Все поля обязательны
+        </span>
 
         {textFields}
 
         <p style={yourProfferTextStyle}>
           Ваше предложение: {' '}
-          <span style={proffcommissionWrapperStyle}>
-            {this.state.proffcommission} <del>P</del>
+          <span style={proffercommissionWrapperStyle}>
+            {this.state.proffercommission} <del>P</del>
           </span>
         </p>
 
@@ -181,7 +186,7 @@ class ProfferCommissionForm extends Component {
           min={0}
           max={1750}
           step={5}
-          value={this.state.proffcommission}
+          value={this.state.proffercommission}
           onChange={::this.handleChangeSlider}
         />
 
