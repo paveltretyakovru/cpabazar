@@ -78,7 +78,7 @@ class Campaign extends Component {
 
     return (
       <div className="row fadeInRight">
-        <div className="col-xs-8">
+        <div className="col-xs-12 col-md-9">
           <div className="row" style={{marginTop: 8}}>
             <div className="col-xs-12">
               <Card >
@@ -144,6 +144,7 @@ class Campaign extends Component {
                 <ProfferCommissionDialog
                   name={name}
                   open={this.props.campaign.openProfferModal}
+                  campaigns={this.props.campaigns}
                   switchDialog={::this.props.campaignActions.switchDialog}
                   avgcommission={this.props.data.avgcommission}
                   sendProfferData={::this.props.campaignActions.sendProfferData}
@@ -161,7 +162,7 @@ class Campaign extends Component {
 
         </div> {/* col-xs-6 */}
 
-        <div className="col-xs-4">
+        <div className="col-xs-12 col-md-3">
           <div className="row" style={{marginTop: 8}}>
             <div className="col-xs-12">
               <Card>
@@ -232,6 +233,7 @@ class Campaign extends Component {
 let mapStateToProps = (state) => {
   return {
     campaign: state.campaign,
+    campaigns: state.app.campaigns,
   }
 }
 

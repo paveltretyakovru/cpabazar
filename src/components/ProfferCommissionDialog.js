@@ -146,13 +146,14 @@ class ProfferCommissionForm extends Component {
 
     const dialogActions = [
       <FlatButton
-        label="Отмена"
+        label={(this.state.successSendProfferData) ? 'Закрыть' : 'Отмена'}
         primary={true}
         onTouchTap={::this.props.switchDialog}
       />,
       <FlatButton
         label="Отправить"
         primary={true}
+        disabled={this.state.successSendProfferData}
         onTouchTap={::this.handleSendProfferData}
       />,
     ]
@@ -216,6 +217,7 @@ class ProfferCommissionForm extends Component {
 
                 <GridList
                   className="fadeInRight"
+                  cols={3}
                 >
                   {
                     (
@@ -227,6 +229,10 @@ class ProfferCommissionForm extends Component {
 
                         return interestingCampaigns.map(campaign => {
                           let link = `/campaigns/${campaign.id}`
+                          let dataCampaign = _.find(
+                            this.props.campaigns,
+                            {id: campaign.id}
+                          )
 
                           return (
                             <GridTile
@@ -234,6 +240,7 @@ class ProfferCommissionForm extends Component {
                               title={campaign.name}
                               subtitle={<span>
                                 {campaign.commission} <del>P</del>
+                                {' '} Approve: {dataCampaign.approve}%
                               </span>}
                               titlePosition="bottom"
                             >
