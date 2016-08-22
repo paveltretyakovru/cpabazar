@@ -14,14 +14,18 @@ router.get('/', (req, res) => {
 
   // Создаем обещание загрузки кампаний с зависимостями
   let Campaigns = new Promise(function(resolve, reject) {
+
     // campaigns - collection
-    Campaign.fetchAll().then(campaigns => {
-      campaigns.load(['pap', 'banners', 'commissiontypes'])
-        .then(campaigns => {
-          return resolve(campaigns);
-        })
-        .catch(err => { return reject(err) });
-    });
+    new Campaign()
+      .where({'display' : '1'})
+      .fetchAll()
+      .then(campaigns => {
+        campaigns.load(['pap', 'banners', 'commissiontypes'])
+          .then(campaigns => {
+            return resolve(campaigns);
+          })
+          .catch(err => { return reject(err) });
+      });
   });
 
   function getCountrycodes(commissiontypes) {

@@ -1,4 +1,5 @@
 import * as campaignActions from '../actions/campaign'
+import * as campaignsActions from '../actions/campaigns'
 
 import Avatar from 'material-ui/Avatar'
 import CakeVariantIcon from 'mdi-react/CakeVariantIcon'
@@ -147,6 +148,7 @@ class Campaign extends Component {
                   campaigns={this.props.campaigns}
                   switchDialog={::this.props.campaignActions.switchDialog}
                   avgcommission={this.props.data.avgcommission}
+                  routeToCampaign={this.props.campaignsActions.routeToCampaign}
                   sendProfferData={::this.props.campaignActions.sendProfferData}
                 />
               </Card>
@@ -240,6 +242,7 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
   return {
     campaignActions: bindActionCreators(campaignActions, dispatch),
+    campaignsActions: bindActionCreators(campaignsActions, dispatch),
   }
 }
 

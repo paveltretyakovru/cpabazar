@@ -13,28 +13,29 @@ const defaultProps = {
   fullWidth: true,
 }
 
+const initState = {
+  name: '',
+  skype: '',
+  email: '',
+  message: '',
+  validation: true,
+  requesting: false,
+  failSendProfferData: false,
+  successSendProfferData: false,
+
+  interesting: {
+    campaigns: {
+      last:[],
+      popular: {},
+    },
+  },
+}
+
 class ProfferCommissionForm extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      proffercommission: this.props.avgcommission,
-      name: '',
-      skype: '',
-      email: '',
-      message: '',
-      validation: true,
-      requesting: false,
-      failSendProfferData: false,
-      successSendProfferData: false,
-
-      interesting: {
-        campaigns: {
-          last:[],
-          popular: {},
-        },
-      },
-    }
+    this.state = { ...initState, proffercommission: this.props.avgcommission}
   }
 
   getStyles() {return {
@@ -222,10 +223,14 @@ class ProfferCommissionForm extends Component {
                   {
                     (
                       () => {
-                        let interestingCampaigns = _.concat(
-                          this.state.interesting.campaigns.last,
-                          [this.state.interesting.campaigns.popular],
-                        );
+                        // Вычленяем популярные и последние кампании
+                        let last = this.state.interesting.campaigns.last;
+                        let popular = this.state.interesting.campaigns.popular;
+
+                        // Исключаем возможность повтора
+                        let interestingCampaigns = (_.find(last, {id: popular.id}))
+                          ? last
+                          : _.concat(last, [popular])
 
                         return interestingCampaigns.map(campaign => {
                           let link = `/campaigns/${campaign.id}`
@@ -247,7 +252,13 @@ class ProfferCommissionForm extends Component {
                               <img
                                 src={campaign.image}
                                 style={{cursor: 'pointer'}}
-                                onClick={() => this.props.actions.routeToCampaign(link)}
+                                onClick={() => {
+
+                                  this.setState(initState)
+
+                                  this.props.routeToCampaign(link)
+                                  this.props.switchDialog()
+                                }}
                               />
                             </GridTile>
                           )
