@@ -169,8 +169,10 @@ class ProfferCommissionForm extends Component {
     return(
       <Dialog
         open={this.props.open}
-        title={`Предложить коммиссию для товара "${this.props.name}"`}
+        title={`"${this.props.name}"`}
         actions={dialogActions}
+        // autoDetectWindowHeight={false}
+        autoScrollBodyContent={true}
       >
 
         {/* Загрузчик */}

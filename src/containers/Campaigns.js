@@ -41,6 +41,7 @@ class Campaigns extends React.Component {
               } else {
                 return (
                     <GridList
+                      cols={1}
                       style={this.styles.gridList}
                       className="fadeInRight"
                     >

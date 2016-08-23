@@ -179,10 +179,10 @@ class Campaign extends Component {
                           primaryText={landing.name}
                           rightIcon={
                             <IconButton
-                              tooltipPosition="top"
+                              // tooltipPosition="top"
                               tooltip={landing.destinationurl}
                               style={{padding: 0}}
-                              tooltipPosition="top-right"
+                              tooltipPosition="top-left"
                               onClick={
                                 () => window.open(landing.destinationurl, '_blank')
                               }
