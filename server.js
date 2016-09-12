@@ -32,6 +32,10 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/public/index.html');
 });-
 
+app.post('/login', (req, res) => {
+  return res.json({test: 'here'})
+})
+
 app.listen(port, host, function(error) {
   if (error) {
     console.error(error);
