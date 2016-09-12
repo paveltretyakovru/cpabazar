@@ -1,11 +1,13 @@
 import React from 'react'
-import Store from './Store'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { LoginPage } from './components'
+import { configureStore } from './configureStore'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { App, Campaigns } from './containers'
 import { Router, Route, hashHistory, IndexRoute } from 'react-router'
+
+const Store = configureStore()
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(hashHistory, Store, {

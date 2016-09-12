@@ -7,7 +7,9 @@ var WebpackNotifierPlugin = require('webpack-notifier');
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
-    'webpack-hot-middleware/client',
+    'webpack-dev-server/client?http://localhost:8080/',
+    'webpack/hot/dev-server',
+    // 'webpack-hot-middleware/client',
     'babel-polyfill',
     './src/index',
   ],
@@ -44,5 +46,13 @@ module.exports = {
   },
   postcss: function () {
     return [autoprefixer, precss];
+  },
+
+  devServer: {
+    hot: true,
+    port: 8080,
+    host: 'localhost',
+    contentBase: `${__dirname}/public`,
+    proxy: { '**': 'http://192.168.16.106:3000' },
   },
 }
