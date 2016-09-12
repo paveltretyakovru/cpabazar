@@ -10,5 +10,6 @@ $ npm install
 
 * Режим разработки
 ```
-$ npm start & webpack-dev-server
+$ npm run develop
 ```
+Открыть в браузере: http://localhost:8080
