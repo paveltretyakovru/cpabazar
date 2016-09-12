@@ -5,6 +5,7 @@ import {
   FETCH_APP_SUCCESS,
 } from '../constants/app'
 import fetch from 'isomorphic-fetch';
+import {push} from 'react-router-redux'
 
 export function fetchPage() {
   return (dispatch) => {
@@ -26,4 +27,8 @@ export function fetchPage() {
         })
       })
   }
+}
+
+export function routeToLogin() {
+  return dispatch => dispatch(push('/login'))
 }

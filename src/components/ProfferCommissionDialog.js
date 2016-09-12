@@ -169,7 +169,9 @@ class ProfferCommissionForm extends Component {
     return(
       <Dialog
         open={this.props.open}
-        title={`"${this.props.name}"`}
+        title={<p className="flow-text">
+          {`Предложение для "${this.props.name}"`}
+        </p>}
         actions={dialogActions}
         // autoDetectWindowHeight={false}
         autoScrollBodyContent={true}

@@ -8,6 +8,9 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
+import FlatButton from 'material-ui/FlatButton'
+import ActionInput from 'material-ui/svg-icons/action/input'
+
 // Import CSS
 import '../styles/app.css';
 
@@ -31,6 +34,7 @@ class App extends Component {
 
   render() {
     let { menuTitleStyle } = this.getStyles()
+    let { routeToLogin } = this.props.appActions
 
     return(
       <MuiThemeProvider>
@@ -40,6 +44,10 @@ class App extends Component {
               <AppBar
                 title={<Link style={menuTitleStyle} to="/">Megalead</Link>}
                 showMenuIconButton={false}
+                iconElementRight={<FlatButton
+                  icon={<ActionInput />}
+                  onTouchTap={routeToLogin}
+                />}
               />
             </div>
           </div>

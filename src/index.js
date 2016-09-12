@@ -2,6 +2,7 @@ import React from 'react'
 import Store from './Store'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import { LoginPage } from './components'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { App, Campaigns } from './containers'
 import { Router, Route, hashHistory, IndexRoute } from 'react-router'
@@ -22,6 +23,7 @@ ReactDOM.render(
               <div>
                 <IndexRoute component={Campaigns} />
                 <Route path="campaigns/:id" component={Campaigns} />
+                <Route path="/login" component={LoginPage} />
               </div>
             )
           }
