@@ -1,8 +1,9 @@
-import * as appActions from '../actions/app'
+import * as userActions from '../actions/user'
 
 import {connect} from 'react-redux'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
+import LinearProgress from 'material-ui/LinearProgress'
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
@@ -22,42 +23,62 @@ class LoginPage extends Component {
       cardTextStyle: {
         paddingTop: 0,
       },
+      progressStyle: {
+        borderRadius: 0,
+      },
     }
   }
 
   handleOnClickLogin() {
-    this.props.appActions.sendLogin()
+    this.props.userActions.sendLogin()
   }
 
   render() {
-    let {rowStyle, cardStyle, cardHeaderStyle, cardTextStyle} = this.getStyles()
+    const {
+      rowStyle,
+      cardStyle,
+      cardTextStyle,
+      progressStyle,
+      cardHeaderStyle,
+    } = this.getStyles()
 
-    return (<div className="row center-xs" style={rowStyle}>
-      <div className="col-xs-6">
-        <Card style={cardStyle} className="fadeInRight">
-          <CardHeader title="Вход" style={cardHeaderStyle} />
-          <CardText style={cardTextStyle}>
-          <TextField
-            id="login-input"
-            onBlur={() => console.log('Change input :)')}
-            fullWidth={true}
-            floatingLabelText="Логин"
-          />
-          <TextField
-            id="password-input"
-            type="password"
-            fullWidth={true}
-            floatingLabelText="Пароль"
-          />
-          </CardText>
-          <CardActions>
-            <FlatButton
-              label="Войти"
-              primary={true}
-              onClick={::this.handleOnClickLogin}
+    const Progress = <div style={{height: 16}}>
+      {
+        this.props.user.request
+          ? <LinearProgress mode="indeterminate" style={progressStyle} />
+          : null
+      }
+    </div>
+
+    return (<div>
+      { Progress }
+      <div className="row center-xs" style={rowStyle}>
+        <div className="col-xs-6">
+          <Card style={cardStyle} className="fadeInRight">
+            <CardHeader title="Вход" style={cardHeaderStyle} />
+            <CardText style={cardTextStyle}>
+            <TextField
+              id="login-input"
+              onBlur={() => console.log('Change input :)')}
+              fullWidth={true}
+              floatingLabelText="Логин"
             />
-          </CardActions>
-        </Card>
+            <TextField
+              id="password-input"
+              type="password"
+              fullWidth={true}
+              floatingLabelText="Пароль"
+            />
+            </CardText>
+            <CardActions>
+              <FlatButton
+                label="Войти"
+                primary={true}
+                onClick={::this.handleOnClickLogin}
+              />
+            </CardActions>
+          </Card>
+        </div>
       </div>
     </div>)
   }
@@ -71,7 +92,7 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
-    appActions: bindActionCreators(appActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
   }
 }
 

@@ -8,8 +8,10 @@ $ npm install
 
 ## Запуск
 
-* Режим разработки
-```
-$ npm run develop
-```
-Открыть в браузере: http://localhost:8080
+* Запуск сервера
+``` $ npm run server ```
+
+* Запус фронта
+``` $ npm run frontend ```
+
+* Открыть в браузере: http://localhost:8080
