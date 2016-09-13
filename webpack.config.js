@@ -1,7 +1,7 @@
 var path = require('path')
+var precss = require('precss');
 var webpack = require('webpack')
 var autoprefixer = require('autoprefixer');
-var precss = require('precss');
 var WebpackNotifierPlugin = require('webpack-notifier');
 
 module.exports = {
@@ -9,7 +9,6 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:8080/',
     'webpack/hot/dev-server',
-    // 'webpack-hot-middleware/client',
     'babel-polyfill',
     './src/index',
   ],
