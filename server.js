@@ -14,8 +14,8 @@ const postprofferRoute = require('./app/routes/postproffer/postprofferRoute')
 // -----------------------------------------------------------------------------
 
 // ==================== REQUIRE DB DEPENDS =====================================
-const session = require('express-session')
 const mongoose = require('mongoose')
+const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 // -----------------------------------------------------------------------------
 
@@ -30,15 +30,14 @@ app.set('host', process.env.HOST || getIpAddr())
 
 // ==================== CONNECT TO MONGODB =====================================
 mongoose.connect('mongodb://localhost/bazar')
-const db = mongoose.connection
 const mongostore = new MongoStore({ mongooseConnection: mongoose.connection })
-db.once('open', () => console.log('Сервер подключен к mongodb'))
+mongoose.connection.once('open', () => console.log('Подключено к mongodb'))
 // -----------------------------------------------------------------------------
 
 // ==================== INIT MIDDLEWARES =======================================
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(session({store: mongostore}))
+app.use(session({store: mongostore, secret: 'sdlkfjsklfjer23948724!sd,jh'}))
 // -----------------------------------------------------------------------------
 
 // ==================== INIT ROUTES ============================================
