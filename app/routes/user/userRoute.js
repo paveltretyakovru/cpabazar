@@ -7,7 +7,6 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/adduser', (req, res) => {
-  console.log('Add user router :)');
   let user = new User({
     name: 'ПашкоGoga',
     password: 'mytest :)',

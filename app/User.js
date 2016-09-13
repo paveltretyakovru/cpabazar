@@ -16,14 +16,11 @@ const UserSchema = mongoose.Schema({
 })
 
 UserSchema.methods.makeSalt = () => {
-  return Math.round((new Date().valueOf() * Math.random())) + '';
+  return `${Math.round((new Date().valueOf() * Math.random()))}`
 }
 
 UserSchema.methods.encryptPassword = (password) => {
-  let result = crypto (password, this.salt)
-  console.log('RES', result)
-
-  return result
+  return crypto(password, this.salt)
 }
 
 module.exports = mongoose.model('User', UserSchema)
