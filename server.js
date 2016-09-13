@@ -45,19 +45,12 @@ app.use(session({store: mongostore}))
 app.use('/user', userRoute)
 app.use('/fetchpage', fetchpageRoute)
 app.use('/postproffer', postprofferRoute)
-
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/public/index.html')
-})
+app.get('/', (req, res) => {res.sendFile(__dirname + '/public/index.html')})
 // -----------------------------------------------------------------------------
 
 // ==================== INIT SERVER ============================================
-app.listen(app.get('port'), app.get('host') , (error) => {
-  if (error) {
-    console.error(error)
-  } else {
-    notifier.notify('Сервер перезапущен')
-    console.info(`==> 🌎  Open up http://${app.get('host')}:${app.get('port')}/`)
-  }
+app.listen(app.get('port'), app.get('host'), error => {
+  let mess = (error) ? error : ` Server: ${app.get('host')}:${app.get('port')}/`
+  if (!error) notifier.notify(`${mess}`)
 })
 // -----------------------------------------------------------------------------
