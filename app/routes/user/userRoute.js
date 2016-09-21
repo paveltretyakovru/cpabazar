@@ -3,16 +3,31 @@ const router = express.Router()
 const User = require('../../User')
 
 router.post('/login', (req, res) => {
-  res.json({test: 'user router'})
-})
+  const login = req.body.login || ''
+  const password = req.body.password || ''
 
-router.get('/adduser', (req, res) => {
-  let user = new User({
-    name: 'ПашкоGoga',
-    password: 'mytest :)',
+  const query = User.where({name: login})
+  query.findOne((err, user) => {
+    if (err) console.log('Error:', err)
+
+    // Если пользователь найден
+    if (user) {
+      // Если логин и пароль верны
+      if(user.authenticate(password)) {
+        console.log('Successfull user login', user.id)
+        req.session.user_id = user.id
+        res.json({success: true, message: 'Авторизация успешно выполнена'})
+      } else {
+        console.log(`Unsuccessfull auth. Login: ${login}, pass: ${password}`)
+        res.json({success: false, message: 'Неверные данные для вохда'})
+      }
+    } else {
+      console.log(`Unsuccessfull auth. Login: ${login}, pass: ${password}`)
+      res.json({success: false, message: 'Неверные данные для вохда'})
+    }
+
   })
-  user.save()
-  res.json(user.password)
+  // res.json({test: 'user router', body: req.body})
 })
 
 module.exports = router

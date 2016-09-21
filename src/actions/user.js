@@ -5,7 +5,10 @@ import {
   LOGIN_REQUEST,
   LOGIN_REQUEST_FAIL,
   LOGIN_REQUEST_SUCCESS,
+  CLEAR_REQUEST_MESSAGE,
 } from '../constants/user'
+
+const loadTimeout = callback => setTimeout(callback, 1000)
 
 export function sendLogin(login, password) {
   return dispatch => {
@@ -13,16 +16,16 @@ export function sendLogin(login, password) {
 
     post(LOGIN_URL, { login: login, password: password })
       .done(res => {
-        setTimeout(
-          () => dispatch({type: LOGIN_REQUEST_SUCCESS, payload: res}),
-          1000
-        )
+        console.log('Result', res)
+        loadTimeout(() => dispatch({type: LOGIN_REQUEST_SUCCESS, payload: res}))
       })
       .fail(res => {
-        setTimeout(
-          () => dispatch({type: LOGIN_REQUEST_FAIL, payload: res}),
-          1000
-        )
+        console.log('Result', res)
+        loadTimeout(() => dispatch({type: LOGIN_REQUEST_FAIL, payload: res}))
       })
   }
+}
+
+export function clearRequestMessage() {
+  return { type: CLEAR_REQUEST_MESSAGE }
 }

@@ -1,5 +1,6 @@
 import * as userActions from '../actions/user'
 
+import Snackbar from 'material-ui/Snackbar'
 import {connect} from 'react-redux'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
@@ -8,7 +9,15 @@ import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
 
+const initState = {login: '', password: ''}
+
 class LoginPage extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = { ...initState }
+  }
+
   getStyles() {
     return {
       rowStyle: {
@@ -30,7 +39,12 @@ class LoginPage extends Component {
   }
 
   handleOnClickLogin() {
-    this.props.userActions.sendLogin()
+    let { login, password } = this.state
+    this.props.userActions.sendLogin(login, password)
+  }
+
+  handleChangeFields(event) {
+    this.setState({...this.state, [event.target.name]: event.target.value})
   }
 
   render() {
@@ -42,13 +56,17 @@ class LoginPage extends Component {
       cardHeaderStyle,
     } = this.getStyles()
 
-    const Progress = <div style={{height: 16}}>
-      {
-        this.props.user.request
-          ? <LinearProgress mode="indeterminate" style={progressStyle} />
-          : null
-      }
-    </div>
+    const Progress = <div style={{height: 16}}>{
+      this.props.user.request
+        ? <LinearProgress mode="indeterminate" style={progressStyle} />
+        : null
+    }</div>
+
+    // Variables
+    const { message } = this.props.user
+
+    // Actions
+    const { clearRequestMessage } = this.props.userActions
 
     return (<div>
       { Progress }
@@ -58,14 +76,15 @@ class LoginPage extends Component {
             <CardHeader title="Вход" style={cardHeaderStyle} />
             <CardText style={cardTextStyle}>
             <TextField
-              id="login-input"
-              onBlur={() => console.log('Change input :)')}
+              name="login"
+              onChange={::this.handleChangeFields}
               fullWidth={true}
               floatingLabelText="Логин"
             />
             <TextField
-              id="password-input"
+              name="password"
               type="password"
+              onChange={::this.handleChangeFields}
               fullWidth={true}
               floatingLabelText="Пароль"
             />
@@ -80,6 +99,13 @@ class LoginPage extends Component {
           </Card>
         </div>
       </div>
+
+      <Snackbar
+        open={message}
+        message={message}
+        autoHideDuration={4000}
+        onRequestClose={clearRequestMessage}
+      />
     </div>)
   }
 }
