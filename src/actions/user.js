@@ -1,9 +1,10 @@
 import {post} from 'jquery'
-// import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch'
 
 import {
   SET_AUTH,
   LOGIN_URL,
+  LOGOUT_URL,
   LOGIN_REQUEST,
   LOGIN_REQUEST_FAIL,
   LOGIN_REQUEST_SUCCESS,
@@ -38,7 +39,22 @@ export function setAuth(result) {
 }
 
 export function sendLogout() {
-  // return dispatch => {
-  //
-  // }
+  return () => {
+    return new Promise(function(resolve, reject) {
+      fetch(LOGOUT_URL, {credentials: 'include'})
+        .then(res => {
+          if(res.status >= 400) {
+            console.error('Ошибка запроса :(', res)
+            return reject(res)
+          }
+          return res.json()
+        })
+        .then(res => {
+          console.log('Logout esult =====>', res.user_id)
+
+          // Выполняем метод обещания
+          return resolve(res)
+        })
+    })
+  }
 }

@@ -1,6 +1,7 @@
 import {
   LOGIN_URL,
   FETCH_APP,
+  SET_MESSAGE,
   FETCH_APP_URL,
   FETCH_APP_FAIL,
   FETCH_APP_SUCCESS,
@@ -59,5 +60,12 @@ export function sendLogin(login, password) {
       .then(res => {
         console.log('Response result! :)', res);
       })
+  }
+}
+
+export function setMessage(message) {
+  return {
+    type: SET_MESSAGE,
+    payload: message,
   }
 }

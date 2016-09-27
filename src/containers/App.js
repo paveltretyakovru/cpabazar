@@ -3,6 +3,7 @@ import * as userActions from '../actions/user'
 
 import {Link} from 'react-router'
 import AppBar from 'material-ui/AppBar'
+import Snackbar from 'material-ui/Snackbar'
 import { connect } from 'react-redux'
 import LinearProgress from 'material-ui/LinearProgress'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -35,7 +36,19 @@ class App extends Component {
     }
   }
 
+  handleSendLogout() {
+    let { sendLogout} = this.props.userActions
+    let { setMessage } = this.props.appActions
+
+    sendLogout()
+      .then(res => {
+        console.log('Send logout result :)) ============>', res)
+        setMessage(res.message || 'Запрос успешно выполнен')
+      })
+  }
+
   render() {
+    let { message } = this.props.app
     let { auth } = this.props.user
     let { menuTitleStyle } = this.getStyles()
     let { routeToLogin } = this.props.appActions
@@ -47,7 +60,7 @@ class App extends Component {
 
     const iconClose = <FlatButton
       icon={<NavigationClose />}
-      onTouchTap={routeToLogin}
+      onTouchTap={::this.handleSendLogout}
     />
 
     return(
@@ -75,6 +88,14 @@ class App extends Component {
               })()}
             </div>
           </div>
+
+          <Snackbar
+            open={message !== false}
+            message={message}
+            autoHideDuration={4000}
+            onRequestClose={ () => console.info('Closed message') }
+          />
+
         </div>
       </MuiThemeProvider>
     )
@@ -92,6 +113,7 @@ class App extends Component {
 
 function mapStateToProps (state) {
   return {
+    app: state.app,
     user: state.user,
     fetching: state.app.fetching,
   }

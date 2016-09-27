@@ -101,7 +101,7 @@ class LoginPage extends Component {
       </div>
 
       <Snackbar
-        open={message}
+        open={message !== false}
         message={message}
         autoHideDuration={4000}
         onRequestClose={clearRequestMessage}

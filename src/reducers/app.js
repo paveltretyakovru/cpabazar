@@ -1,5 +1,6 @@
 import {
   FETCH_APP,
+  SET_MESSAGE,
   FETCH_APP_FAIL,
   FETCH_APP_SUCCESS,
 } from '../constants/app'
@@ -7,6 +8,7 @@ import {
 const initState = {
   campaigns: [],
   fetching: false,
+  message: false,
 }
 
 export default function(state = initState, action) {
@@ -19,6 +21,9 @@ export default function(state = initState, action) {
 
     case FETCH_APP_SUCCESS:
       return { ...state, campaigns: action.payload.campaigns, fetching: false }
+
+    case SET_MESSAGE:
+      return { ...state, message: action.payload }
 
     default:
       return state

@@ -39,4 +39,8 @@ router.post('/login', (req, res) => {
   // res.json({test: 'user router', body: req.body})
 })
 
+router.get('/logout', (req, res) => {
+  return res.json(req.session)
+})
+
 module.exports = router
