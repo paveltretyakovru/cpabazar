@@ -11,7 +11,6 @@ const offersStatUrl = 'http://megalead.ru/api/statistic?dateStart=2015-08-17&not
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  console.log('Fetching page');
   // Создаем обещание загрузки кампаний с зависимостями
   let Campaigns = new Promise(function(resolve, reject) {
 
@@ -145,7 +144,10 @@ router.get('/', (req, res) => {
         }
       })
 
-      res.json({campaigns: result});
+      console.log('Fetching route =====>>>>', req.session);
+
+      res.json({campaigns: result, auth: req.session.user_id ? true : false})
+
     });
 
   });

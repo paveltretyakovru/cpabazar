@@ -1,3 +1,4 @@
+export const SET_AUTH = 'SET_AUTH'
 export const LOGIN_URL = 'user/login'
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_REQUEST_FAIL = 'LOGIN_REQUEST_FAIL'

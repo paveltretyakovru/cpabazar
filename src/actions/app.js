@@ -7,28 +7,42 @@ import {
   SEND_LOGIN_REQUEST,
 } from '../constants/app'
 import {post} from 'jquery'
-import fetch from 'isomorphic-fetch';
+import fetch from 'isomorphic-fetch'
 import {push} from 'react-router-redux'
 
 export function fetchPage() {
   return (dispatch) => {
     dispatch({type: FETCH_APP})
-    fetch(FETCH_APP_URL)
+
+    return new Promise(function(resolve, reject) {
+      fetch(FETCH_APP_URL, {credentials: 'include'})
       .then((res) => {
         if(res.status >= 400) {
-          return dispatch({
+
+          // Выполняем акшион АПП
+          dispatch({
             type: FETCH_APP_FAIL,
             payload: res,
           })
+
+          // Выполняем метод обещания
+          return reject(res)
         }
         return res.json()
       })
       .then((result) => {
+        console.log('Fetch finished', result);
+
+        // Выполняет акшион АПП
         dispatch({
           type: FETCH_APP_SUCCESS,
           payload: result,
         })
+
+        // Выполняем метод обещания
+        return resolve(result)
       })
+    })
   }
 }
 

@@ -1,6 +1,8 @@
 import {post} from 'jquery'
+// import fetch from 'isomorphic-fetch'
 
 import {
+  SET_AUTH,
   LOGIN_URL,
   LOGIN_REQUEST,
   LOGIN_REQUEST_FAIL,
@@ -28,4 +30,15 @@ export function sendLogin(login, password) {
 
 export function clearRequestMessage() {
   return { type: CLEAR_REQUEST_MESSAGE }
+}
+
+export function setAuth(result) {
+  console.log('SET AUTH RESULT', result);
+  return { type: SET_AUTH, payload: result.auth || false}
+}
+
+export function sendLogout() {
+  // return dispatch => {
+  //
+  // }
 }

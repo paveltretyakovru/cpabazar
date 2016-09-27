@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 
 // ===================== SELF FUNCTIONS REQUIRES ===============================
 const getIpAddr = require('./app/modules/helpers/getIpAddr')
-// const loadUser = require('./app/modules/loadUser')
 // -----------------------------------------------------------------------------
 
 // ===================== SELF EXPRESS APP REQURIES =============================
@@ -17,11 +16,24 @@ const postprofferRoute = require('./app/routes/postproffer/postprofferRoute')
 // ==================== REQUIRE DB DEPENDS =====================================
 const mongoose = require('mongoose')
 const session = require('express-session')
-const MongoStore = require('connect-mongo')(session)
+const cookieParser = require('cookie-parser')
 // -----------------------------------------------------------------------------
 
 // ==================== INIT EXPRESS APPLICATION ===============================
 const app = new (require('express'))()
+app.use(cookieParser())
+app.use(session({
+  secret : 's3Cur3',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    path: '/',
+    maxAge: null,
+    secure: false,
+    // httpOnly: true,
+  },
+}))
+app.use(bodyParser())
 // -----------------------------------------------------------------------------
 
 // ==================== SET GLOBAL VARIABLES ===================================
@@ -31,21 +43,27 @@ app.set('host', process.env.HOST || getIpAddr())
 
 // ==================== CONNECT TO MONGODB =====================================
 mongoose.connect('mongodb://localhost/bazar')
-const mongostore = new MongoStore({ mongooseConnection: mongoose.connection })
 mongoose.connection.once('open', () => console.log('Подключено к mongodb'))
 // -----------------------------------------------------------------------------
 
 // ==================== INIT MIDDLEWARES =======================================
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(session({store: mongostore, secret: 'sdlkfjsklfjer23948724!sd,jh'}))
+// app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({ extended: true }))
+
 // -----------------------------------------------------------------------------
 
 // ==================== INIT ROUTES ============================================
 app.use('/user', userRoute)
 app.use('/fetchpage', fetchpageRoute)
 app.use('/postproffer', postprofferRoute)
-app.get('/', (req, res) => {res.sendFile(__dirname + '/public/index.html')})
+app.get('/', (req,res) => {res.sendFile(`${__dirname}/public/index.html`)})
+app.get('/public/bundle.js', (req,res) => {res.sendFile(`${__dirname}/dist/bundle.js`)})
+
+app.get('/test', (req, res) => {
+  console.log('Fetching page', req.session);
+  console.log('Cookies: --->>>>', req.cookies);
+  res.json(req.session)
+})
 // -----------------------------------------------------------------------------
 
 // ==================== INIT SERVER ============================================

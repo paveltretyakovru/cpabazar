@@ -1,8 +1,10 @@
+import * as appActions from '../actions/app'
+import * as userActions from '../actions/user'
+
 import {Link} from 'react-router'
 import AppBar from 'material-ui/AppBar'
 import { connect } from 'react-redux'
 import LinearProgress from 'material-ui/LinearProgress'
-import * as appActions from '../actions/app'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
@@ -10,6 +12,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 
 import FlatButton from 'material-ui/FlatButton'
 import ActionInput from 'material-ui/svg-icons/action/input'
+import NavigationClose from 'material-ui/svg-icons/navigation/close'
 
 // Import CSS
 import '../styles/app.css';
@@ -33,8 +36,19 @@ class App extends Component {
   }
 
   render() {
+    let { auth } = this.props.user
     let { menuTitleStyle } = this.getStyles()
     let { routeToLogin } = this.props.appActions
+
+    const iconLogin = <FlatButton
+      icon={<ActionInput />}
+      onTouchTap={routeToLogin}
+    />
+
+    const iconClose = <FlatButton
+      icon={<NavigationClose />}
+      onTouchTap={routeToLogin}
+    />
 
     return(
       <MuiThemeProvider>
@@ -44,10 +58,7 @@ class App extends Component {
               <AppBar
                 title={<Link style={menuTitleStyle} to="/">Megalead</Link>}
                 showMenuIconButton={false}
-                iconElementRight={<FlatButton
-                  icon={<ActionInput />}
-                  onTouchTap={routeToLogin}
-                />}
+                iconElementRight={ auth ? iconClose : iconLogin }
               />
             </div>
           </div>
@@ -70,12 +81,18 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // Загружаем начальные данные страницы
     this.props.appActions.fetchPage()
+      // Выполняем дополнительные действия после загрузки начальных данных
+      .then(result => {
+        this.props.userActions.setAuth(result)
+      })
   }
 }
 
 function mapStateToProps (state) {
   return {
+    user: state.user,
     fetching: state.app.fetching,
   }
 }
@@ -83,6 +100,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps(dispatch) {
   return {
     appActions: bindActionCreators(appActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
   }
 }
 

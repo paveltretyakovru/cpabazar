@@ -3,6 +3,10 @@ const router = express.Router()
 const User = require('../../User')
 
 router.post('/login', (req, res) => {
+
+  console.log('Session ---->>>>', req.session)
+  console.log('Cookies: --->>>>', req.cookies)
+
   const login = req.body.login || ''
   const password = req.body.password || ''
 
@@ -16,6 +20,11 @@ router.post('/login', (req, res) => {
       if(user.authenticate(password)) {
         console.log('Successfull user login', user.id)
         req.session.user_id = user.id
+        req.session.save()
+
+        console.log('Session ---->>>>', req.session)
+        console.log('Cookies: --->>>>', req.cookies)
+
         res.json({success: true, message: 'Авторизация успешно выполнена'})
       } else {
         console.log(`Unsuccessfull auth. Login: ${login}, pass: ${password}`)

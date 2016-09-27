@@ -1,4 +1,5 @@
 import {
+  SET_AUTH,
   LOGIN_REQUEST,
   LOGIN_REQUEST_FAIL,
   LOGIN_REQUEST_SUCCESS,
@@ -8,7 +9,7 @@ import {
 const initState = {
   auth: false,
   request: false,
-  message: '',
+  message: false,
 }
 
 export default function(state = initState, action) {
@@ -23,12 +24,15 @@ export default function(state = initState, action) {
       return {
         ...state,
         auth: action.payload.success || false,
-        message: action.payload.message || '',
+        message: action.payload.message || false,
         request: false,
       }
 
     case CLEAR_REQUEST_MESSAGE:
       return { ...state, message: false }
+
+    case SET_AUTH:
+      return { ...state, auth: action.payload }
 
     default:
       return state

@@ -12,6 +12,9 @@ function addslashes( str ) {
 
 /* GET home page. */
 router.post('/', (req, res) => {
+  console.log('post page', req.session);
+  console.log('Cookies: --->>>>', req.cookies);
+
   let data = {
     name: req.body.name,
     email: req.body.email,
