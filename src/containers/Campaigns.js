@@ -1,3 +1,4 @@
+import * as appActions from '../actions/app'
 import * as campaignsActions from '../actions/campaigns'
 
 import ContentLink from 'material-ui/svg-icons/content/link'
@@ -7,6 +8,8 @@ import React from 'react'
 import {GridList, GridTile} from 'material-ui/GridList'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 
 import Campaign from './Campaign'
 
@@ -23,10 +26,16 @@ class Campaigns extends React.Component {
       gridTileImg: {
         cursor: 'pointer',
       },
+      floatButton: {
+        right: '5%',
+        bottom: '5%',
+        position: 'absolute',
+      },
     }
   }
 
   render() {
+
     return (
           (() => {
             if(this.props.campaigns.length) {
@@ -40,11 +49,12 @@ class Campaigns extends React.Component {
                 return <Campaign data={dataCampaigns} />
               } else {
                 return (
-                    <GridList
+                    <div>
+                      <GridList
                       cols={1}
                       style={this.styles.gridList}
                       className="fadeInRight"
-                    >
+                      >
                       {
                         (
                           () => {
@@ -55,36 +65,45 @@ class Campaigns extends React.Component {
                               let title = (<span>
                                 {campaign.name} &nbsp;
                                 <span style={this.styles.titlePrice}>
-                                  {campaign.price} &nbsp;
-                                  <del>P</del>
+                                {campaign.price} &nbsp;
+                                <del>P</del>
                                 </span>
-                              </span>)
+                                </span>)
 
-                              return (
-                                <GridTile
+                                return (
+                                  <GridTile
                                   key={campaign.id}
                                   title={title}
                                   actionIcon={
                                     <IconButton tooltip="Cайт" tooltipPosition="top-left">
-                                      <ContentLink color="white" />
+                                    <ContentLink color="white" />
                                     </IconButton>
                                   }
                                   actionPosition="right"
                                   titlePosition="bottom"
                                   subtitle={campaign.description}
-                                >
+                                  >
                                   <img
-                                    src={campaign.logourl}
-                                    style={this.styles.gridTileImg}
-                                    onClick={() => this.props.actions.routeToCampaign(link)}
+                                  src={campaign.logourl}
+                                  style={this.styles.gridTileImg}
+                                  onClick={() => this.props.actions.routeToCampaign(link)}
                                   />
-                                </GridTile>
-                              )
-                            })
-                          }
-                        )()
-                      }
-                    </GridList>
+                                  </GridTile>
+                                )
+                              })
+                            }
+                          )()
+                        }
+                        </GridList>
+
+                        <FloatingActionButton
+                          secondary={true}
+                          style={ this.styles.floatButton }
+                          onClick={::this.props.appActions.routeToAddCampaign}
+                        >
+                          <ContentAdd />
+                        </FloatingActionButton>
+                    </div>
                 )
               }
 
@@ -102,6 +121,7 @@ class Campaigns extends React.Component {
 
 function mapStateToProps (state) {
   return {
+    user: state.user,
     campaigns: state.app.campaigns,
   }
 }
@@ -109,6 +129,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(campaignsActions, dispatch),
+    appActions: bindActionCreators(appActions, dispatch),
   }
 }
 

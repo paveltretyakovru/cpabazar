@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { configureStore } from './configureStore'
 import { syncHistoryWithStore } from 'react-router-redux'
-import { App, Campaigns, LoginPage } from './containers'
 import { Router, Route, hashHistory, IndexRoute } from 'react-router'
+import { App, Campaigns, LoginPage, EditCampaign } from './containers'
 
 const Store = configureStore()
 
@@ -25,6 +25,7 @@ ReactDOM.render(
                 <IndexRoute component={Campaigns} />
                 <Route path="campaigns/:id" component={Campaigns} />
                 <Route path="/login" component={LoginPage} />
+                <Route path="/addCampaign" component={EditCampaign} />
               </div>
             )
           }

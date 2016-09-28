@@ -52,6 +52,11 @@ export function routeToLogin() {
   return dispatch => dispatch(push('/login'))
 }
 
+export function routeToAddCampaign() {
+  console.log('Action route to add campaign');
+  return dispatch => dispatch(push('/addCampaign'))
+}
+
 export function sendLogin(login, password) {
   console.log(LOGIN_URL, SEND_LOGIN_REQUEST)
   return dispatch => {
