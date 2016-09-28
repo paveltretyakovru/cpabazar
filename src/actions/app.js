@@ -3,6 +3,7 @@ import {
   FETCH_APP,
   SET_MESSAGE,
   FETCH_APP_URL,
+  CLEAR_MESSAGE,
   FETCH_APP_FAIL,
   FETCH_APP_SUCCESS,
   SEND_LOGIN_REQUEST,
@@ -68,4 +69,8 @@ export function setMessage(message) {
     type: SET_MESSAGE,
     payload: message,
   }
+}
+
+export function clearMessage() {
+  return { type: CLEAR_MESSAGE }
 }

@@ -51,7 +51,7 @@ class App extends Component {
     let { message } = this.props.app
     let { auth } = this.props.user
     let { menuTitleStyle } = this.getStyles()
-    let { routeToLogin } = this.props.appActions
+    let { routeToLogin, clearMessage } = this.props.appActions
 
     const iconLogin = <FlatButton
       icon={<ActionInput />}
@@ -93,7 +93,7 @@ class App extends Component {
             open={message !== false}
             message={message}
             autoHideDuration={4000}
-            onRequestClose={ () => console.info('Closed message') }
+            onRequestClose={ clearMessage }
           />
 
         </div>

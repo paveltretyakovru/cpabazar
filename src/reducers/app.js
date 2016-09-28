@@ -1,6 +1,7 @@
 import {
   FETCH_APP,
   SET_MESSAGE,
+  CLEAR_MESSAGE,
   FETCH_APP_FAIL,
   FETCH_APP_SUCCESS,
 } from '../constants/app'
@@ -24,6 +25,9 @@ export default function(state = initState, action) {
 
     case SET_MESSAGE:
       return { ...state, message: action.payload }
+
+    case CLEAR_MESSAGE:
+      return { ...state, message: false }
 
     default:
       return state
