@@ -1,13 +1,30 @@
-import React, {Component} from 'react'
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
-import Divider from 'material-ui/Divider'
+import * as appActions from '../actions/app'
+import * as campaignActions from '../actions/campaign'
+
+import Slider from 'material-ui/Slider'
 import Checkbox from 'material-ui/Checkbox'
+import {connect} from 'react-redux'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import TimePicker from 'material-ui/TimePicker'
-import Slider from 'material-ui/Slider'
+import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
+
+import {
+  UPDATE_AGE_FROM,
+  UPDATE_AGE_TO,
+} from '../constants/campaign'
 
 class EditCampaign extends Component {
+
+  constructor() {
+    super()
+    this.state = {
+      localAgeFrom: 0,
+      localAgeTo: 0,
+    }
+  }
 
   getStyle() {
     return {
@@ -27,13 +44,15 @@ class EditCampaign extends Component {
     }
   }
 
+  handleSliderChange(event, value) {
+    console.log('Slider stop!', value, event)
+    // this.setState({...this.state, })
+  }
+
   render() {
 
     let {
-      // textFieldStyle,
       wrapperStyle,
-      // checkboxStyle,
-      // sliderWrapper,
     } = this.getStyle()
 
     let textFields = [
@@ -61,17 +80,19 @@ class EditCampaign extends Component {
     let ageFields = [
       {
         title: 'Возраст с',
-        name: 'agefrom',
+        name: UPDATE_AGE_FROM,
+        value: this.props.addcampaign.agefrom,
       },
       {
         title: 'Возраст до',
-        name: 'ageto',
+        name: UPDATE_AGE_TO,
+        value: this.props.addcampaign.ageto,
       },
     ]
 
     let timeFields = [
-      { title: 'Call-центр работает с:', name: 'callfrom' },
-      { title: 'Call-центр работает до:', name: 'callto' },
+      { title: 'Call-центр работает с:', name: 'calltimefrom' },
+      { title: 'Call-центр работает до:', name: 'calltimeto' },
     ]
 
     return(
@@ -83,11 +104,11 @@ class EditCampaign extends Component {
 
           <CardText>
             <div className="row">
-            {/*  =========== ТЕКСТОВЫЕ ПОЛЯ ============ */}
+              {/*  =========== ТЕКСТОВЫЕ ПОЛЯ ============ */}
               {
-                textFields.map( field => {
+                textFields.map( (field, index) => {
                   return (
-                    <div className="col-xs-12 col-md-6">
+                    <div className="col-xs-12 col-md-6" key={index}>
                       <TextField
                         name={field.name}
                         hintText={field.title}
@@ -100,9 +121,6 @@ class EditCampaign extends Component {
                   )
                 })
               }
-            {/* </div> */}
-
-            {/* <div className="row" style={wrapperStyle}> */}
 
               {/*  =========== ЦЕНА ============ */}
               <div className="col-xs-12 col-md-6" style={{marginTop:16}}>
@@ -128,37 +146,30 @@ class EditCampaign extends Component {
                 />
               </div>
 
-              <div className="col-xs-12">
-                {/* <Divider /> */}
-              </div>
-            {/* </div> */}
-
-            {/*  =========== ВОЗРАСТ ============ */}
-            {/* <div className="row"> */}
+              {/*  =========== ВОЗРАСТ ============ */}
               {
-                ageFields.map( field => {
+                ageFields.map( (field, index) => {
                   return (
-                    <div className="col-md-6 col-xs-12">
-                      <strong style={{fontWeight: 700}}>{field.title}</strong>
+                    <div className="col-md-6 col-xs-12" key={index}>
+                      <strong style={{fontWeight: 700}}>
+                        {field.title}: {field.value}
+                      </strong>
                       <Slider
                         min={0}
                         max={100}
                         step={1}
                         name={field.name}
                         defaultValue={25}
+                        value={field.value}
                         style={{margin:0, padding:0}}
+                        onChange={::this.handleSliderChange}
                       />
                     </div>
                   )
                 })
               }
-              <div className="col-xs-12">
-                {/* <Divider /> */}
-              </div>
-            {/* </div> */}
 
-            {/*  =========== ПОЛОВАЯ ПРЕНАДЛЕЖНОСТЬ ============ */}
-            {/* <div className="row" style={wrapperStyle}> */}
+              {/*  =========== ПОЛОВАЯ ПРЕНАДЛЕЖНОСТЬ ============ */}
               <div className="col-xs-12 col-md-6">
                 <Checkbox
                   label="Для мужчин"
@@ -169,20 +180,20 @@ class EditCampaign extends Component {
                   label="Для женщин"
                 />
               </div>
-              <div className="col-xs-12" style={{marginTop: 16}}>
-                {/* <Divider /> */}
-              </div>
-            {/* </div> */}
 
-            {/*  =========== Режим работы CALLCENTER ============ */}
-            {/* <div className="row" style={{marginTop:24}}> */}
+              {/*  =========== Режим работы CALLCENTER ============ */}
               {
-                timeFields.map( field => {
+                timeFields.map( (field, index) => {
                   return (
                     <div
+                      key={index}
                       className="col-md-6 col-xs-12"
                       style={{
-                        display:'flex', alignItems: 'center', fontWeight: 700}}
+                        display:'flex',
+                        fontWeight: 700,
+                        alignItems: 'center',
+                        marginTop: 16,
+                      }}
                     >
                       <span style={{marginRight: 8}}>{field.title}</span>
                       <TimePicker
@@ -204,5 +215,19 @@ class EditCampaign extends Component {
     )
   }
 }
-// -----------------------------------------------------------------------------
-export default EditCampaign
+
+function mapStateToProps (state) {
+  return {
+    addcampaign: state.addcampaign,
+    fetching: state.app.fetching,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    appActions: bindActionCreators(appActions, dispatch),
+    campaignActions: bindActionCreators(campaignActions, dispatch),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditCampaign)

@@ -12,6 +12,8 @@ import {post} from 'jquery'
 import fetch from 'isomorphic-fetch'
 import {push} from 'react-router-redux'
 
+// -----------------------------------------------------------------------------
+
 export function fetchPage() {
   return (dispatch) => {
     dispatch({type: FETCH_APP})
@@ -48,15 +50,18 @@ export function fetchPage() {
   }
 }
 
+// -----------------------------------------------------------------------------
 export function routeToLogin() {
   return dispatch => dispatch(push('/login'))
 }
 
+// -----------------------------------------------------------------------------
 export function routeToAddCampaign() {
   console.log('Action route to add campaign');
   return dispatch => dispatch(push('/addCampaign'))
 }
 
+// -----------------------------------------------------------------------------
 export function sendLogin(login, password) {
   console.log(LOGIN_URL, SEND_LOGIN_REQUEST)
   return dispatch => {
@@ -69,6 +74,7 @@ export function sendLogin(login, password) {
   }
 }
 
+// -----------------------------------------------------------------------------
 export function setMessage(message) {
   return {
     type: SET_MESSAGE,
@@ -76,6 +82,7 @@ export function setMessage(message) {
   }
 }
 
+// -----------------------------------------------------------------------------
 export function clearMessage() {
   return { type: CLEAR_MESSAGE }
 }
