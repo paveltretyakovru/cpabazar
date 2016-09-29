@@ -30,93 +30,48 @@ class EditCampaign extends Component {
   render() {
 
     let {
-      textFieldStyle,
+      // textFieldStyle,
       wrapperStyle,
-      checkboxStyle,
-      sliderWrapper,
+      // checkboxStyle,
+      // sliderWrapper,
     } = this.getStyle()
 
-    let fieldTemplate = {
-      textarea: false,
-      type: 'textfield',
-      min: 0,
-      max: 150,
-    }
-    const fields = [
+    let textFields = [
       {
-        ...fieldTemplate,
         title: 'Название',
         name: 'name',
       },
       {
-        ...fieldTemplate,
         title: 'Краткое описание',
         name: 'desc',
         textarea: true,
       },
       {
-        ...fieldTemplate,
         title: 'Длинное описание',
         name: 'longdesc',
         textarea: true,
       },
       {
-        ...fieldTemplate,
         title: 'Комментарий рекла',
         name: 'reccomment',
         textarea: true,
       },
+    ]
+
+    let ageFields = [
       {
-        ...fieldTemplate,
-        title: 'Callcenter работает с',
-        name: 'callfrom',
-        type: 'time',
-      },
-      {
-        ...fieldTemplate,
-        title: 'Callcenter работает до',
-        name: 'callto',
-        type: 'time',
-      },
-      {
-        ...fieldTemplate,
-        title: 'Для мужчин',
-        name: 'male',
-        type: 'checkbox',
-      },
-      {
-        ...fieldTemplate,
-        title: 'Для женщин',
-        name: 'famale',
-        type: 'checkbox',
-      },
-      {
-        ...fieldTemplate,
-        title: 'Цена',
-        name: 'price',
-        type: 'slider',
-        max: 5000,
-      },
-      {
-        ...fieldTemplate,
-        title: 'Возраст от',
+        title: 'Возраст с',
         name: 'agefrom',
-        type: 'slider',
       },
       {
-        ...fieldTemplate,
         title: 'Возраст до',
         name: 'ageto',
-        type: 'slider',
       },
+    ]
 
-      {
-        ...fieldTemplate,
-        title: 'Approve',
-        name: 'age',
-        type: 'slider',
-        max: 100,
-      },
+    let timeFields = [
+      { title: 'Call-центр работает с:', name: 'callfrom' },
+      { title: 'Call-центр работает до:', name: 'callto' },
     ]
 
     return(
@@ -127,51 +82,118 @@ class EditCampaign extends Component {
           />
 
           <CardText>
-            {fields.map(field => {
-              return (
-                <div>
-                  {(() => {
-                    switch (field.type) {
-                      case 'checkbox':
-                        return (<Checkbox
-                          label={field.title}
-                          style={checkboxStyle}
-                        />)
+            <div className="row">
+            {/*  =========== ТЕКСТОВЫЕ ПОЛЯ ============ */}
+              {
+                textFields.map( field => {
+                  return (
+                    <div className="col-xs-12 col-md-6">
+                      <TextField
+                        name={field.name}
+                        hintText={field.title}
+                        fullWidth={true}
+                        multiLine={field.textarea || false}
+                        floatingLabelText={field.title}
+                      />
+                      {/* <Divider /> */}
+                    </div>
+                  )
+                })
+              }
+            {/* </div> */}
 
-                      case 'time':
-                        return (<TimePicker
-                          format="24hr"
-                          style={textFieldStyle}
-                          hintText={field.title}
-                        />)
+            {/* <div className="row" style={wrapperStyle}> */}
 
-                      case 'slider':
-                        return(<div style={sliderWrapper}>
-                          {field.title}:
-                          <Slider
-                            min={field.min}
-                            max={field.max}
-                            step={1}
-                            defaultValue={Math.ceil(field.max / 2)}
-                            style={{margin:0, padding:0}}
-                          />
-                          {/* <Divider /> */}
-                        </div>)
+              {/*  =========== ЦЕНА ============ */}
+              <div className="col-xs-12 col-md-6" style={{marginTop:16}}>
+                <strong style={{fontWeight: 700}}>Цена</strong>: 150 Р
+                <Slider
+                  min={0}
+                  max={100}
+                  step={1}
+                  defaultValue={75}
+                  style={{margin:0, padding:0}}
+                />
+              </div>
 
-                      default:
-                        return (<div><TextField
-                          name={field.name}
-                          rows={field.textarea ? 2 : 1}
-                          style={textFieldStyle}
-                          hintText={field.title}
-                          multiLine={field.textarea}
-                          underlineShow={false}
-                        /><Divider /></div>)
-                    }
-                  })()}
-                </div>
-              )
-            })}
+              {/*  =========== APPROVE ============ */}
+              <div className="col-xs-12 col-md-6" style={{marginTop:16}}>
+                <strong style={{fontWeight: 700}}>Approve</strong>: 54%
+                <Slider
+                  min={0}
+                  max={100}
+                  step={1}
+                  defaultValue={25}
+                  style={{margin:0, padding:0}}
+                />
+              </div>
+
+              <div className="col-xs-12">
+                {/* <Divider /> */}
+              </div>
+            {/* </div> */}
+
+            {/*  =========== ВОЗРАСТ ============ */}
+            {/* <div className="row"> */}
+              {
+                ageFields.map( field => {
+                  return (
+                    <div className="col-md-6 col-xs-12">
+                      <strong style={{fontWeight: 700}}>{field.title}</strong>
+                      <Slider
+                        min={0}
+                        max={100}
+                        step={1}
+                        name={field.name}
+                        defaultValue={25}
+                        style={{margin:0, padding:0}}
+                      />
+                    </div>
+                  )
+                })
+              }
+              <div className="col-xs-12">
+                {/* <Divider /> */}
+              </div>
+            {/* </div> */}
+
+            {/*  =========== ПОЛОВАЯ ПРЕНАДЛЕЖНОСТЬ ============ */}
+            {/* <div className="row" style={wrapperStyle}> */}
+              <div className="col-xs-12 col-md-6">
+                <Checkbox
+                  label="Для мужчин"
+                />
+              </div>
+              <div className="col-xs-12 col-md-6">
+                <Checkbox
+                  label="Для женщин"
+                />
+              </div>
+              <div className="col-xs-12" style={{marginTop: 16}}>
+                {/* <Divider /> */}
+              </div>
+            {/* </div> */}
+
+            {/*  =========== Режим работы CALLCENTER ============ */}
+            {/* <div className="row" style={{marginTop:24}}> */}
+              {
+                timeFields.map( field => {
+                  return (
+                    <div
+                      className="col-md-6 col-xs-12"
+                      style={{
+                        display:'flex', alignItems: 'center', fontWeight: 700}}
+                    >
+                      <span style={{marginRight: 8}}>{field.title}</span>
+                      <TimePicker
+                        format="24hr"
+                        hintText="Укажите время"
+                      />
+                    </div>
+                  )
+                })
+              }
+            </div>
           </CardText>
 
           <CardActions>
@@ -182,5 +204,5 @@ class EditCampaign extends Component {
     )
   }
 }
-
+// -----------------------------------------------------------------------------
 export default EditCampaign
