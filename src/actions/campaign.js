@@ -7,8 +7,10 @@ import {
   SEND_PROFFER_DATA_FAIL,
   SEND_PROFFER_DATA_SUCCESS,
 
+  UPDATE_MALE,
   UPDATE_PRICE,
   UPDATE_AGETO,
+  UPDATE_FEMALE,
   UPDATE_AGEFROM,
   UPDATE_APPROVE,
 } from '../constants/campaign';
@@ -40,6 +42,14 @@ export function sendProfferData(data) {
         })
       })
   }
+}
+
+export function updateMale(event, value) {
+  return { type: UPDATE_MALE, payload: value }
+}
+
+export function updateFemale(event, value) {
+  return { type: UPDATE_FEMALE, payload: value }
 }
 
 export function updateAgeFrom(value) {

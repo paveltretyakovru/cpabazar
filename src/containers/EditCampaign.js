@@ -203,11 +203,13 @@ class EditCampaign extends Component {
               <div className="col-xs-12 col-md-6">
                 <Checkbox
                   label="Для мужчин"
+                  onCheck={::this.props.campaignActions.updateMale}
                 />
               </div>
               <div className="col-xs-12 col-md-6">
                 <Checkbox
                   label="Для женщин"
+                  onCheck={::this.props.campaignActions.updateFemale}
                 />
               </div>
 

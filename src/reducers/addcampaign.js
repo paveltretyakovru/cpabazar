@@ -4,7 +4,7 @@ import {
   UPDATE_MALE,
   UPDATE_PRICE,
   UPDATE_AGETO,
-  UPDATE_FAMALE,
+  UPDATE_FEMALE,
   UPDATE_APPROVE,
   UPDATE_AGEFROM,
   UPDATE_CATEGORY,
@@ -47,7 +47,7 @@ export default function(state = initState, action) {
       return { ...state, price: action.payload }
     case UPDATE_AGETO:
       return { ...state, ageto: action.payload }
-    case UPDATE_FAMALE:
+    case UPDATE_FEMALE:
       return { ...state, famale: action.payload }
     case UPDATE_APPROVE:
       return { ...state, approve: action.payload }
