@@ -14,18 +14,11 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
 import {
   UPDATE_NAME,
   UPDATE_DESC,
-  // UPDATE_MALE,
-  // UPDATE_PRICE,
   UPDATE_AGETO,
-  // UPDATE_FAMALE,
-  // UPDATE_APPROVE,
   UPDATE_AGEFROM,
-  // UPDATE_CATEGORY,
   UPDATE_LONGDESC,
-  // UPDATE_LENDINGS,
   UPDATE_RECCOMMENT,
   UPDATE_CALLTIMETO,
-  // UPDATE_COMMISSIONS,
   UPDATE_CALLTIMEFROM,
 } from '../constants/campaign'
 
@@ -231,6 +224,11 @@ class EditCampaign extends Component {
                       <TimePicker
                         format="24hr"
                         hintText="Укажите время"
+                        onChange={ (event, value) => {
+                          return this.props.campaignActions.updateCalltime(
+                            field.name, value
+                          )
+                        }}
                       />
                     </div>
                   )

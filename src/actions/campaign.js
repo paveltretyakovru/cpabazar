@@ -44,6 +44,9 @@ export function sendProfferData(data) {
   }
 }
 
+export function updateCalltime(type, value) {
+  return { type: type, payload: value }
+}
 export function updateMale(event, value) {
   return { type: UPDATE_MALE, payload: value }
 }
