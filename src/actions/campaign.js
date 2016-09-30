@@ -2,7 +2,9 @@ import $ from 'jquery'
 
 import {
   SWITCH_DIALOG,
+  REMOVE_COMMISSION,
   SEND_PROFFER_DATA,
+  ADD_EMPTY_COMMISSION,
   SEND_PROFFER_DATA_URL,
   SEND_PROFFER_DATA_FAIL,
   SEND_PROFFER_DATA_SUCCESS,
@@ -13,6 +15,7 @@ import {
   UPDATE_FEMALE,
   UPDATE_AGEFROM,
   UPDATE_APPROVE,
+  UPDATE_COMMISSION,
 } from '../constants/campaign';
 
 export function switchDialog() {
@@ -73,4 +76,22 @@ export function updateAddCampaignPrice(value) {
 
 export function updateAddCampaignApprove(value) {
   return {type: UPDATE_APPROVE, payload: value }
+}
+
+export function addEmptyCommission() {
+  return {type: ADD_EMPTY_COMMISSION}
+}
+
+export function removeCommission(index) {
+  return {type: REMOVE_COMMISSION, payload: index}
+}
+
+export function updateCommission(event, index) {
+  return {
+    type: UPDATE_COMMISSION,
+    payload: {
+      index: index,
+      value: event.target.value,
+    },
+  }
 }

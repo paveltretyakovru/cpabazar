@@ -10,10 +10,13 @@ import {
   UPDATE_CATEGORY,
   UPDATE_LONGDESC,
   UPDATE_LENDINGS,
+  REMOVE_COMMISSION,
   UPDATE_RECCOMMENT,
   UPDATE_CALLTIMETO,
+  UPDATE_COMMISSION,
   UPDATE_COMMISSIONS,
   UPDATE_CALLTIMEFROM,
+  ADD_EMPTY_COMMISSION,
 } from '../constants/campaign'
 
 const initState = {
@@ -30,12 +33,26 @@ const initState = {
   lendings: [],
   reccomment: '',
   calltimeto: '',
-  commissions: [],
+  commissions: [{price: 345}],
   calltimefrom: '',
 }
 
 export default function(state = initState, action) {
+  var commissions = state.commissions.slice()
+
   switch (action.type) {
+
+    case UPDATE_COMMISSION:
+      commissions[action.payload.index].price = action.payload.value
+      return { ...state, commissions: commissions }
+
+    case REMOVE_COMMISSION:
+      commissions.splice(action.payload, 1)
+      return { ...state, commissions: commissions }
+
+    case ADD_EMPTY_COMMISSION:
+      commissions.push({price: 0})
+      return {...state, commissions: commissions}
 
     case UPDATE_NAME:
       return { ...state, name: action.payload }

@@ -1,6 +1,7 @@
 import * as appActions from '../actions/app'
 import * as campaignActions from '../actions/campaign'
 
+import CommissionsEditor from '../components/CommissionsEditor'
 import Slider from 'material-ui/Slider'
 import Checkbox from 'material-ui/Checkbox'
 import {connect} from 'react-redux'
@@ -234,6 +235,18 @@ class EditCampaign extends Component {
                   )
                 })
               }
+
+              <div className="col-xs-12" style={{marginTop: 16}}>
+                <strong style={{fontWeight: 700}}>Коммиссии</strong>:
+                <CommissionsEditor
+                  updateCommission={this.props.campaignActions.updateCommission}
+                  removeCommission={this.props.campaignActions.removeCommission}
+                  addEmptyCommission={
+                    this.props.campaignActions.addEmptyCommission
+                  }
+                  commissions={this.props.addcampaign.commissions}
+                />
+              </div>
             </div>
           </CardText>
 
