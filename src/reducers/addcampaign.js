@@ -28,7 +28,7 @@ const initState = {
   famale: false,
   approve:0,
   agefrom: 24,
-  category: 0,
+  category: '',
   longdesc: '',
   lendings: [],
   reccomment: '',
@@ -43,7 +43,7 @@ export default function(state = initState, action) {
   switch (action.type) {
 
     case UPDATE_COMMISSION:
-      commissions[action.payload.index].price = action.payload.value
+      commissions[action.payload.index].priceком = action.payload.value
       return { ...state, commissions: commissions }
 
     case REMOVE_COMMISSION:

@@ -16,7 +16,9 @@ import {
   UPDATE_NAME,
   UPDATE_DESC,
   UPDATE_AGETO,
+  UPDATE_PRICE,
   UPDATE_AGEFROM,
+  UPDATE_CATEGORY,
   UPDATE_LONGDESC,
   UPDATE_RECCOMMENT,
   UPDATE_CALLTIMETO,
@@ -87,6 +89,14 @@ class EditCampaign extends Component {
         name: UPDATE_RECCOMMENT,
         textarea: true,
       },
+      {
+        title: 'Цена',
+        name: UPDATE_PRICE,
+      },
+      {
+        title: 'Категории',
+        name: UPDATE_CATEGORY,
+      },
     ]
 
     let ageFields = [
@@ -135,25 +145,8 @@ class EditCampaign extends Component {
                 })
               }
 
-              {/*  =========== ЦЕНА ============ */}
-              <div className="col-xs-12 col-md-6" style={{marginTop:16}}>
-                <strong style={{fontWeight: 700}}>Цена</strong>:
-                {this.props.addcampaign.price} {' '}
-                <span style={{textDecoration: 'line-through'}}>Р</span>
-                <Slider
-                  min={0}
-                  max={10000}
-                  step={1}
-                  defaultValue={75}
-                  style={{margin:0, padding:0}}
-                  onChange={ (event, value) => {
-                    this.props.campaignActions.updateAddCampaignPrice(value)
-                  }}
-                />
-              </div>
-
               {/*  =========== APPROVE ============ */}
-              <div className="col-xs-12 col-md-6" style={{marginTop:16}}>
+              <div className="col-xs-12 col-md-12" style={{marginTop:16}}>
                 <strong style={{fontWeight: 700}}>Approve</strong>:
                 {this.props.addcampaign.approve} {' '} %
                 <Slider
@@ -215,22 +208,32 @@ class EditCampaign extends Component {
                       key={index}
                       className="col-md-6 col-xs-12"
                       style={{
-                        display:'flex',
-                        fontWeight: 700,
-                        alignItems: 'center',
+                        // display:'flex',
+                        // fontWeight: 700,
+                        // alignItems: 'center',
                         marginTop: 16,
                       }}
                     >
-                      <span style={{marginRight: 8}}>{field.title}</span>
-                      <TimePicker
+                      <div className="row middle-md">
+                        <span
+                          style={{marginRight: 8, fontWeight: 700}}
+                          className="col-md-4 col-xs-12"
+                        >
+                          {field.title}
+                        </span>
+
+                        <TimePicker
                         format="24hr"
                         hintText="Укажите время"
+                        className="col-md-6 col-xs-12"
                         onChange={ (event, value) => {
                           return this.props.campaignActions.updateCalltime(
                             field.name, value
                           )
                         }}
-                      />
+                        />
+
+                      </div>
                     </div>
                   )
                 })
