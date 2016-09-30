@@ -12,19 +12,24 @@ import {bindActionCreators} from 'redux'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
 
 import {
-  UPDATE_AGE_FROM,
-  UPDATE_AGE_TO,
+  UPDATE_NAME,
+  UPDATE_DESC,
+  // UPDATE_MALE,
+  // UPDATE_PRICE,
+  UPDATE_AGETO,
+  // UPDATE_FAMALE,
+  // UPDATE_APPROVE,
+  UPDATE_AGEFROM,
+  // UPDATE_CATEGORY,
+  UPDATE_LONGDESC,
+  // UPDATE_LENDINGS,
+  UPDATE_RECCOMMENT,
+  UPDATE_CALLTIMETO,
+  // UPDATE_COMMISSIONS,
+  UPDATE_CALLTIMEFROM,
 } from '../constants/campaign'
 
 class EditCampaign extends Component {
-
-  constructor() {
-    super()
-    this.state = {
-      localAgeFrom: 0,
-      localAgeTo: 0,
-    }
-  }
 
   getStyle() {
     return {
@@ -44,9 +49,22 @@ class EditCampaign extends Component {
     }
   }
 
-  handleSliderChange(event, value) {
-    console.log('Slider stop!', value, event)
-    // this.setState({...this.state, })
+  handleSliderChange(name, value) {
+    console.log('Slider stop!', value, name)
+    switch(name) {
+      case UPDATE_AGEFROM:
+        return this.props.campaignActions.updateAgeFrom(value)
+
+      case UPDATE_AGETO:
+        return this.props.campaignActions.updateAgeTo(value)
+    }
+  }
+
+  handleTextFieldsChange(event) {
+    let { name, value } = event.target
+    return this.props.campaignActions.updateAddCampaignTextfields(
+      name, value
+    )
   }
 
   render() {
@@ -58,21 +76,21 @@ class EditCampaign extends Component {
     let textFields = [
       {
         title: 'Название',
-        name: 'name',
+        name: UPDATE_NAME,
       },
       {
         title: 'Краткое описание',
-        name: 'desc',
+        name: UPDATE_DESC,
         textarea: true,
       },
       {
         title: 'Длинное описание',
-        name: 'longdesc',
+        name: UPDATE_LONGDESC,
         textarea: true,
       },
       {
         title: 'Комментарий рекла',
-        name: 'reccomment',
+        name: UPDATE_RECCOMMENT,
         textarea: true,
       },
     ]
@@ -80,19 +98,19 @@ class EditCampaign extends Component {
     let ageFields = [
       {
         title: 'Возраст с',
-        name: UPDATE_AGE_FROM,
+        name: UPDATE_AGEFROM,
         value: this.props.addcampaign.agefrom,
       },
       {
         title: 'Возраст до',
-        name: UPDATE_AGE_TO,
+        name: UPDATE_AGETO,
         value: this.props.addcampaign.ageto,
       },
     ]
 
     let timeFields = [
-      { title: 'Call-центр работает с:', name: 'calltimefrom' },
-      { title: 'Call-центр работает до:', name: 'calltimeto' },
+      { title: 'Call-центр работает с:', name: UPDATE_CALLTIMEFROM },
+      { title: 'Call-центр работает до:', name: UPDATE_CALLTIMETO },
     ]
 
     return(
@@ -115,6 +133,7 @@ class EditCampaign extends Component {
                         fullWidth={true}
                         multiLine={field.textarea || false}
                         floatingLabelText={field.title}
+                        onChange={::this.handleTextFieldsChange}
                       />
                       {/* <Divider /> */}
                     </div>
@@ -124,25 +143,34 @@ class EditCampaign extends Component {
 
               {/*  =========== ЦЕНА ============ */}
               <div className="col-xs-12 col-md-6" style={{marginTop:16}}>
-                <strong style={{fontWeight: 700}}>Цена</strong>: 150 Р
+                <strong style={{fontWeight: 700}}>Цена</strong>:
+                {this.props.addcampaign.price} {' '}
+                <span style={{textDecoration: 'line-through'}}>Р</span>
                 <Slider
                   min={0}
-                  max={100}
+                  max={10000}
                   step={1}
                   defaultValue={75}
                   style={{margin:0, padding:0}}
+                  onChange={ (event, value) => {
+                    this.props.campaignActions.updateAddCampaignPrice(value)
+                  }}
                 />
               </div>
 
               {/*  =========== APPROVE ============ */}
               <div className="col-xs-12 col-md-6" style={{marginTop:16}}>
-                <strong style={{fontWeight: 700}}>Approve</strong>: 54%
+                <strong style={{fontWeight: 700}}>Approve</strong>:
+                {this.props.addcampaign.approve} {' '} %
                 <Slider
                   min={0}
                   max={100}
                   step={1}
                   defaultValue={25}
                   style={{margin:0, padding:0}}
+                  onChange={ (event, value) => {
+                    this.props.campaignActions.updateAddCampaignApprove(value)
+                  }}
                 />
               </div>
 
@@ -162,7 +190,9 @@ class EditCampaign extends Component {
                         defaultValue={25}
                         value={field.value}
                         style={{margin:0, padding:0}}
-                        onChange={::this.handleSliderChange}
+                        onChange={(event, value) => {
+                          this.handleSliderChange(field.name, value)
+                        }}
                       />
                     </div>
                   )
