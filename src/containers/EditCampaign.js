@@ -288,6 +288,7 @@ class EditCampaign extends Component {
               <FlatButton
                 label="Добавить"
                 primary={true}
+                disabled={this.props.addcampaign.addCampaignRequest}
                 onClick={::this.handleNewCampaignRequest}
               />
             </CardActions>

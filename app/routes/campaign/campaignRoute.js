@@ -42,4 +42,10 @@ router.post('/', (req, res) => {
   })
 })
 
+router.get('/', (req, res) => {
+  let result = CampaignLocal.find().lean().exec((err, campaigns) => {
+    res.json(campaigns)
+  })
+})
+
 module.exports = router
