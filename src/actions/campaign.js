@@ -16,6 +16,13 @@ import {
   UPDATE_AGEFROM,
   UPDATE_APPROVE,
   UPDATE_COMMISSION,
+
+// ======================== NEW_CAMPAIGN CONSTANTS =============================
+  NEW_CAMPAIGN_REQUEST,
+  NEW_CAMPAIGN_REQUEST_URL,
+  NEW_CAMPAIGN_REQUEST_FAIL,
+  NEW_CAMPAIGN_REQUEST_SUCCESS,
+
 } from '../constants/campaign';
 
 export function switchDialog() {
@@ -93,5 +100,21 @@ export function updateCommission(event, index) {
       index: index,
       value: event.target.value,
     },
+  }
+}
+
+export function addCampaign() {
+  return (dispatch) => {
+    console.log('addCampaign method')
+
+    dispatch({ type: NEW_CAMPAIGN_REQUEST })
+
+    return $.post(NEW_CAMPAIGN_REQUEST_URL, {test: 'data'})
+      .done( res => {
+        dispatch({ type: NEW_CAMPAIGN_REQUEST_SUCCESS, payload: res })
+      })
+      .fail( res => {
+        dispatch({ type: NEW_CAMPAIGN_REQUEST_FAIL, payload: res })
+      })
   }
 }

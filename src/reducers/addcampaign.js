@@ -17,6 +17,12 @@ import {
   UPDATE_COMMISSIONS,
   UPDATE_CALLTIMEFROM,
   ADD_EMPTY_COMMISSION,
+
+// ========================== NEW_CAMPAIGN CONSTANTS ===========================
+  NEW_CAMPAIGN_REQUEST,
+  NEW_CAMPAIGN_REQUEST_FAIL,
+  NEW_CAMPAIGN_REQUEST_SUCCESS,
+
 } from '../constants/campaign'
 
 const initState = {
@@ -35,6 +41,7 @@ const initState = {
   calltimeto: '',
   commissions: [{price: 345}],
   calltimefrom: '',
+  addCampaignRequest: false,
 }
 
 export default function(state = initState, action) {
@@ -56,34 +63,56 @@ export default function(state = initState, action) {
 
     case UPDATE_NAME:
       return { ...state, name: action.payload }
+
     case UPDATE_DESC:
       return { ...state, desc: action.payload }
+
     case UPDATE_MALE:
       return { ...state, male: action.payload }
+
     case UPDATE_PRICE:
       return { ...state, price: action.payload }
+
     case UPDATE_AGETO:
       return { ...state, ageto: action.payload }
+
     case UPDATE_FEMALE:
       return { ...state, famale: action.payload }
+
     case UPDATE_APPROVE:
       return { ...state, approve: action.payload }
+
     case UPDATE_AGEFROM:
       return { ...state, agefrom: action.payload }
+
     case UPDATE_CATEGORY:
       return { ...state, category: action.payload }
+
     case UPDATE_LONGDESC:
       return { ...state, longdesc: action.payload }
+
     case UPDATE_LENDINGS:
       return { ...state, lendings: action.payload }
+
     case UPDATE_RECCOMMENT:
       return { ...state, reccomment: action.payload }
+
     case UPDATE_CALLTIMETO:
       return { ...state, calltimeto: action.payload }
+
     case UPDATE_COMMISSIONS:
       return { ...state, commissions: action.payload }
+
     case UPDATE_CALLTIMEFROM:
       return { ...state, calltimefrom: action.payload }
+
+// =============== NEW_CAMPAIGN REDUCERS =======================================
+    case NEW_CAMPAIGN_REQUEST:
+      return { ...state, addCampaignRequest: true }
+    case NEW_CAMPAIGN_REQUEST_FAIL:
+      return { ...state, addCampaignRequest: false }
+    case NEW_CAMPAIGN_REQUEST_SUCCESS:
+      return { ...state, addCampaignRequest: false }
 
     default:
       return state

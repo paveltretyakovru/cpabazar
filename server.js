@@ -9,6 +9,7 @@ const getIpAddr = require('./app/modules/helpers/getIpAddr')
 
 // ===================== SELF EXPRESS APP REQURIES =============================
 const userRoute = require('./app/routes/user/userRoute')
+const campaignRoute = require('./app/routes/campaign/campaignRoute')
 const fetchpageRoute = require('./app/routes/fetchpage/fetchpageRoute')
 const postprofferRoute = require('./app/routes/postproffer/postprofferRoute')
 // -----------------------------------------------------------------------------
@@ -54,6 +55,7 @@ mongoose.connection.once('open', () => console.log('Подключено к mong
 
 // ==================== INIT ROUTES ============================================
 app.use('/user', userRoute)
+app.use('/campaign', campaignRoute)
 app.use('/fetchpage', fetchpageRoute)
 app.use('/postproffer', postprofferRoute)
 app.get('/', (req,res) => {res.sendFile(`${__dirname}/public/index.html`)})

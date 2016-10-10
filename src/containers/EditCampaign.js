@@ -1,13 +1,14 @@
 import * as appActions from '../actions/app'
 import * as campaignActions from '../actions/campaign'
 
-import CommissionsEditor from '../components/CommissionsEditor'
 import Slider from 'material-ui/Slider'
 import Checkbox from 'material-ui/Checkbox'
 import {connect} from 'react-redux'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import TimePicker from 'material-ui/TimePicker'
+import LinearProgress from 'material-ui/LinearProgress'
+import CommissionsEditor from '../components/CommissionsEditor'
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card'
@@ -40,7 +41,9 @@ class EditCampaign extends Component {
       },
       sliderWrapper: {
         margin: 20,
-
+      },
+      progressStyle: {
+        borderRadius: 0,
       },
     }
   }
@@ -67,6 +70,7 @@ class EditCampaign extends Component {
 
     let {
       wrapperStyle,
+      progressStyle,
     } = this.getStyle()
 
     let textFields = [
@@ -118,145 +122,156 @@ class EditCampaign extends Component {
     ]
 
     return(
-      <div style={ wrapperStyle } className="fadeInRight">
-        <Card>
-          <CardHeader
-            title="Добавление кампании"
-          />
+      <div>
+        {
+          this.props.addcampaign.addCampaignRequest
+            ? <LinearProgress mode="indeterminate" style={progressStyle} />
+            : null
+        }
 
-          <CardText>
-            <div className="row">
-              {/*  =========== ТЕКСТОВЫЕ ПОЛЯ ============ */}
-              {
-                textFields.map( (field, index) => {
-                  return (
-                    <div className="col-xs-12 col-md-6" key={index}>
-                      <TextField
-                        name={field.name}
-                        hintText={field.title}
-                        fullWidth={true}
-                        multiLine={field.textarea || false}
-                        floatingLabelText={field.title}
-                        onChange={::this.handleTextFieldsChange}
-                      />
-                      {/* <Divider /> */}
-                    </div>
-                  )
-                })
-              }
+        <div style={ wrapperStyle } className="fadeInRight">
+          <Card>
+            <CardHeader
+              title="Добавление кампании"
+            />
 
-              {/*  =========== APPROVE ============ */}
-              <div className="col-xs-12 col-md-12" style={{marginTop:16}}>
+            <CardText>
+              <div className="row">
+                {/*  =========== ТЕКСТОВЫЕ ПОЛЯ ============ */}
+                {
+                  textFields.map( (field, index) => {
+                    return (
+                      <div className="col-xs-12 col-md-6" key={index}>
+                        <TextField
+                          name={field.name}
+                          hintText={field.title}
+                          fullWidth={true}
+                          multiLine={field.textarea || false}
+                          floatingLabelText={field.title}
+                          onChange={::this.handleTextFieldsChange}
+                        />
+                      </div>
+                    )
+                  })
+                }
+
+                {/*  =========== APPROVE ============ */}
+                <div className="col-xs-12 col-md-12" style={{marginTop:16}}>
                 <strong style={{fontWeight: 700}}>Approve</strong>:
                 {this.props.addcampaign.approve} {' '} %
                 <Slider
                   min={0}
                   max={100}
                   step={1}
-                  defaultValue={25}
                   style={{margin:0, padding:0}}
+                  defaultValue={25}
                   onChange={ (event, value) => {
                     this.props.campaignActions.updateAddCampaignApprove(value)
                   }}
                 />
-              </div>
+                </div>
 
-              {/*  =========== ВОЗРАСТ ============ */}
-              {
-                ageFields.map( (field, index) => {
-                  return (
-                    <div className="col-md-6 col-xs-12" key={index}>
-                      <strong style={{fontWeight: 700}}>
-                        {field.title}: {field.value}
-                      </strong>
-                      <Slider
-                        min={0}
-                        max={100}
-                        step={1}
-                        name={field.name}
-                        defaultValue={25}
-                        value={field.value}
-                        style={{margin:0, padding:0}}
-                        onChange={(event, value) => {
-                          this.handleSliderChange(field.name, value)
-                        }}
-                      />
-                    </div>
-                  )
-                })
-              }
-
-              {/*  =========== ПОЛОВАЯ ПРЕНАДЛЕЖНОСТЬ ============ */}
-              <div className="col-xs-12 col-md-6">
-                <Checkbox
-                  label="Для мужчин"
-                  onCheck={::this.props.campaignActions.updateMale}
-                />
-              </div>
-              <div className="col-xs-12 col-md-6">
-                <Checkbox
-                  label="Для женщин"
-                  onCheck={::this.props.campaignActions.updateFemale}
-                />
-              </div>
-
-              {/*  =========== Режим работы CALLCENTER ============ */}
-              {
-                timeFields.map( (field, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="col-md-6 col-xs-12"
-                      style={{
-                        // display:'flex',
-                        // fontWeight: 700,
-                        // alignItems: 'center',
-                        marginTop: 16,
-                      }}
-                    >
-                      <div className="row middle-md">
-                        <span
-                          style={{marginRight: 8, fontWeight: 700}}
-                          className="col-md-4 col-xs-12"
-                        >
-                          {field.title}
-                        </span>
-
-                        <TimePicker
-                        format="24hr"
-                        hintText="Укажите время"
-                        className="col-md-6 col-xs-12"
-                        onChange={ (event, value) => {
-                          return this.props.campaignActions.updateCalltime(
-                            field.name, value
-                          )
-                        }}
+                {/*  =========== ВОЗРАСТ ============ */}
+                {
+                  ageFields.map( (field, index) => {
+                    return (
+                      <div className="col-md-6 col-xs-12" key={index}>
+                        <strong style={{fontWeight: 700}}>
+                          {field.title}: {field.value}
+                        </strong>
+                        <Slider
+                          min={0}
+                          max={100}
+                          step={1}
+                          name={field.name}
+                          defaultValue={25}
+                          value={field.value}
+                          style={{margin:0, padding:0}}
+                          onChange={(event, value) => {
+                            this.handleSliderChange(field.name, value)
+                          }}
                         />
-
                       </div>
-                    </div>
-                  )
-                })
-              }
+                    )
+                  })
+                }
 
-              <div className="col-xs-12" style={{marginTop: 16}}>
-                <strong style={{fontWeight: 700}}>Коммиссии</strong>:
-                <CommissionsEditor
-                  updateCommission={this.props.campaignActions.updateCommission}
-                  removeCommission={this.props.campaignActions.removeCommission}
-                  addEmptyCommission={
-                    this.props.campaignActions.addEmptyCommission
-                  }
-                  commissions={this.props.addcampaign.commissions}
-                />
+                {/*  =========== ПОЛОВАЯ ПРЕНАДЛЕЖНОСТЬ ============ */}
+                <div className="col-xs-12 col-md-6">
+                  <Checkbox
+                    label="Для мужчин"
+                    onCheck={::this.props.campaignActions.updateMale}
+                  />
+                </div>
+                <div className="col-xs-12 col-md-6">
+                  <Checkbox
+                    label="Для женщин"
+                    onCheck={::this.props.campaignActions.updateFemale}
+                  />
+                </div>
+
+                {/*  =========== Режим работы CALLCENTER ============ */}
+                {
+                  timeFields.map( (field, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="col-md-6 col-xs-12"
+                        style={{
+                          marginTop: 16,
+                        }}
+                      >
+                        <div className="row middle-md">
+                          <span
+                            style={{marginRight: 8, fontWeight: 700}}
+                            className="col-md-4 col-xs-12"
+                          >
+                            {field.title}
+                          </span>
+
+                          <TimePicker
+                            format="24hr"
+                            hintText="Укажите время"
+                            className="col-md-6 col-xs-12"
+                            onChange={ (event, value) => {
+                              return this.props.campaignActions.updateCalltime(
+                                field.name, value
+                              )
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )
+                  })
+                }
+
+                <div className="col-xs-12" style={{marginTop: 16}}>
+                  <strong style={{fontWeight: 700}}>Коммиссии</strong>:
+                  <CommissionsEditor
+                    updateCommission={
+                      this.props.campaignActions.updateCommission
+                    }
+                    removeCommission={
+                      this.props.campaignActions.removeCommission
+                    }
+                    addEmptyCommission={
+                      this.props.campaignActions.addEmptyCommission
+                    }
+                    commissions={this.props.addcampaign.commissions}
+                  />
+                </div>
               </div>
-            </div>
-          </CardText>
+            </CardText>
 
-          <CardActions>
-            <FlatButton label="Добавить" primary={true} />
-          </CardActions>
-        </Card>
+            <CardActions>
+              <FlatButton
+                label="Добавить"
+                primary={true}
+                onClick={::this.props.campaignActions.addCampaign}
+              />
+            </CardActions>
+          </Card>
+        </div>
       </div>
     )
   }
