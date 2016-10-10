@@ -17,6 +17,9 @@ import {
   UPDATE_COMMISSIONS,
   UPDATE_CALLTIMEFROM,
   ADD_EMPTY_COMMISSION,
+  ADD_EMPTY_LENDING,
+  UPDATE_LENDING,
+  REMOVE_LENDING,
 
 // ========================== NEW_CAMPAIGN CONSTANTS ===========================
   NEW_CAMPAIGN_REQUEST,
@@ -36,7 +39,7 @@ const initState = {
   agefrom: 24,
   category: '',
   longdesc: '',
-  lendings: [],
+  lendings: [{title: 'Гугле', url: 'http://google.com'}],
   reccomment: '',
   calltimeto: '',
   commissions: [{price: 345}],
@@ -46,6 +49,7 @@ const initState = {
 
 export default function(state = initState, action) {
   var commissions = state.commissions.slice()
+  var lendings = state.lendings.slice()
 
   switch (action.type) {
 
@@ -60,6 +64,15 @@ export default function(state = initState, action) {
     case ADD_EMPTY_COMMISSION:
       commissions.push({price: 0})
       return {...state, commissions: commissions}
+
+    case ADD_EMPTY_LENDING:
+      lendings.push({title: 'Гугле', url: 'http://google.com'})
+      return {...state, lendings: lendings}
+    case REMOVE_LENDING:
+      lendings.splice(action.payload, 1)
+      return { ...state, lendings: lendings }
+    case UPDATE_LENDING:
+      return { ...state, lending: action.payload }
 
     case UPDATE_NAME:
       return { ...state, name: action.payload }

@@ -1,3 +1,7 @@
+/**
+ * Модель кампаний, которые загружаются из удаленного сервера с megalead.ru
+ */
+
 'use strict';
 var megaleadAdmin = require('./modules/connections').megaleadAdmin;
 var CampaignPap = require('./CampaignPap');

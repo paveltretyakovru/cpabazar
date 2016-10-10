@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const Campaign = require('../../Campaign');
+const Campaign = require('../../CampaignRemote');
 const CommissionPap = require('../../CommissionPap');
 const Promise = require('promise');
 const _ = require('lodash');

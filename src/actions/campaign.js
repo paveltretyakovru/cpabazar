@@ -9,6 +9,10 @@ import {
   SEND_PROFFER_DATA_FAIL,
   SEND_PROFFER_DATA_SUCCESS,
 
+  UPDATE_LENDING,
+  REMOVE_LENDING,
+  ADD_EMPTY_LENDING,
+
   UPDATE_MALE,
   UPDATE_PRICE,
   UPDATE_AGETO,
@@ -103,13 +107,31 @@ export function updateCommission(event, index) {
   }
 }
 
-export function addCampaign() {
+export function addEmptyLending() {
+  return {type: ADD_EMPTY_LENDING}
+}
+
+export function removeLending(index) {
+  return {type: REMOVE_LENDING, payload: index}
+}
+
+export function updateLending(event, index) {
+  return {
+    type: UPDATE_LENDING,
+    payload: {
+      index: index,
+      value: event.target.value,
+    },
+  }
+}
+
+export function addCampaign(addstate) {
   return (dispatch) => {
     console.log('addCampaign method')
 
     dispatch({ type: NEW_CAMPAIGN_REQUEST })
 
-    return $.post(NEW_CAMPAIGN_REQUEST_URL, {test: 'data'})
+    return $.post(NEW_CAMPAIGN_REQUEST_URL, addstate)
       .done( res => {
         dispatch({ type: NEW_CAMPAIGN_REQUEST_SUCCESS, payload: res })
       })

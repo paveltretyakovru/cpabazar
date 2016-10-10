@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import TimePicker from 'material-ui/TimePicker'
+import LandingsEditor from '../components/LandingsEditor'
 import LinearProgress from 'material-ui/LinearProgress'
 import CommissionsEditor from '../components/CommissionsEditor'
 import React, {Component} from 'react'
@@ -64,6 +65,10 @@ class EditCampaign extends Component {
     return this.props.campaignActions.updateAddCampaignTextfields(
       name, value
     )
+  }
+
+  handleNewCampaignRequest() {
+    return this.props.campaignActions.addCampaign(this.props.addcampaign)
   }
 
   render() {
@@ -260,6 +265,22 @@ class EditCampaign extends Component {
                     commissions={this.props.addcampaign.commissions}
                   />
                 </div>
+
+                <div className="col-xs-12" style={{marginTop: 16}}>
+                  <strong style={{fontWeight: 700}}>Лендинги</strong>:
+                  <LandingsEditor
+                    updateLending={
+                      this.props.campaignActions.updateLending
+                    }
+                    removeLending={
+                      this.props.campaignActions.removeLending
+                    }
+                    addEmptyLending={
+                      this.props.campaignActions.addEmptyLending
+                    }
+                    lendings={this.props.addcampaign.lendings}
+                  />
+                </div>
               </div>
             </CardText>
 
@@ -267,7 +288,7 @@ class EditCampaign extends Component {
               <FlatButton
                 label="Добавить"
                 primary={true}
-                onClick={::this.props.campaignActions.addCampaign}
+                onClick={::this.handleNewCampaignRequest}
               />
             </CardActions>
           </Card>

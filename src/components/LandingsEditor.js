@@ -1,13 +1,11 @@
 import React, {Component} from 'react'
-import MenuItem from 'material-ui/MenuItem'
 import TextField from 'material-ui/TextField'
-import SelectField from 'material-ui/SelectField'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import ContentRemove from 'material-ui/svg-icons/content/remove'
 import FlatButton from 'material-ui/FlatButton'
 import Divider from 'material-ui/Divider'
 
-class CommissionsEditor extends Component {
+class LandingsEditor extends Component {
 
   set styles(styles) {
     this._styles = styles
@@ -28,7 +26,7 @@ class CommissionsEditor extends Component {
     return (
       <div>
         {
-          this.props.commissions.map((commission, index, commissions) => {
+          this.props.lendings.map((lending, index, lendings) => {
             return (
               <div
                 style={this.styles.wrapper}
@@ -47,31 +45,29 @@ class CommissionsEditor extends Component {
                       this.props.updateCommission(event, index)
                     }}
                     underlineShow={false}
-                    floatingLabelText="Цена"
-                    value={commission.price || 0}
-                    hintText="Цена"
+                    floatingLabelText="Заголовок"
+                    value={lending.title || 'Гугле'}
+                    hintText="Заголовок"
                   />
                 </div>
 
                 <div className="col-md-4 col-xs-4">
-                  <SelectField
-                    maxHeight={200}
-                    floatingLabelText="Страна"
-                    floatingLabelFixed={true}
-                    fullWidth={true}
-                  >
-                    <MenuItem primaryText="Россия" />
-                  </SelectField>
+                  <TextField
+                    underlineShow={false}
+                    floatingLabelText="URL"
+                    value={lending.url || 'http://google.com'}
+                    hintText="URL"
+                  />
                 </div>
 
                 <div className="col-md-2 col-xs-4">
                   {
-                    (index == commissions.length - 1)
+                    (index == lendings.length - 1)
                       ? (<FlatButton
                           label="Добавить"
                           primary={true}
                           icon={<ContentAdd />}
-                          onTouchTap={::this.props.addEmptyCommission}
+                          onTouchTap={::this.props.addEmptyLending}
                         />
                       )
                       : (
@@ -80,7 +76,7 @@ class CommissionsEditor extends Component {
                           label="Удалить"
                           secondary={true}
                           onTouchTap={() => {
-                            this.props.removeCommission(index)
+                            this.props.removeLending(index)
                           }}
                         />
                       )
@@ -95,4 +91,4 @@ class CommissionsEditor extends Component {
   }
 }
 
-export default CommissionsEditor
+export default LandingsEditor
