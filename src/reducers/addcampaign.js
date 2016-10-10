@@ -50,17 +50,16 @@ const initState = {
 export default function(state = initState, action) {
   var commissions = state.commissions.slice()
   var lendings = state.lendings.slice()
+  var payload = action.payload
 
   switch (action.type) {
 
     case UPDATE_COMMISSION:
-      commissions[action.payload.index].priceком = action.payload.value
+      commissions[action.payload.index].price = action.payload.value
       return { ...state, commissions: commissions }
-
     case REMOVE_COMMISSION:
       commissions.splice(action.payload, 1)
       return { ...state, commissions: commissions }
-
     case ADD_EMPTY_COMMISSION:
       commissions.push({price: 0})
       return {...state, commissions: commissions}
@@ -72,7 +71,8 @@ export default function(state = initState, action) {
       lendings.splice(action.payload, 1)
       return { ...state, lendings: lendings }
     case UPDATE_LENDING:
-      return { ...state, lending: action.payload }
+      lendings[payload.index][payload.name] = payload.value
+      return { ...state, lendings: lendings }
 
     case UPDATE_NAME:
       return { ...state, name: action.payload }

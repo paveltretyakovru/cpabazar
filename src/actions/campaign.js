@@ -116,9 +116,11 @@ export function removeLending(index) {
 }
 
 export function updateLending(event, index) {
+  console.log('Update lending!', event.target.name);
   return {
     type: UPDATE_LENDING,
     payload: {
+      name: event.target.name,
       index: index,
       value: event.target.value,
     },

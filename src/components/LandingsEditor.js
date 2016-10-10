@@ -41,9 +41,8 @@ class LandingsEditor extends Component {
 
                 <div className="col-md-4 col-xs-4">
                   <TextField
-                    onChange={(event) => {
-                      this.props.updateCommission(event, index)
-                    }}
+                    name="title"
+                    onChange={event => this.props.updateLending(event, index)}
                     underlineShow={false}
                     floatingLabelText="Заголовок"
                     value={lending.title || 'Гугле'}
@@ -53,10 +52,12 @@ class LandingsEditor extends Component {
 
                 <div className="col-md-4 col-xs-4">
                   <TextField
+                    name="url"
                     underlineShow={false}
-                    floatingLabelText="URL"
                     value={lending.url || 'http://google.com'}
                     hintText="URL"
+                    onChange={event => this.props.updateLending(event, index)}
+                    floatingLabelText="URL"
                   />
                 </div>
 
