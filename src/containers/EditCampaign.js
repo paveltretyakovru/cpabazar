@@ -19,6 +19,7 @@ import {
   UPDATE_DESC,
   UPDATE_AGETO,
   UPDATE_PRICE,
+  UPDATE_IMAGE,
   UPDATE_AGEFROM,
   UPDATE_CATEGORY,
   UPDATE_LONGDESC,
@@ -106,6 +107,10 @@ class EditCampaign extends Component {
         title: 'Категории',
         name: UPDATE_CATEGORY,
       },
+      {
+        title: 'Изображение',
+        name: UPDATE_IMAGE,
+      },
     ]
 
     let ageFields = [
@@ -126,6 +131,9 @@ class EditCampaign extends Component {
       { title: 'Call-центр работает до:', name: UPDATE_CALLTIMETO },
     ]
 
+    const fullWidth = 'col-xs-12 col-md-6'
+    const shortWidth = 'col-xs-12 col-md-12'
+
     return(
       <div>
         {
@@ -144,18 +152,26 @@ class EditCampaign extends Component {
               <div className="row">
                 {/*  =========== ТЕКСТОВЫЕ ПОЛЯ ============ */}
                 {
-                  textFields.map( (field, index) => {
+                  textFields.map( (field, index, fields) => {
                     return (
-                      <div className="col-xs-12 col-md-6" key={index}>
-                        <TextField
-                          name={field.name}
-                          hintText={field.title}
-                          fullWidth={true}
-                          multiLine={field.textarea || false}
-                          floatingLabelText={field.title}
-                          onChange={::this.handleTextFieldsChange}
-                        />
-                      </div>
+                        // Если поле последнее делаем его на всю длину
+                        <div
+                          className={
+                            (index !== fields.length - 1)
+                              ? fullWidth
+                              : shortWidth
+                          }
+                          key={index}
+                        >
+                          <TextField
+                            name={field.name}
+                            hintText={field.title}
+                            fullWidth={true}
+                            multiLine={field.textarea || false}
+                            floatingLabelText={field.title}
+                            onChange={::this.handleTextFieldsChange}
+                          />
+                        </div>
                     )
                   })
                 }

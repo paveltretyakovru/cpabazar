@@ -64,39 +64,32 @@ export function updateCalltime(type, value) {
 export function updateMale(event, value) {
   return { type: UPDATE_MALE, payload: value }
 }
-
 export function updateFemale(event, value) {
   return { type: UPDATE_FEMALE, payload: value }
 }
-
 export function updateAgeFrom(value) {
   return { type: UPDATE_AGEFROM, payload: value }
 }
-
 export function updateAgeTo(value) {
   return { type: UPDATE_AGETO, payload: value }
 }
-
 export function updateAddCampaignTextfields(type, value) {
   return {type: type, payload: value}
 }
-
 export function updateAddCampaignPrice(value) {
   return {type: UPDATE_PRICE, payload: value }
 }
-
 export function updateAddCampaignApprove(value) {
   return {type: UPDATE_APPROVE, payload: value }
 }
 
+
 export function addEmptyCommission() {
   return {type: ADD_EMPTY_COMMISSION}
 }
-
 export function removeCommission(index) {
   return {type: REMOVE_COMMISSION, payload: index}
 }
-
 export function updateCommission(event, index) {
   return {
     type: UPDATE_COMMISSION,
