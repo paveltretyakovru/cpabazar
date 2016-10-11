@@ -9,12 +9,13 @@ router.post('/', (req, res) => {
     male: req.body.male,
     price: req.body.price,
     ageto: req.body.ageto,
+    image: req.body.image,
     famale: req.body.famale,
     approve: req.body.approve,
     agefrom: req.body.agefrom,
     category: req.body.category,
     longdesc: req.body.longdesc,
-    lendings: req.body.lendings,
+    landings: req.body.landings,
     reccomment: req.body.reccomment,
     calltimeto: req.body.calltimeto,
     commissions: req.body.commissions,
@@ -25,20 +26,26 @@ router.post('/', (req, res) => {
 
   campaign.save( error => {    
     if (error) {
-      let errorDump = []
+      let errorDump = ''
 
-      for(var key in error.errors) {
-        errorDump.push({
-          field: key,
-          message: error.errors[key].message,
-        })
+      if(error.errors){
+        for(var key in error.errors) {
+          errorDump = `${error.errors[key].message}; ${errorDump}`
+
+          // TODO: На клиенте обработка массива ошибок для формы
+          // errorDump.push({field: key, message: error.errors[key].message})
+        }
+      } else {
+        errorDump = error.message ? error.message : 'Непредвиденная ошибка'
       }
 
       console.error('Произошла ошибка во время сохранения', errorDump)
+
+      res.status(422)
       return res.json({ success: false, message: errorDump })
     }
 
-    return res.json({success: true, message: 'Пользователь успешно добавлен'})
+    return res.json({success: true, message: 'Кампания успешно добавлена'})
   })
 })
 

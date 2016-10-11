@@ -9,9 +9,9 @@ import {
   SEND_PROFFER_DATA_FAIL,
   SEND_PROFFER_DATA_SUCCESS,
 
-  UPDATE_LENDING,
-  REMOVE_LENDING,
-  ADD_EMPTY_LENDING,
+  UPDATE_LANDING,
+  REMOVE_LANDING,
+  ADD_EMPTY_LANDING,
 
   UPDATE_MALE,
   UPDATE_PRICE,
@@ -20,6 +20,7 @@ import {
   UPDATE_AGEFROM,
   UPDATE_APPROVE,
   UPDATE_COMMISSION,
+  UPDATE_COMMISSION_COUNTRY,
 
 // ======================== NEW_CAMPAIGN CONSTANTS =============================
   NEW_CAMPAIGN_REQUEST,
@@ -99,19 +100,28 @@ export function updateCommission(event, index) {
     },
   }
 }
-
-export function addEmptyLending() {
-  return {type: ADD_EMPTY_LENDING}
+export function updateCommissionCountry(index, value) {
+  return {
+    type: UPDATE_COMMISSION_COUNTRY,
+    payload: {
+      index: index,
+      country: value,
+    },
+  }
 }
 
-export function removeLending(index) {
-  return {type: REMOVE_LENDING, payload: index}
+export function addEmptyLanding() {
+  return {type: ADD_EMPTY_LANDING}
 }
 
-export function updateLending(event, index) {
+export function removeLanding(index) {
+  return {type: REMOVE_LANDING, payload: index}
+}
+
+export function updateLanding(event, index) {
   console.log('Update lending!', event.target.name);
   return {
-    type: UPDATE_LENDING,
+    type: UPDATE_LANDING,
     payload: {
       name: event.target.name,
       index: index,

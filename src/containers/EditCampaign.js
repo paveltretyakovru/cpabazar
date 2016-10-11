@@ -28,6 +28,10 @@ import {
   UPDATE_CALLTIMEFROM,
 } from '../constants/campaign'
 
+/**
+ * Флорма для создания / редактирования кампаний
+ */
+
 class EditCampaign extends Component {
 
   getStyle() {
@@ -69,7 +73,12 @@ class EditCampaign extends Component {
   }
 
   handleNewCampaignRequest() {
-    return this.props.campaignActions.addCampaign(this.props.addcampaign)
+    this.props.campaignActions.addCampaign(this.props.addcampaign)
+      .done(res => console.log('Запрос успешно выполнен', res))
+      .fail(res => {
+        let errMess = `Ошибка! ${res.responseJSON.message}`
+        return this.props.appActions.setMessage(errMess)
+      })
   }
 
   render() {
@@ -185,7 +194,7 @@ class EditCampaign extends Component {
                   max={100}
                   step={1}
                   style={{margin:0, padding:0}}
-                  defaultValue={25}
+                  defaultValue={this.props.addcampaign.approve}
                   onChange={ (event, value) => {
                     this.props.campaignActions.updateAddCampaignApprove(value)
                   }}
@@ -266,6 +275,7 @@ class EditCampaign extends Component {
                   })
                 }
 
+                {/*  ================ РЕДАКТОР КОММИССИЙ =================== */}
                 <div className="col-xs-12" style={{marginTop: 16}}>
                   <strong style={{fontWeight: 700}}>Коммиссии</strong>:
                   <CommissionsEditor
@@ -278,23 +288,27 @@ class EditCampaign extends Component {
                     addEmptyCommission={
                       this.props.campaignActions.addEmptyCommission
                     }
+                    updateCommissionCountry={
+                      this.props.campaignActions.updateCommissionCountry
+                    }
                     commissions={this.props.addcampaign.commissions}
                   />
                 </div>
 
+                {/*  ================ РЕДАКТОР ЛЕНДИНГОВ =================== */}
                 <div className="col-xs-12" style={{marginTop: 16}}>
                   <strong style={{fontWeight: 700}}>Лендинги</strong>:
                   <LandingsEditor
-                    updateLending={
-                      this.props.campaignActions.updateLending
+                    updateLanding={
+                      this.props.campaignActions.updateLanding
                     }
-                    removeLending={
-                      this.props.campaignActions.removeLending
+                    removeLanding={
+                      this.props.campaignActions.removeLanding
                     }
-                    addEmptyLending={
-                      this.props.campaignActions.addEmptyLending
+                    addEmptyLanding={
+                      this.props.campaignActions.addEmptyLanding
                     }
-                    lendings={this.props.addcampaign.lendings}
+                    landings={this.props.addcampaign.landings}
                   />
                 </div>
               </div>

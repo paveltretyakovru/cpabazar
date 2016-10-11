@@ -23,6 +23,10 @@ class CommissionsEditor extends Component {
     },
   }}
 
+  handleChangeCountry(index, value) {
+    this.props.updateCommissionCountry(index,value)
+  }
+
   render() {
 
     return (
@@ -56,11 +60,15 @@ class CommissionsEditor extends Component {
                 <div className="col-md-4 col-xs-4">
                   <SelectField
                     maxHeight={200}
+                    value={commission.country || 'RU'}
                     floatingLabelText="Страна"
                     floatingLabelFixed={true}
                     fullWidth={true}
+                    onChange={(event, i, value) => {
+                      this.handleChangeCountry(index, value)
+                    }}
                   >
-                    <MenuItem primaryText="Россия" />
+                    <MenuItem primaryText="Россия" value="RU" />
                   </SelectField>
                 </div>
 

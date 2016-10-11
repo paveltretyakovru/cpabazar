@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const CampaignLocal = mongoose.Schema({
   desc: String,
   male: Boolean,
+  image: String,
   price: Number,
   ageto: Number,
   famale: Boolean,
@@ -11,8 +12,8 @@ const CampaignLocal = mongoose.Schema({
   agefrom: Number,
   category: String,
   longdesc: String,
-  reccomment: String,
   calltimeto: Date,
+  reccomment: String,
   calltimefrom: Date,
   
   name: {
@@ -20,14 +21,14 @@ const CampaignLocal = mongoose.Schema({
     unique: true,
     required: true,
   },
-  lendings: [{
+  landings: [{
     url: String,
     title: String,
   }],
   commissions: [{
     price: Number,
-    country: Number,
+    country: String,
   }],
 })
 
-module.exports = mongoose.model('CampaignLocal', CampaignLocal)
+module.exports = mongoose.model('Campaign', CampaignLocal)

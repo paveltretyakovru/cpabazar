@@ -36,13 +36,21 @@ class Campaigns extends React.Component {
 
   render() {
 
+    const AddCampaignButton = <FloatingActionButton
+      secondary={true}
+      style={ this.styles.floatButton }
+      onClick={::this.props.appActions.routeToAddCampaign}
+    >
+      <ContentAdd />
+    </FloatingActionButton>
+
     return (
           (() => {
             if(this.props.campaigns.length) {
-              let id = parseInt(this.props.params.id);
+              let id = this.props.params.id
               if(id) {
                 let findCampaign = this.props.campaigns.filter(el => {
-                  return id === el.id
+                  return id === el._id
                 })
                 let dataCampaigns = findCampaign[0]
 
@@ -60,7 +68,7 @@ class Campaigns extends React.Component {
                           () => {
                             return this.props.campaigns.map(campaign => {
 
-                              let link = `/campaigns/${campaign.id}`
+                              let link = `/campaigns/${campaign._id}`
 
                               let title = (<span>
                                 {campaign.name} &nbsp;
@@ -72,7 +80,7 @@ class Campaigns extends React.Component {
 
                                 return (
                                   <GridTile
-                                  key={campaign.id}
+                                  key={campaign._id}
                                   title={title}
                                   actionIcon={
                                     <IconButton tooltip="Cайт" tooltipPosition="top-left">
@@ -84,7 +92,7 @@ class Campaigns extends React.Component {
                                   subtitle={campaign.description}
                                   >
                                   <img
-                                  src={campaign.logourl}
+                                  src={campaign.logourl || campaign.image}
                                   style={this.styles.gridTileImg}
                                   onClick={() => this.props.actions.routeToCampaign(link)}
                                   />
@@ -96,22 +104,19 @@ class Campaigns extends React.Component {
                         }
                         </GridList>
 
-                        <FloatingActionButton
-                          secondary={true}
-                          style={ this.styles.floatButton }
-                          onClick={::this.props.appActions.routeToAddCampaign}
-                        >
-                          <ContentAdd />
-                        </FloatingActionButton>
+                        { AddCampaignButton }
                     </div>
                 )
               }
 
             // if this.props.campaigns
           } else {
-            return <div style={{textAlign:'center'}} mode="indeterminate">
-              <LinearProgress />
-            </div>
+            return (<div>
+              <div style={{textAlign:'center'}} mode="indeterminate">
+                <LinearProgress />
+              </div>
+              { AddCampaignButton }
+            </div>)
           }
 
           })()

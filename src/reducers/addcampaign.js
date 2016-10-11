@@ -10,17 +10,19 @@ import {
   UPDATE_AGEFROM,
   UPDATE_CATEGORY,
   UPDATE_LONGDESC,
-  UPDATE_LENDINGS,
-  REMOVE_COMMISSION,
+  UPDATE_LANDINGS,
   UPDATE_RECCOMMENT,
   UPDATE_CALLTIMETO,
-  UPDATE_COMMISSION,
-  UPDATE_COMMISSIONS,
   UPDATE_CALLTIMEFROM,
   ADD_EMPTY_COMMISSION,
-  ADD_EMPTY_LENDING,
-  UPDATE_LENDING,
-  REMOVE_LENDING,
+  ADD_EMPTY_LANDING,
+  UPDATE_LANDING,
+  REMOVE_LANDING,
+
+  REMOVE_COMMISSION,
+  UPDATE_COMMISSION,
+  UPDATE_COMMISSIONS,
+  UPDATE_COMMISSION_COUNTRY,
 
 // ========================== NEW_CAMPAIGN CONSTANTS ===========================
   NEW_CAMPAIGN_REQUEST,
@@ -37,21 +39,21 @@ const initState = {
   ageto: 45,
   image: 'https://goo.gl/ONXXyL',
   famale: false,
-  approve:0,
+  approve:32,
   agefrom: 24,
   category: '',
   longdesc: '',
-  lendings: [{title: 'Гугле', url: 'http://google.com'}],
+  landings: [{title: 'Гугле', url: 'http://google.com'}],
   reccomment: '',
   calltimeto: '',
-  commissions: [{price: 345}],
+  commissions: [{price: 345, country: 'RU'}],
   calltimefrom: '',
   addCampaignRequest: false,
 }
 
 export default function(state = initState, action) {
   var commissions = state.commissions.slice()
-  var lendings = state.lendings.slice()
+  var landings = state.landings.slice()
   var payload = action.payload
 
   switch (action.type) {
@@ -65,16 +67,19 @@ export default function(state = initState, action) {
     case ADD_EMPTY_COMMISSION:
       commissions.push({price: 0})
       return {...state, commissions: commissions}
+    case UPDATE_COMMISSION_COUNTRY:
+      commissions[action.payload.index].country = action.payload.country
+      return {...state, commissions: commissions}
 
-    case ADD_EMPTY_LENDING:
-      lendings.push({title: 'Гугле', url: 'http://google.com'})
-      return {...state, lendings: lendings}
-    case REMOVE_LENDING:
-      lendings.splice(action.payload, 1)
-      return { ...state, lendings: lendings }
-    case UPDATE_LENDING:
-      lendings[payload.index][payload.name] = payload.value
-      return { ...state, lendings: lendings }
+    case ADD_EMPTY_LANDING:
+      landings.push({title: 'Гугле', url: 'http://google.com'})
+      return {...state, landings: landings}
+    case REMOVE_LANDING:
+      landings.splice(action.payload, 1)
+      return { ...state, landings: landings }
+    case UPDATE_LANDING:
+      landings[payload.index][payload.name] = payload.value
+      return { ...state, landings: landings }
 
     case UPDATE_NAME:
       return { ...state, name: action.payload }
@@ -98,8 +103,8 @@ export default function(state = initState, action) {
       return { ...state, category: action.payload }
     case UPDATE_LONGDESC:
       return { ...state, longdesc: action.payload }
-    case UPDATE_LENDINGS:
-      return { ...state, lendings: action.payload }
+    case UPDATE_LANDINGS:
+      return { ...state, landings: action.payload }
     case UPDATE_RECCOMMENT:
       return { ...state, reccomment: action.payload }
     case UPDATE_CALLTIMETO:

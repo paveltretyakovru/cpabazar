@@ -26,7 +26,7 @@ class LandingsEditor extends Component {
     return (
       <div>
         {
-          this.props.lendings.map((lending, index, lendings) => {
+          this.props.landings.map((landing, index, landings) => {
             return (
               <div
                 style={this.styles.wrapper}
@@ -42,10 +42,10 @@ class LandingsEditor extends Component {
                 <div className="col-md-4 col-xs-4">
                   <TextField
                     name="title"
-                    onChange={event => this.props.updateLending(event, index)}
+                    onChange={event => this.props.updateLanding(event, index)}
                     underlineShow={false}
                     floatingLabelText="Заголовок"
-                    value={lending.title || 'Гугле'}
+                    value={landing.title || 'Гугле'}
                     hintText="Заголовок"
                   />
                 </div>
@@ -54,21 +54,21 @@ class LandingsEditor extends Component {
                   <TextField
                     name="url"
                     underlineShow={false}
-                    value={lending.url || 'http://google.com'}
+                    value={landing.url || 'http://google.com'}
                     hintText="URL"
-                    onChange={event => this.props.updateLending(event, index)}
+                    onChange={event => this.props.updateLanding(event, index)}
                     floatingLabelText="URL"
                   />
                 </div>
 
                 <div className="col-md-2 col-xs-4">
                   {
-                    (index == lendings.length - 1)
+                    (index == landings.length - 1)
                       ? (<FlatButton
                           label="Добавить"
                           primary={true}
                           icon={<ContentAdd />}
-                          onTouchTap={::this.props.addEmptyLending}
+                          onTouchTap={::this.props.addEmptyLanding}
                         />
                       )
                       : (
@@ -77,7 +77,7 @@ class LandingsEditor extends Component {
                           label="Удалить"
                           secondary={true}
                           onTouchTap={() => {
-                            this.props.removeLending(index)
+                            this.props.removeLanding(index)
                           }}
                         />
                       )

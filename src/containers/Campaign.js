@@ -53,18 +53,18 @@ class Campaign extends Component {
       name,
       price,
       ageto,
-      callto,
+      image,
       famale,
-      logourl,
       approve,
       comment,
       agefrom,
       landings,
-      callfrom,
-      interests,
+      longdesc,
+      category,
+      calltimeto,
       description,
       commissions,
-      longdescription,
+      calltimefrom,
     } = this.props.data
 
     const MaleChip = <Chip style={chipStyle}>
@@ -87,7 +87,7 @@ class Campaign extends Component {
                   style={imgStyle}
                   overlay={<CardTitle title={name} subtitle={description} />}
                 >
-                  <img src={logourl} />
+                  <img src={image} />
                 </CardMedia>
                 <CardTitle
                   title={
@@ -110,15 +110,15 @@ class Campaign extends Component {
                       </Chip>
 
                       {
-                        interests ? <Chip style={chipStyle}>
+                        category ? <Chip style={chipStyle}>
                           <Avatar icon={<RowingIcon />} />
-                          {interests}
+                          {category}
                         </Chip> : null
                       }
 
                       <Chip style={chipStyle}>
                         <Avatar icon={<PhoneClassicIcon />} />
-                        {`${callfrom} - ${callto}`}
+                        {`${calltimefrom} - ${calltimeto}`}
                       </Chip>
 
                       <Chip style={chipStyle}>
@@ -131,7 +131,7 @@ class Campaign extends Component {
                 />
                 <CardText className="row">
                   <div className="col-xs-12 row">
-                    <p style={{margin: '24px 0'}}>{longdescription}</p>
+                    <p style={{margin: '24px 0'}}>{longdesc}</p>
                   </div>
                 </CardText>
                 <CardActions>
@@ -175,16 +175,16 @@ class Campaign extends Component {
                     {
                       landings.map(landing => {
                         return <ListItem
-                          key={landing.id}
-                          primaryText={landing.name}
+                          key={landing.id || landing._id}
+                          primaryText={landing.name || landing.title}
                           rightIcon={
                             <IconButton
                               // tooltipPosition="top"
-                              tooltip={landing.destinationurl}
+                              tooltip={landing.destinationurl || landing.url}
                               style={{padding: 0}}
                               tooltipPosition="top-left"
                               onClick={
-                                () => window.open(landing.destinationurl, '_blank')
+                                () => window.open(landing.url, '_blank')
                               }
                             >
                               <ContentLink color={blue500} />
@@ -208,16 +208,29 @@ class Campaign extends Component {
                   <List>
                     {
                       commissions.map(commission => {
-                        let countrycodes = commission.countries.join()
-                        let firstcountry = commission.countries[0].toLowerCase()
+                        let countrycodes = '',
+                            firstcountry = '',
+                            value = 0,
+                            id = 0
+                        if(commission.countries) {
+                          id = commission.commtypeid
+                          value = commission.value
+                          countrycodes = commission.countries.join()
+                          firstcountry = commission.countries[0].toLowerCase()
+                        } else {
+                          id = commission._id
+                          value = commission.price
+                          countrycodes = commission.country
+                          firstcountry = commission.country.toLowerCase()
+                        }
+
                         let flagurl = `https://lipis.github.io/flag-icon-css/flags/4x3/${firstcountry}.svg`
                         return <ListItem
-                          key={commission.commtypeid}
-                          primaryText={<span>{commission.value} <del>P</del></span>}
+                          key={id}
+                          primaryText={<span>{value} <del>P</del></span>}
                           secondaryText={countrycodes}
                           rightAvatar={<Avatar src={flagurl}/>}
-                        >
-                        </ListItem>
+                        />
                       })
                     }
                   </List>
