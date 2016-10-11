@@ -12,9 +12,9 @@ const CampaignLocal = mongoose.Schema({
   agefrom: Number,
   category: String,
   longdesc: String,
-  calltimeto: Date,
+  calltimeto: String,
   reccomment: String,
-  calltimefrom: Date,
+  calltimefrom: String,
   
   name: {
     type: String,

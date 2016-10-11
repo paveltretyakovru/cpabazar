@@ -42,7 +42,11 @@ router.post('/', (req, res) => {
       console.error('Произошла ошибка во время сохранения', errorDump)
 
       res.status(422)
-      return res.json({ success: false, message: errorDump })
+      return res.json({
+        success: false,
+        message: errorDump,
+        campaign: campaign.toObject()
+      })
     }
 
     return res.json({success: true, message: 'Кампания успешно добавлена'})

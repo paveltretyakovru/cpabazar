@@ -62,6 +62,11 @@ export function routeToAddCampaign() {
 }
 
 // -----------------------------------------------------------------------------
+export function routeToEditCampaign(id) {
+  return dispatch => dispatch(push(`/editCampaign/${id}`))
+}
+
+// -----------------------------------------------------------------------------
 export function sendLogin(login, password) {
   console.log(LOGIN_URL, SEND_LOGIN_REQUEST)
   return dispatch => {

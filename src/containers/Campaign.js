@@ -1,5 +1,6 @@
 import * as campaignActions from '../actions/campaign'
 import * as campaignsActions from '../actions/campaigns'
+import {routeToEditCampaign} from '../actions/app'
 
 import Avatar from 'material-ui/Avatar'
 import CakeVariantIcon from 'mdi-react/CakeVariantIcon'
@@ -20,6 +21,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ProfferCommissionDialog from '../components/ProfferCommissionDialog'
 
+// Buttons
+import ContentEdit from 'material-ui/svg-icons/content/create'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+
 class Campaign extends Component {
 
   getStyles() {
@@ -34,6 +39,11 @@ class Campaign extends Component {
       titlePStyle: {
         marginRight: 24,
       },
+      floatButtonStyle: {
+        right: '20px',
+        top: '-25px',
+        position: 'absolute',
+      },
     }
   }
 
@@ -41,14 +51,15 @@ class Campaign extends Component {
     console.log('Campaign render', this.props.data);
 
     let {
-      // cardStyle,
       imgStyle,
-      chipWrapperStyle,
       chipStyle,
       titlePStyle,
+      chipWrapperStyle,
+      floatButtonStyle,
     } = this.getStyles()
 
     let {
+      _id,
       male,
       name,
       price,
@@ -77,6 +88,17 @@ class Campaign extends Component {
       Ж
     </Chip>
 
+    const EditCampaignButton = <FloatingActionButton
+      secondary={true}
+      style={ floatButtonStyle }
+      onClick={() => {
+        console.log('Click on button', _id)
+        this.props.routeToEditCampaign(_id)
+      }}
+    >
+      <ContentEdit />
+    </FloatingActionButton>
+
     return (
       <div className="row fadeInRight">
         <div className="col-xs-12 col-md-9">
@@ -92,6 +114,7 @@ class Campaign extends Component {
                 <CardTitle
                   title={
                     <div style={chipWrapperStyle}>
+                      { EditCampaignButton }
                       {price}
                       {' '}
                       <del style={titlePStyle}>P</del>
@@ -256,6 +279,7 @@ let mapDispatchToProps = (dispatch) => {
   return {
     campaignActions: bindActionCreators(campaignActions, dispatch),
     campaignsActions: bindActionCreators(campaignsActions, dispatch),
+    routeToEditCampaign: bindActionCreators(routeToEditCampaign, dispatch),
   }
 }
 

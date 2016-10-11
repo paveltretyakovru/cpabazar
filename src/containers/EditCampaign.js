@@ -83,6 +83,8 @@ class EditCampaign extends Component {
 
   render() {
 
+    console.log('TEEEST', this.props.params.id)
+
     let {
       wrapperStyle,
       progressStyle,

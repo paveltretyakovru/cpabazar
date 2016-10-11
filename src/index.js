@@ -26,6 +26,7 @@ ReactDOM.render(
                 <Route path="campaigns/:id" component={Campaigns} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/addCampaign" component={EditCampaign} />
+                <Route path="/editCampaign/:id" component={EditCampaign} />
               </div>
             )
           }
