@@ -28,6 +28,13 @@ import {
   NEW_CAMPAIGN_REQUEST_FAIL,
   NEW_CAMPAIGN_REQUEST_SUCCESS,
 
+// ============== КОНСТАНТЫ ДЛЯ РЕДАКТИРОВАНИЯ КАМПАНИИ ========================
+  PUT_CAMPAIGN_REQUEST,
+  PUT_CAMPAIGN_REQUEST_URL,
+  PUT_CAMPAIGN_REQUEST_FAIL,
+  PUT_CAMPAIGN_REQUEST_SUCCESS,
+  MOVE_CAMPAIGN_TO_ADDCAMPAIGN,
+
 } from '../constants/campaign';
 
 export function switchDialog() {
@@ -60,7 +67,7 @@ export function sendProfferData(data) {
 }
 
 export function updateCalltime(type, value) {
-  return { type: type, payload: `${value.getHours()}:${value.getMinutes()}` }
+  return { type: type, payload: value }
 }
 export function updateMale(event, value) {
   return { type: UPDATE_MALE, payload: value }
@@ -143,5 +150,34 @@ export function addCampaign(addstate) {
       .fail( res => {
         dispatch({ type: NEW_CAMPAIGN_REQUEST_FAIL, payload: res })
       })
+  }
+}
+
+/**
+ * Метод вызывает редьюсер заполнения редактора кампании готовыми данными
+ * @param  {Object} data объект с данными редактируемой кампании
+ * @return {Object}      dispatch типа MOVE_CAMPAIGN_TO_ADDCAMPAIGN
+ */
+export function moveCampaignDataToAddCampaign(data) {
+  console.log('MOVE CAMPAIGN');
+  return { type:MOVE_CAMPAIGN_TO_ADDCAMPAIGN, payload: data }
+}
+
+/**
+ * Метод отправляет объект обновленной кампании для сохранения
+ * @param  {Object} data state.addcampaign
+ * @return {Promise}      Возвращает обещания выполнено запроса PUT на сервер
+ */
+export function putCampaignRequest(data) {
+  return (dispatch) => {
+    dispatch({type: PUT_CAMPAIGN_REQUEST})
+
+    return $.ajax({
+      url: PUT_CAMPAIGN_REQUEST_URL,
+      type: 'PUT',
+      data: data,
+    })
+      .done(res => dispatch({type: PUT_CAMPAIGN_REQUEST_SUCCESS, payload: res}))
+      .fail(res => dispatch({type: PUT_CAMPAIGN_REQUEST_FAIL, payload: res}))
   }
 }

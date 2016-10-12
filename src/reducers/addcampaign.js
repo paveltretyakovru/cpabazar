@@ -29,26 +29,33 @@ import {
   NEW_CAMPAIGN_REQUEST_FAIL,
   NEW_CAMPAIGN_REQUEST_SUCCESS,
 
+// ============== КОНСТАНТЫ ДЛЯ РЕДАКТИРОВАНИЯ КАМПАНИИ ========================
+  PUT_CAMPAIGN_REQUEST,
+  PUT_CAMPAIGN_REQUEST_FAIL,
+  PUT_CAMPAIGN_REQUEST_SUCCESS,
+  MOVE_CAMPAIGN_TO_ADDCAMPAIGN,
+
 } from '../constants/campaign'
 
 const initState = {
-  name: '',
-  desc: '',
-  male: false,
-  price: 0,
+  name: 'Название',
+  desc: 'Короткое описание',
+  male: true,
+  price: 350,
   ageto: 45,
   image: 'https://goo.gl/ONXXyL',
   famale: false,
   approve:32,
   agefrom: 24,
-  category: '',
-  longdesc: '',
+  category: 'здоровье',
+  longdesc: 'длинное описание',
   landings: [{title: 'Гугле', url: 'http://google.com'}],
-  reccomment: '',
-  calltimeto: '',
+  reccomment: 'комментарий рекла',
+  calltimeto: 1476297051000,
   commissions: [{price: 345, country: 'RU'}],
-  calltimefrom: '',
+  calltimefrom: 1476252045000,
   addCampaignRequest: false,
+  putCampaignRequest: false,
 }
 
 export default function(state = initState, action) {
@@ -120,6 +127,16 @@ export default function(state = initState, action) {
       return { ...state, addCampaignRequest: false }
     case NEW_CAMPAIGN_REQUEST_SUCCESS:
       return { ...state, addCampaignRequest: false }
+
+// ============== КОНСТАНТЫ ДЛЯ РЕДАКТИРОВАНИЯ КАМПАНИИ ========================
+    case MOVE_CAMPAIGN_TO_ADDCAMPAIGN:
+      return { ...state, ...action.payload }
+    case PUT_CAMPAIGN_REQUEST:
+      return { ...state, putCampaignRequest: true}
+    case PUT_CAMPAIGN_REQUEST_FAIL:
+      return { ...state, putCampaignRequest: false}
+    case PUT_CAMPAIGN_REQUEST_SUCCESS:
+      return { ...state, putCampaignRequest: false}
 
     default:
       return state

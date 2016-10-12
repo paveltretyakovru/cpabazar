@@ -81,9 +81,28 @@ class EditCampaign extends Component {
       })
   }
 
+  handlePutCampaignRequest() {
+    this.props.campaignActions.putCampaignRequest(this.props.addcampaign)
+  }
+
+  componentWillMount() {
+    if(this.props.params.id) {
+      // Ещем кампанию которую необходимо передать в редактор
+      let campaign = this.props.campaigns.find(element => {
+        return element._id === this.props.params.id
+      })
+
+      // Передаем найденую кампанию в редактор
+      this.props.campaignActions.moveCampaignDataToAddCampaign(campaign)
+    }
+  }
+
   render() {
 
-    console.log('TEEEST', this.props.params.id)
+    // Определяем добавляем ли кампанию или изменяем существующую
+    const change = this.props.params.id ? true : false
+
+    let { addCampaignRequest, putCampaignRequest } = this.props.addcampaign
 
     let {
       wrapperStyle,
@@ -94,33 +113,40 @@ class EditCampaign extends Component {
       {
         title: 'Название',
         name: UPDATE_NAME,
+        value: this.props.addcampaign.name,
       },
       {
         title: 'Краткое описание',
         name: UPDATE_DESC,
         textarea: true,
+        value: this.props.addcampaign.desc,
       },
       {
         title: 'Длинное описание',
         name: UPDATE_LONGDESC,
         textarea: true,
+        value: this.props.addcampaign.longdesc,
       },
       {
         title: 'Комментарий рекла',
         name: UPDATE_RECCOMMENT,
         textarea: true,
+        value: this.props.addcampaign.reccomment,
       },
       {
         title: 'Цена',
         name: UPDATE_PRICE,
+        value: this.props.addcampaign.price,
       },
       {
         title: 'Категории',
         name: UPDATE_CATEGORY,
+        value: this.props.addcampaign.category,
       },
       {
         title: 'Изображение',
         name: UPDATE_IMAGE,
+        value: this.props.addcampaign.image,
       },
     ]
 
@@ -138,17 +164,26 @@ class EditCampaign extends Component {
     ]
 
     let timeFields = [
-      { title: 'Call-центр работает с:', name: UPDATE_CALLTIMEFROM },
-      { title: 'Call-центр работает до:', name: UPDATE_CALLTIMETO },
+      {
+        name: UPDATE_CALLTIMEFROM,
+        title: 'Call-центр работает с:',
+        value: new Date(this.props.addcampaign.calltimefrom),
+      },
+      {
+        name: UPDATE_CALLTIMETO,
+        title: 'Call-центр работает до:',
+        value: new Date(this.props.addcampaign.calltimeto),
+      },
     ]
 
     const fullWidth = 'col-xs-12 col-md-6'
     const shortWidth = 'col-xs-12 col-md-12'
 
     return(
+
       <div>
         {
-          this.props.addcampaign.addCampaignRequest
+          addCampaignRequest || putCampaignRequest
             ? <LinearProgress mode="indeterminate" style={progressStyle} />
             : null
         }
@@ -176,6 +211,7 @@ class EditCampaign extends Component {
                         >
                           <TextField
                             name={field.name}
+                            value={field.value || ''}
                             hintText={field.title}
                             fullWidth={true}
                             multiLine={field.textarea || false}
@@ -232,12 +268,14 @@ class EditCampaign extends Component {
                 <div className="col-xs-12 col-md-6">
                   <Checkbox
                     label="Для мужчин"
+                    checked={this.props.addcampaign.male || false}
                     onCheck={::this.props.campaignActions.updateMale}
                   />
                 </div>
                 <div className="col-xs-12 col-md-6">
                   <Checkbox
                     label="Для женщин"
+                    checked={this.props.addcampaign.famale || false}
                     onCheck={::this.props.campaignActions.updateFemale}
                   />
                 </div>
@@ -263,6 +301,7 @@ class EditCampaign extends Component {
 
                           <TimePicker
                             format="24hr"
+                            value={field.value}
                             hintText="Укажите время"
                             className="col-md-6 col-xs-12"
                             onChange={ (event, value) => {
@@ -318,10 +357,14 @@ class EditCampaign extends Component {
 
             <CardActions>
               <FlatButton
-                label="Добавить"
+                label={ change ? 'Сохранить' : 'Добавить' }
                 primary={true}
-                disabled={this.props.addcampaign.addCampaignRequest}
-                onClick={::this.handleNewCampaignRequest}
+                disabled={addCampaignRequest || putCampaignRequest}
+                onClick={
+                  change
+                    ? ::this.handlePutCampaignRequest
+                    : ::this.handleNewCampaignRequest
+                }
               />
             </CardActions>
           </Card>
@@ -335,6 +378,7 @@ function mapStateToProps (state) {
   return {
     addcampaign: state.addcampaign,
     fetching: state.app.fetching,
+    campaigns: state.app.campaigns,
   }
 }
 
