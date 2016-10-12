@@ -4,6 +4,7 @@ import {
   CLEAR_MESSAGE,
   FETCH_APP_FAIL,
   FETCH_APP_SUCCESS,
+  ADD_CAMPAIGN_TO_COLLECTION,
 } from '../constants/app'
 
 const initState = {
@@ -13,6 +14,7 @@ const initState = {
 }
 
 export default function(state = initState, action) {
+
   switch (action.type) {
     case FETCH_APP:
       return { ...state, fetching: true }
@@ -28,6 +30,11 @@ export default function(state = initState, action) {
 
     case CLEAR_MESSAGE:
       return { ...state, message: false }
+
+    case ADD_CAMPAIGN_TO_COLLECTION:
+      var campaigns = state.campaigns.slice()
+      campaigns.push(action.payload)
+      return { ...state, campaigns: campaigns }
 
     default:
       return state

@@ -74,7 +74,11 @@ class EditCampaign extends Component {
 
   handleNewCampaignRequest() {
     this.props.campaignActions.addCampaign(this.props.addcampaign)
-      .done(res => console.log('Запрос успешно выполнен', res))
+      .done(res => {
+        console.log('Запрос успешно выполнен', res)
+        this.props.appActions.addCampaignToCollection(res)
+        this.props.appActions.routeToIndex()
+      })
       .fail(res => {
         let errMess = `Ошибка! ${res.responseJSON.message}`
         return this.props.appActions.setMessage(errMess)
@@ -83,6 +87,14 @@ class EditCampaign extends Component {
 
   handlePutCampaignRequest() {
     this.props.campaignActions.putCampaignRequest(this.props.addcampaign)
+    .done(res => {
+      console.log('Запрос успешно выполнен', res)
+      return this.props.appActions.setMessage('Сохранено')
+    })
+    .fail(res => {
+      let errMess = `Ошибка! ${res.responseJSON.message}`
+      return this.props.appActions.setMessage(errMess)
+    })
   }
 
   componentWillMount() {

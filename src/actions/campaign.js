@@ -35,7 +35,7 @@ import {
   PUT_CAMPAIGN_REQUEST_SUCCESS,
   MOVE_CAMPAIGN_TO_ADDCAMPAIGN,
 
-} from '../constants/campaign';
+} from '../constants/campaign'
 
 export function switchDialog() {
   return {

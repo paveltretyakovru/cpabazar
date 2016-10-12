@@ -7,6 +7,7 @@ import {
   FETCH_APP_FAIL,
   FETCH_APP_SUCCESS,
   SEND_LOGIN_REQUEST,
+  ADD_CAMPAIGN_TO_COLLECTION,
 } from '../constants/app'
 import {post} from 'jquery'
 import fetch from 'isomorphic-fetch'
@@ -51,6 +52,11 @@ export function fetchPage() {
 }
 
 // -----------------------------------------------------------------------------
+export function routeToIndex() {
+  return dispatch => dispatch(push('/'))
+}
+
+// -----------------------------------------------------------------------------
 export function routeToLogin() {
   return dispatch => dispatch(push('/login'))
 }
@@ -90,4 +96,8 @@ export function setMessage(message) {
 // -----------------------------------------------------------------------------
 export function clearMessage() {
   return { type: CLEAR_MESSAGE }
+}
+
+export function addCampaignToCollection(res) {
+  return { type: ADD_CAMPAIGN_TO_COLLECTION, payload: res.campaign }
 }

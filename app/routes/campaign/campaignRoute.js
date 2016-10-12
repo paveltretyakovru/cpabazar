@@ -54,7 +54,11 @@ router.post('/', (req, res) => {
       .then(
         () => {
           let message = 'Кампания успешно добавлена'
-          return res.json({success: true, message: message})
+          return res.json({
+            success: true,
+            message: message,
+            campaign: campaign.toObject()
+          })
         },
         errorDump => {
           res.status(422)
