@@ -77,7 +77,7 @@ class EditCampaign extends Component {
       .done(res => {
         console.log('Запрос успешно выполнен', res)
         this.props.appActions.addCampaignToCollection(res)
-        this.props.appActions.routeToIndex()
+        this.props.appActions.routeTo
       })
       .fail(res => {
         let errMess = `Ошибка! ${res.responseJSON.message}`

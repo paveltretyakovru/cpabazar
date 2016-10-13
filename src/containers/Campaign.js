@@ -78,6 +78,12 @@ class Campaign extends Component {
       calltimefrom,
     } = this.props.data
 
+    let dateTo = new Date(calltimeto)
+    let dateFrom = new Date(calltimefrom)
+
+    let timeTo = `${dateTo.getHours()}:${dateTo.getMinutes()}`
+    let timeFrom = `${dateFrom.getHours()}:${dateFrom.getMinutes()}`
+
     const MaleChip = <Chip style={chipStyle}>
       <Avatar icon={<GenderMaleIcon />} />
       M
@@ -141,7 +147,7 @@ class Campaign extends Component {
 
                       <Chip style={chipStyle}>
                         <Avatar icon={<PhoneClassicIcon />} />
-                        {`${calltimefrom} - ${calltimeto}`}
+                        {`${timeFrom} - ${timeTo}`}
                       </Chip>
 
                       <Chip style={chipStyle}>
