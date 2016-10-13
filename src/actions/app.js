@@ -8,6 +8,12 @@ import {
   FETCH_APP_SUCCESS,
   SEND_LOGIN_REQUEST,
   ADD_CAMPAIGN_TO_COLLECTION,
+
+// ================= PROFFERS ==================================================
+  PROFFERS_FETCH_REQUEST,
+  PROFFERS_FETCH_REQUEST_URL,
+  PROFFERS_FETCH_REQUEST_FAIL,
+  PROFFERS_FETCH_REQUEST_SUCCESS,
 } from '../constants/app'
 import {post} from 'jquery'
 import fetch from 'isomorphic-fetch'
@@ -52,29 +58,77 @@ export function fetchPage() {
 }
 
 // -----------------------------------------------------------------------------
+/**
+ * Переход на главную страницу
+ * @return {Object} в любом случае возвращает диспатч
+ */
 export function routeToIndex() {
   return dispatch => dispatch(push('/'))
 }
 
 // -----------------------------------------------------------------------------
+/**
+ * Переход на страницу аутентификации
+ * @return {Object} в любом случае возвращает диспатч
+ */
 export function routeToLogin() {
   return dispatch => dispatch(push('/login'))
 }
 
 // -----------------------------------------------------------------------------
+/**
+ * Переход на страницу с добавлени якампании
+ * @return {Object} в любом случае возвращает диспатч
+ */
 export function routeToAddCampaign() {
   console.log('Action route to add campaign');
   return dispatch => dispatch(push('/addCampaign'))
 }
 
 // -----------------------------------------------------------------------------
+/**
+ * Переход на страницу с редактирования кампании
+ * @return {Object} в любом случае возвращает диспатч
+ */
 export function routeToEditCampaign(id) {
   return dispatch => dispatch(push(`/editCampaign/${id}`))
 }
 
 // -----------------------------------------------------------------------------
+/**
+ * Переход на страницу с предложениями
+ * @return {Object} в любом случае возвращает диспатч
+ */
 export function routeToProffersList() {
   return dispatch => dispatch(push('/proffers'))
+}
+
+// -----------------------------------------------------------------------------
+/**
+ * Загрузка предложений с сервера
+ * @return {Object} в любом случае возвращает диспатч
+ */
+export function fetchProffers() {
+  return dispatch => {
+    dispatch({type: PROFFERS_FETCH_REQUEST})
+
+    console.log('FEEEEEEEEEETCHING!!!!');
+
+    return new Promise(function(resolve, reject) {
+      fetch(PROFFERS_FETCH_REQUEST_URL, {credentials: 'include'})
+        .then((res) => {
+          if(res.status >= 400) {
+            dispatch({ type: PROFFERS_FETCH_REQUEST_FAIL, payload: res})
+            return reject(res)
+          }
+          return res.json()
+        })
+        .then((res) => {
+          dispatch({type: PROFFERS_FETCH_REQUEST_SUCCESS, payload: res})
+          return resolve(res)
+        })
+    })
+  }
 }
 
 

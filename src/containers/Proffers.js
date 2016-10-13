@@ -1,5 +1,10 @@
-import React, {Component} from 'react'
+import * as appActions from '../actions/app'
 
+import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import { bindActionCreators } from 'redux'
+
+// Buttons
 import FlatButton from 'material-ui/FlatButton'
 import DeleteSVG from 'material-ui/svg-icons/action/delete'
 
@@ -13,7 +18,13 @@ import {
 } from 'material-ui/Table';
 
 class Proffers extends Component {
+
+  componentDidMount() {
+    this.props.appActions.fetchProffers()
+  }
+
   render() {
+    const iconDelete = <FlatButton secondary={true} icon={<DeleteSVG />} />
     const tableHeaders = [
       'ID',
       'Кампания',
@@ -25,50 +36,25 @@ class Proffers extends Component {
       'Действие',
     ]
 
-    const tableData = [
-      {id: 1, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 2, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 3, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 4, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 5, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 6, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 7, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 8, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 9, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 10, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 11, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 12, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 13, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 14, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 15, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 16, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 17, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-      {id: 18, name: 'water',email: 'water',skype: 'water',message: 'water',campaign: 'water',proffercommission: 350},
-    ]
-
-    const iconDelete = <FlatButton
-      secondary={true}
-      icon={<DeleteSVG />}
-      // onTouchTap={}
-    />
+    const tableProps = {fixedHeader: true, height: 300}
+    const tableBodyProps = {showRowHover:true, displayRowCheckbox:false}
+    const tableHeaderProps = {adjustForCheckbox: false, displaySelectAll: false}
 
     return(<div className="row fadeInRight"><div className="col-xs-12">
-      <Table fixedHeader={true} height={300}>
-        <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-          <TableRow displayRowCheckbox={false}>
-            {tableHeaders.map((el, index) => {
-              return(
-                <TableHeaderColumn key={index} style={{paddingTop:40}}>
-                  {el}
-                </TableHeaderColumn>
-              )
-            })}
+      <Table {...tableProps}>
+        <TableHeader {...tableHeaderProps}>
+          <TableRow>
+            {tableHeaders.map((el, index) => {return(
+              <TableHeaderColumn key={index} >
+                {el}
+              </TableHeaderColumn>
+            )})}
           </TableRow>
         </TableHeader>
-        <TableBody showRowHover={true} displayRowCheckbox={false}>
-          {tableData.map(el => {
-            return(<TableRow key={el.id}>
-              <TableRowColumn>{el.id}</TableRowColumn>
+        <TableBody {...tableBodyProps}>
+          {this.props.proffers.map(el => {return(
+            <TableRow key={el.id}>
+              <TableRowColumn>{el._id}</TableRowColumn>
               <TableRowColumn>{el.campaign}</TableRowColumn>
               <TableRowColumn>{el.name}</TableRowColumn>
               <TableRowColumn>{el.email}</TableRowColumn>
@@ -76,12 +62,20 @@ class Proffers extends Component {
               <TableRowColumn>{el.message}</TableRowColumn>
               <TableRowColumn>{el.proffercommission}</TableRowColumn>
               <TableRowColumn>{iconDelete}</TableRowColumn>
-            </TableRow>)
-          })}
+            </TableRow>
+          )})}
         </TableBody>
       </Table>
     </div></div>)
   }
 }
 
-export default Proffers
+const mapStateToProps = state => {return {
+  proffers: state.app.proffers,
+}}
+
+const mapDispatchToProps = dispatch => {return {
+  appActions: bindActionCreators(appActions, dispatch),
+}}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Proffers)

@@ -5,6 +5,11 @@ import {
   FETCH_APP_FAIL,
   FETCH_APP_SUCCESS,
   ADD_CAMPAIGN_TO_COLLECTION,
+
+// ================= PROFFERS ==================================================
+  PROFFERS_FETCH_REQUEST,
+  PROFFERS_FETCH_REQUEST_FAIL,
+  PROFFERS_FETCH_REQUEST_SUCCESS,
 } from '../constants/app'
 
 const initState = {
@@ -12,6 +17,7 @@ const initState = {
   proffers: [],
   fetching: false,
   message: false,
+  proffersRequest:false,
 }
 
 export default function(state = initState, action) {
@@ -36,6 +42,14 @@ export default function(state = initState, action) {
       var campaigns = state.campaigns.slice()
       campaigns.push(action.payload)
       return { ...state, campaigns: campaigns }
+
+// ================= PROFFERS ==================================================
+    case PROFFERS_FETCH_REQUEST:
+      return {...state, proffersRequest: true}
+    case PROFFERS_FETCH_REQUEST_FAIL:
+      return {...state, proffersRequest: true}
+    case PROFFERS_FETCH_REQUEST_SUCCESS:
+      return {...state, proffers: action.payload, proffersRequest: true}
 
     default:
       return state

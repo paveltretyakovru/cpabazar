@@ -7,3 +7,9 @@ export const FETCH_APP_FAIL = 'FETCH_APP_FAIL'
 export const FETCH_APP_SUCCESS = 'FETCH_APP_SUCCESS'
 export const SEND_LOGIN_REQUEST = 'SEND_LOGIN_REQUEST'
 export const ADD_CAMPAIGN_TO_COLLECTION = 'ADD_CAMPAIGN_TO_COLLECTION'
+
+// =================== КОНСТАНТЫ ДЛЯ ПРЕДЛОЖЕНИЙ ===============================
+export const PROFFERS_FETCH_REQUEST = 'PROFFERS_FETCH_REQUEST'
+export const PROFFERS_FETCH_REQUEST_URL = '/proffers'
+export const PROFFERS_FETCH_REQUEST_FAIL = 'PROFFERS_FETCH_REQUEST_FAIL'
+export const PROFFERS_FETCH_REQUEST_SUCCESS = 'PROFFERS_FETCH_REQUEST_SUCCESS'
