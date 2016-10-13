@@ -10,10 +10,12 @@ import {
   ADD_CAMPAIGN_TO_COLLECTION,
 
 // ================= PROFFERS ==================================================
+  DELETE_PROFFER,
   PROFFERS_FETCH_REQUEST,
   PROFFERS_FETCH_REQUEST_URL,
   PROFFERS_FETCH_REQUEST_FAIL,
   PROFFERS_FETCH_REQUEST_SUCCESS,
+
 } from '../constants/app'
 import {post} from 'jquery'
 import fetch from 'isomorphic-fetch'
@@ -169,4 +171,8 @@ export function clearMessage() {
 
 export function addCampaignToCollection(res) {
   return { type: ADD_CAMPAIGN_TO_COLLECTION, payload: res.campaign }
+}
+
+export function deleteProffer(id) {
+  return { type: DELETE_PROFFER, payload: id }
 }

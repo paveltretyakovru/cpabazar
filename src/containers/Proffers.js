@@ -6,10 +6,6 @@ import { bindActionCreators } from 'redux'
 // React
 import React, {Component} from 'react'
 
-// Buttons
-import FlatButton from 'material-ui/FlatButton'
-import DeleteSVG from 'material-ui/svg-icons/action/delete'
-
 // Table
 import {
   Table,
@@ -35,8 +31,8 @@ class Proffers extends Component {
 
   render() {
     let id = this.props.params.id || false
+    let proffers = this.props.proffers
 
-    const iconDelete = <FlatButton secondary={true} icon={<DeleteSVG />} />
     const tableHeaders = [
       'ID',
       'Кампания',
@@ -45,13 +41,14 @@ class Proffers extends Component {
       'Skype',
       'Сообщение',
       'Предложение',
-      'Действие',
     ]
 
+    // =============================== ПАРАМЕТРЫ КОМПОНЕНТОВ ===================
     const tableProps = {fixedHeader: true, height: 300}
     const tableBodyProps = {showRowHover:true, displayRowCheckbox:false}
     const tableHeaderProps = {adjustForCheckbox: false, displaySelectAll: false}
 
+    // =============================== ТАБЛИЦА С ДАННЫМИ =======================
     const DataTable = <Table className="fadeInRight" {...tableProps}>
       <TableHeader {...tableHeaderProps}>
         <TableRow>
@@ -63,7 +60,7 @@ class Proffers extends Component {
         </TableRow>
       </TableHeader>
       <TableBody {...tableBodyProps}>
-        {this.props.proffers.map(el => {return(
+        {proffers.map(el => {return(
           <TableRow key={el.id} onTouchTap={()=> this.handleTouchRow(el._id)}>
             <TableRowColumn>{el._id}</TableRowColumn>
             <TableRowColumn>{el.campaign}</TableRowColumn>
@@ -72,24 +69,19 @@ class Proffers extends Component {
             <TableRowColumn>{el.skype}</TableRowColumn>
             <TableRowColumn>{el.message}</TableRowColumn>
             <TableRowColumn>{el.proffercommission}</TableRowColumn>
-            <TableRowColumn>{iconDelete}</TableRowColumn>
           </TableRow>
         )})}
       </TableBody>
     </Table>
 
-    console.log('IDDDDDDD', id);
-
+    // ============================== ИТОГОВЫЙ РЕЗУЛЬТАТ РЕНДЕРА ===============
     return(<div className="row"><div className="col-xs-12">
       {
         (!id)
           ? DataTable
           : <Proffer
-            proffer={
-              this.props.proffers.find(el => {
-                return el._id === id
-              })
-            }
+            proffer={proffers.find(el => {return el._id === id})}
+            deleteAction={this.props.appActions.deleteProffer}
           />
       }
     </div></div>)
