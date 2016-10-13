@@ -73,6 +73,12 @@ export function routeToEditCampaign(id) {
 }
 
 // -----------------------------------------------------------------------------
+export function routeToProffersList() {
+  return dispatch => dispatch(push('/proffers'))
+}
+
+
+// -----------------------------------------------------------------------------
 export function sendLogin(login, password) {
   console.log(LOGIN_URL, SEND_LOGIN_REQUEST)
   return dispatch => {

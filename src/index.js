@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { configureStore } from './configureStore'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Router, Route, hashHistory, IndexRoute } from 'react-router'
-import { App, Campaigns, LoginPage, EditCampaign } from './containers'
+import { App, Campaigns, LoginPage, EditCampaign, Proffers } from './containers'
 
 const Store = configureStore()
 
@@ -23,9 +23,10 @@ ReactDOM.render(
             return(
               <div>
                 <IndexRoute component={Campaigns} />
-                <Route path="campaigns/:id" component={Campaigns} />
                 <Route path="/login" component={LoginPage} />
+                <Route path="/proffers" component={Proffers} />
                 <Route path="/addCampaign" component={EditCampaign} />
+                <Route path="campaigns/:id" component={Campaigns} />
                 <Route path="/editCampaign/:id" component={EditCampaign} />
               </div>
             )

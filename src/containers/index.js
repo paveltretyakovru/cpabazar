@@ -1,4 +1,5 @@
 export App from './App'
+export Proffers from './Proffers'
 export Campaign from './Campaign'
 export Campaigns from './Campaigns'
 export LoginPage from './LoginPage'

@@ -14,6 +14,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import FlatButton from 'material-ui/FlatButton'
 import ActionInput from 'material-ui/svg-icons/action/input'
 import NavigationClose from 'material-ui/svg-icons/navigation/close'
+import LocalGasStation from 'material-ui/svg-icons/maps/local-gas-station'
+import {fullWhite} from 'material-ui/styles/colors'
 
 // Import CSS
 import '../styles/app.css';
@@ -33,6 +35,9 @@ class App extends Component {
         textDecoration: 'none',
         color: '#fff',
       },
+      menuRightIconStyle: {
+        marginTop: 8,
+      },
     }
   }
 
@@ -50,7 +55,7 @@ class App extends Component {
   render() {
     let { message } = this.props.app
     let { auth } = this.props.user
-    let { menuTitleStyle } = this.getStyles()
+    let { menuTitleStyle, menuRightIconStyle } = this.getStyles()
     let { routeToLogin, clearMessage } = this.props.appActions
 
     const iconLogin = <FlatButton
@@ -59,8 +64,14 @@ class App extends Component {
     />
 
     const iconClose = <FlatButton
-      icon={<NavigationClose />}
+      style={menuRightIconStyle}
+      icon={<NavigationClose color={fullWhite}  />}
       onTouchTap={::this.handleSendLogout}
+    />
+
+    const iconProfferList = <FlatButton
+      icon={<LocalGasStation color={fullWhite}/>}
+      onTouchTap={::this.props.appActions.routeToProffersList}
     />
 
     return(
@@ -69,9 +80,11 @@ class App extends Component {
           <div className="row">
             <div className="col-xs-12">
               <AppBar
-                title={<Link style={menuTitleStyle} to="/">Megalead</Link>}
+                title={<Link style={menuTitleStyle} to="/">Bazar</Link>}
                 showMenuIconButton={false}
-                iconElementRight={ auth ? iconClose : iconLogin }
+                iconElementRight={
+                  auth ? <div>{iconProfferList}{iconClose}</div> : iconLogin
+                }
               />
             </div>
           </div>

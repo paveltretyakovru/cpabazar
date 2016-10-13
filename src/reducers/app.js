@@ -9,6 +9,7 @@ import {
 
 const initState = {
   campaigns: [],
+  proffers: [],
   fetching: false,
   message: false,
 }

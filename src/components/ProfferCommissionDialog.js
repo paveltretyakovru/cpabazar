@@ -209,7 +209,7 @@ class ProfferCommissionForm extends Component {
               />
             </div>)
           } else {
-            return(<div className="fadeInRight">
+            return(<div className="fadeInRight" style={{marginTop: 24}}>
               <div>
                 <p>
                   Спасибо за Ваше предложение! В ближайшее время мы
