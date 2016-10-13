@@ -1,42 +1,35 @@
 'use strict';
 const express = require('express')
 const router = express.Router()
-const CommissionProffers = require('../../CommissionProffers')
-const RequestPromise = require('request-promise');
+const postProfferLocal = require('./postProfferLocal')
+const postProfferRemote = require('./postProfferRemote')
 
-const fetchInterestingUrl = 'http://megalead.ru/api/campaigns/get-interesting'
-
-function addslashes( str ) {
-    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0')
-}
+const postProfferType = 'local'
 
 /* GET home page. */
 router.post('/', (req, res) => {
-  console.log('post page', req.session);
-  console.log('Cookies: --->>>>', req.cookies);
+  
+  switch (postProfferType) {
+    
+    // Если предложения нужно сохранять в локльной mongodb
+    case 'local':
+      return postProfferLocal(req, res)
+      break
 
-  let data = {
-    name: req.body.name,
-    email: req.body.email,
-    skype: req.body.skype,
-    message: req.body.message,
-    campaign: req.body.campaign,
-    proffercommission: req.body.proffercommission,
-  }
-
-  for (var prop in data) {
-    addslashes(data[prop])
-  }
-
-  new CommissionProffers(data)
-    .save()
-    .then(model => {
-      RequestPromise(fetchInterestingUrl).then(result => {
-        console.log('Result', result);
-        const interesting = JSON.parse(result)
-        res.json({interesting, model})
+    // Если предложения нужно отправлять на удаленный сервер megalead
+    case 'remote':
+      return postProfferType(req, res)
+      break
+    
+    default:
+      res.status(422)
+      res.json({
+        success: false,
+        message: 'Произошла ошибка. Пожалуйста, попробуйте позже'
       })
-    })
+      break
+  }
+
 })
 
 module.exports = router

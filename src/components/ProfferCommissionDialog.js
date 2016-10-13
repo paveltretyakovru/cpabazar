@@ -5,9 +5,7 @@ import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import LinearProgress from 'material-ui/LinearProgress'
 import { blue500, red300 } from 'material-ui/styles/colors'
-import {GridList, GridTile} from 'material-ui/GridList'
 import React, { Component, PropTypes } from 'react'
-import _ from 'lodash'
 
 const defaultProps = {
   fullWidth: true,
@@ -186,91 +184,40 @@ class ProfferCommissionForm extends Component {
           if(!this.state.successSendProfferData) {
             return(<div>
               <span className="text-caption" style={{color: red300}}>
-              Все поля обязательны
+                Все поля обязательны
               </span>
 
               {textFields}
 
               <p style={yourProfferTextStyle}>
-              Ваше предложение: {' '}
-              <span style={proffercommissionWrapperStyle}>
-              {this.state.proffercommission} <del>P</del>
-              </span>
+                Ваше предложение: {' '}
+                <span style={proffercommissionWrapperStyle}>
+                  {this.state.proffercommission} <del>P</del>
+                </span>
               </p>
 
               <span className="text-caption">
-              Передвигайте ползунок слайдера для изменения суммы
+                Передвигайте ползунок слайдера для изменения суммы
               </span>
 
               <Slider
-              min={0}
-              max={1750}
-              step={5}
-              value={this.state.proffercommission}
-              onChange={::this.handleChangeSlider}
+                min={0}
+                max={1750}
+                step={5}
+                value={this.state.proffercommission}
+                onChange={::this.handleChangeSlider}
               />
             </div>)
           } else {
             return(<div className="fadeInRight">
               <div>
-                <p>Спасибо за Ваше предложение! В ближайшее время мы
-                с Вами свяжемся.</p> <br />
-                <p>С уважинем, команда Megalead</p> <br />
-              </div>
-              <div>
-                <span className="text-title">Вас так же может заинтересовать:</span>
-
-                <GridList
-                  className="fadeInRight"
-                  cols={3}
-                >
-                  {
-                    (
-                      () => {
-                        // Вычленяем популярные и последние кампании
-                        let last = this.state.interesting.campaigns.last;
-                        let popular = this.state.interesting.campaigns.popular;
-
-                        // Исключаем возможность повтора
-                        let interestingCampaigns = (_.find(last, {id: popular.id}))
-                          ? last
-                          : _.concat(last, [popular])
-
-                        return interestingCampaigns.map(campaign => {
-                          let link = `/campaigns/${campaign.id}`
-                          let dataCampaign = _.find(
-                            this.props.campaigns,
-                            {id: campaign.id}
-                          )
-
-                          return (
-                            <GridTile
-                              key={campaign.id}
-                              title={campaign.name}
-                              subtitle={<span>
-                                {campaign.commission} <del>P</del>
-                                {' '} Approve: {dataCampaign.approve}%
-                              </span>}
-                              titlePosition="bottom"
-                            >
-                              <img
-                                src={campaign.image}
-                                style={{cursor: 'pointer'}}
-                                onClick={() => {
-
-                                  this.setState(initState)
-
-                                  this.props.routeToCampaign(link)
-                                  this.props.switchDialog()
-                                }}
-                              />
-                            </GridTile>
-                          )
-                        })
-                      }
-                    )()
-                  }
-                </GridList>
+                <p>
+                  Спасибо за Ваше предложение! В ближайшее время мы
+                  с Вами свяжемся
+                </p>
+                <br />
+                <p>С уважинем, команда Megalead</p>
+                <br />
               </div>
             </div>)
           }
