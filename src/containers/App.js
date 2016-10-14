@@ -13,7 +13,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 
 import FlatButton from 'material-ui/FlatButton'
 import ActionInput from 'material-ui/svg-icons/action/input'
-import NavigationClose from 'material-ui/svg-icons/navigation/close'
+import NavigationClose from 'material-ui/svg-icons/action/exit-to-app'
 import LocalGasStation from 'material-ui/svg-icons/maps/local-gas-station'
 import {fullWhite} from 'material-ui/styles/colors'
 

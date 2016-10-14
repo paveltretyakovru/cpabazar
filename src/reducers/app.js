@@ -10,6 +10,11 @@ import {
   PROFFERS_FETCH_REQUEST,
   PROFFERS_FETCH_REQUEST_FAIL,
   PROFFERS_FETCH_REQUEST_SUCCESS,
+
+// ================= PRFFER ====================================================
+  DELETE_PROFFER_REQUEST,
+  DELETE_PROFFER_REQUEST_FAIL,
+  DELETE_PROFFER_REQUEST_SUCCESS,
 } from '../constants/app'
 
 const initState = {
@@ -18,6 +23,7 @@ const initState = {
   fetching: false,
   message: false,
   proffersRequest:false,
+  profferDeleteRequest: false,
 }
 
 export default function(state = initState, action) {
@@ -47,9 +53,24 @@ export default function(state = initState, action) {
     case PROFFERS_FETCH_REQUEST:
       return {...state, proffersRequest: true}
     case PROFFERS_FETCH_REQUEST_FAIL:
-      return {...state, proffersRequest: true}
+      return {...state, proffersRequest: false}
     case PROFFERS_FETCH_REQUEST_SUCCESS:
-      return {...state, proffers: action.payload, proffersRequest: true}
+      return {...state, proffers: action.payload, proffersRequest: false}
+
+// ================== PROFFER ==================================================
+    case DELETE_PROFFER_REQUEST:
+      return {...state, profferDeleteRequest: true}
+    case DELETE_PROFFER_REQUEST_FAIL:
+      return {...state, profferDeleteRequest: false}
+    case DELETE_PROFFER_REQUEST_SUCCESS:
+      var proffers = state.proffers.slice()
+      for (var i = 0; i < proffers.length; i++) {
+        if(proffers[i]._id === action.payload) {
+          proffers.splice(i, 1)
+          break
+        }
+      }
+      return {...state, profferDeleteRequest: false, proffers: proffers}
 
     default:
       return state

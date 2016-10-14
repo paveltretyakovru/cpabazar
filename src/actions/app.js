@@ -10,14 +10,19 @@ import {
   ADD_CAMPAIGN_TO_COLLECTION,
 
 // ================= PROFFERS ==================================================
-  DELETE_PROFFER,
   PROFFERS_FETCH_REQUEST,
   PROFFERS_FETCH_REQUEST_URL,
   PROFFERS_FETCH_REQUEST_FAIL,
   PROFFERS_FETCH_REQUEST_SUCCESS,
 
+// ================= PROFFER ==================================================
+  DELETE_PROFFER_REQUEST,
+  DELETE_PROFFER_REQUEST_URL,
+  DELETE_PROFFER_REQUEST_FAIL,
+  DELETE_PROFFER_REQUEST_SUCCESS,
+
 } from '../constants/app'
-import {post} from 'jquery'
+import {post, ajax} from 'jquery'
 import fetch from 'isomorphic-fetch'
 import {push} from 'react-router-redux'
 
@@ -114,7 +119,6 @@ export function routeToProffer(id) {
   return dispatch => dispatch(push(`/proffers/${id}`))
 }
 
-// -----------------------------------------------------------------------------
 /**
  * Загрузка предложений с сервера
  * @return {Object} в любом случае возвращает диспатч
@@ -122,8 +126,6 @@ export function routeToProffer(id) {
 export function fetchProffers() {
   return dispatch => {
     dispatch({type: PROFFERS_FETCH_REQUEST})
-
-    console.log('FEEEEEEEEEETCHING!!!!');
 
     return new Promise(function(resolve, reject) {
       fetch(PROFFERS_FETCH_REQUEST_URL, {credentials: 'include'})
@@ -141,9 +143,15 @@ export function fetchProffers() {
     })
   }
 }
-
-
 // -----------------------------------------------------------------------------
+
+
+/**
+ * Отправка запроса на авторизацию
+ * @param  {String} login    логин
+ * @param  {String} password пароль
+ * @return {Promise}          обещание с запросом
+ */
 export function sendLogin(login, password) {
   console.log(LOGIN_URL, SEND_LOGIN_REQUEST)
   return dispatch => {
@@ -155,6 +163,7 @@ export function sendLogin(login, password) {
       })
   }
 }
+// -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
 export function setMessage(message) {
@@ -169,10 +178,39 @@ export function clearMessage() {
   return { type: CLEAR_MESSAGE }
 }
 
+/**
+ * Добавить кампанию в коллекцию с кампаниями
+ * @param {Object} res результат запроса с кампанией
+ */
 export function addCampaignToCollection(res) {
-  return { type: ADD_CAMPAIGN_TO_COLLECTION, payload: res.campaign }
+  let campaign = res.campaign || {}
+  return { type: ADD_CAMPAIGN_TO_COLLECTION, payload: campaign }
 }
 
+// ################################ PROFFER ####################################
+/**
+ * Запрос на удаление предложения
+ * @param  {[type]} id [description]
+ * @return {[type]}    [description]
+ */
 export function deleteProffer(id) {
-  return { type: DELETE_PROFFER, payload: id }
+  return dispatch => {
+    dispatch({type: DELETE_PROFFER_REQUEST})
+
+    return ajax({url: DELETE_PROFFER_REQUEST_URL, type:'DELETE', data:{id: id}})
+      .done(res => {
+        console.log('DELTEE REQUEST COMPLETE', res)
+        dispatch({type: DELETE_PROFFER_REQUEST_SUCCESS, payload: id})
+        dispatch({type: SET_MESSAGE, payload: res.message})
+        dispatch(push('/proffers'))
+      })
+      .fail(res => {
+        console.error('DELETE REQUEST FAILES', res)
+        dispatch({type: DELETE_PROFFER_REQUEST_FAIL, payload: res})
+        dispatch({
+          type: SET_MESSAGE,
+          payload: res.message || 'Произошла ошибка во время удаления',
+        })
+      })
+  }
 }

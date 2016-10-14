@@ -4,11 +4,42 @@ const Proffer = require('../../Proffer')
 const errorAction = require('../../modules/helpers/errorAction')
 
 router.get('/', (req, res) => {
-  console.log('PROOOFERS!!!!')
-  let result = Proffer.find().lean().exec((err, proffers) => {
-    console.log('FETCH PROFFERS', proffers)
-    res.json(proffers)
+  Proffer.find().lean().exec((err, proffers) => {
+    return res.json(proffers)
   })
+})
+
+router.delete('/', (req, res) => {
+  const id = req.body.id || false
+
+  if(id) {
+    let proffer = Proffer.findById(id)
+    proffer.remove(error => {
+      errorAction(error)
+        .then(
+          () => {
+            return res.json({
+              success: true,
+              message: `Предложение успешно удалено ${id}`
+            })
+          },
+
+          (errorDump) => {
+            res.status(422)
+            return res.json({
+              success: false,
+              message: errorDump,
+            })
+          }
+        )
+    })
+  } else {
+    res.status(422)
+    return res.json({
+      success: false,
+      message: 'Не передан идентификатор предложения',
+    })
+  }
 })
 
 module.exports = router

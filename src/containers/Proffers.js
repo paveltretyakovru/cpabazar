@@ -2,6 +2,7 @@
 import * as appActions from '../actions/app'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import LinearProgress from 'material-ui/LinearProgress'
 
 // React
 import React, {Component} from 'react'
@@ -29,9 +30,17 @@ class Proffers extends Component {
     this.props.appActions.routeToProffer(id)
   }
 
+  getStyles() {return {
+    progressStyle: {
+      borderRadius: 0,
+    },
+  }}
+
   render() {
     let id = this.props.params.id || false
     let proffers = this.props.proffers
+    let proffer = proffers.find(el => {return el._id === id}) || false
+    let {progressStyle} = this.getStyles()
 
     const tableHeaders = [
       'ID',
@@ -44,7 +53,7 @@ class Proffers extends Component {
     ]
 
     // =============================== ПАРАМЕТРЫ КОМПОНЕНТОВ ===================
-    const tableProps = {fixedHeader: true, height: 300}
+    const tableProps = {fixedHeader: true, height: 500}
     const tableBodyProps = {showRowHover:true, displayRowCheckbox:false}
     const tableHeaderProps = {adjustForCheckbox: false, displaySelectAll: false}
 
@@ -77,10 +86,17 @@ class Proffers extends Component {
     // ============================== ИТОГОВЫЙ РЕЗУЛЬТАТ РЕНДЕРА ===============
     return(<div className="row"><div className="col-xs-12">
       {
+        this.props.proffersRequest || this.props.profferDeleteRequest
+          ? <LinearProgress style={progressStyle} />
+          : null
+      }
+      {
         (!id)
+          // Если нет id отрисовываем таблицу со всеми предложеинями
           ? DataTable
+          // Иначе отрисовываем старинцу с одним предложением
           : <Proffer
-            proffer={proffers.find(el => {return el._id === id})}
+            proffer={proffer}
             deleteAction={this.props.appActions.deleteProffer}
           />
       }
@@ -90,6 +106,8 @@ class Proffers extends Component {
 
 const mapStateToProps = state => {return {
   proffers: state.app.proffers,
+  proffersRequest: state.app.proffersRequest,
+  profferDeleteRequest: state.app.profferDeleteRequest,
 }}
 
 const mapDispatchToProps = dispatch => {return {
