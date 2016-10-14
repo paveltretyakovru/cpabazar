@@ -38,7 +38,8 @@ class Proffers extends Component {
 
   render() {
     let id = this.props.params.id || false
-    let proffers = this.props.proffers
+    let proffers = this.props.proffers.reverse()
+
     let proffer = proffers.find(el => {return el._id === id}) || false
     let {progressStyle} = this.getStyles()
 

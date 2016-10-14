@@ -8,6 +8,10 @@ import { routerMiddleware, routerReducer } from 'react-router-redux'
 const router = routerMiddleware(hashHistory)
 const logger = createLogger()
 
+let middlewares = (NODE_ENV === 'production') 
+  ? applyMiddleware(logger, thunk, router)
+  : applyMiddleware(thunk, router)
+
 export function configureStore() {
 
   // Add the reducer to your store on the `routing` key
@@ -16,7 +20,7 @@ export function configureStore() {
       ...reducers,
       routing: routerReducer,
     }),
-    applyMiddleware(logger, thunk, router)
+    middlewares
   )
 
   if	(module.hot)	{

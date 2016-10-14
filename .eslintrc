@@ -23,6 +23,7 @@
     "comma-dangle": [2, "always-multiline"],
   },
   "globals": {
-      "Promise": true
+      "Promise": true,
+      "NODE_ENV": true,
   }
 }
