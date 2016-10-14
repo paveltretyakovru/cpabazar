@@ -120,7 +120,11 @@ class Campaign extends Component {
                 <CardTitle
                   title={
                     <div style={chipWrapperStyle}>
-                      { EditCampaignButton }
+                      {
+                        this.props.user.auth
+                          ? EditCampaignButton
+                          : null
+                      }
                       {price}
                       {' '}
                       <del style={titlePStyle}>P</del>

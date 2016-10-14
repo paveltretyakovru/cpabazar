@@ -79,7 +79,10 @@ export function routeToIndex() {
  * @return {Object} в любом случае возвращает диспатч
  */
 export function routeToLogin() {
-  return dispatch => dispatch(push('/login'))
+  return (dispatch, getState) => {
+    console.log('Route login', getState());
+    dispatch(push('/login'))
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -130,6 +133,9 @@ export function fetchProffers() {
     return new Promise(function(resolve, reject) {
       fetch(PROFFERS_FETCH_REQUEST_URL, {credentials: 'include'})
         .then((res) => {
+          if(res.status === 302) {
+            dispatch(push('/'))
+          }
           if(res.status >= 400) {
             dispatch({ type: PROFFERS_FETCH_REQUEST_FAIL, payload: res})
             return reject(res)

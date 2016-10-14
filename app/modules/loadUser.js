@@ -1,17 +1,19 @@
-const User = require('../../User')
+const User = require('../User')
 
 function loadUser(req, res, next) {
   if (req.session.user_id) {
-    User.findById(req.session.user_id, user => {
-      if (user) {
-        req.currentUser = user
+    User.findById(req.session.user_id, error => {
+      if (!error) {
+        req.currentUser = User
         next()
       } else {
-        res.redirect('/')
+        res.status(302)
+        res.json({success: false, message: 'Недостаточно привелегий'})
       }
     })
   } else {
-    res.redirect('/')
+    res.status(302)
+    res.json({success: false, message: 'Недостаточно привелегий'})
   }
 }
 

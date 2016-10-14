@@ -40,7 +40,13 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-  return res.json(req.session)
+  if(req.session) {
+    req.session.destroy(() => {
+      return res.json({success: true, message: 'Успешный выход'})
+    })
+  } else {
+    return res.json({success: true, message: 'Успешный выход'})
+  }
 })
 
 module.exports = router

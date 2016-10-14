@@ -54,7 +54,7 @@ class Campaigns extends React.Component {
                 })
                 let dataCampaigns = findCampaign[0]
 
-                return <Campaign data={dataCampaigns} />
+                return <Campaign data={dataCampaigns} user={this.props.user} />
               } else {
                 return (
                     <div>
@@ -104,7 +104,12 @@ class Campaigns extends React.Component {
                         }
                         </GridList>
 
-                        { AddCampaignButton }
+                        {/* Кнопка добавления */}
+                        {
+                          this.props.user.auth
+                            ? AddCampaignButton
+                            : null
+                        }
                     </div>
                 )
               }

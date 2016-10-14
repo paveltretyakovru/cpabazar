@@ -6,6 +6,7 @@ import {
   LOGIN_URL,
   LOGOUT_URL,
   LOGIN_REQUEST,
+  SET_AUTH_FALSE,
   LOGIN_REQUEST_FAIL,
   LOGIN_REQUEST_SUCCESS,
   CLEAR_REQUEST_MESSAGE,
@@ -39,7 +40,7 @@ export function setAuth(result) {
 }
 
 export function sendLogout() {
-  return () => {
+  return (dispatch) => {
     return new Promise(function(resolve, reject) {
       fetch(LOGOUT_URL, {credentials: 'include'})
         .then(res => {
@@ -50,7 +51,7 @@ export function sendLogout() {
           return res.json()
         })
         .then(res => {
-          console.log('Logout esult =====>', res.user_id)
+          dispatch({type: SET_AUTH_FALSE})
 
           // Выполняем метод обещания
           return resolve(res)

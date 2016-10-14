@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Proffer = require('../../Proffer')
 const errorAction = require('../../modules/helpers/errorAction')
+const loadUser = require('../../modules/loadUser')
 
 router.get('/', (req, res) => {
   Proffer.find().lean().exec((err, proffers) => {

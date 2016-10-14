@@ -1,6 +1,7 @@
 import {
   SET_AUTH,
   LOGIN_REQUEST,
+  SET_AUTH_FALSE,
   LOGIN_REQUEST_FAIL,
   LOGIN_REQUEST_SUCCESS,
   CLEAR_REQUEST_MESSAGE,
@@ -33,6 +34,9 @@ export default function(state = initState, action) {
 
     case SET_AUTH:
       return { ...state, auth: action.payload }
+
+    case SET_AUTH_FALSE:
+      return {...state, auth: false}
 
     default:
       return state

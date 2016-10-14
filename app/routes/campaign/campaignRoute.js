@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 const CampaignLocal = require('../../CampaignLocal')
 const errorAction = require('../../modules/helpers/errorAction')
+const loadUser = require('../../modules/loadUser')
 
 
-router.post('/', (req, res) => {
+router.post('/', loadUser, (req, res) => {
   let campaign = new CampaignLocal({
     name: req.body.name,
     desc: req.body.desc,
@@ -58,7 +59,7 @@ router.get('/', (req, res) => {
   })
 })
 
-router.put('/', (req, res) => {
+router.put('/', loadUser, (req, res) => {
   const id = req.body._id || false
 
   if(id) {
