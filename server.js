@@ -27,6 +27,12 @@ const mongoose = require('mongoose'),
 
 const app = new (require('express'))()
 
+// ==================== SET GLOBAL VARIABLES ==================================
+app.set('port', process.env.PORT || 3001)
+app.set('host', process.env.SERVER_HOST || getIpAddr())
+app.set('frontHost', process.env.FRONT_HOST || 'http://192.168.16.106:8080')
+// ----------------------------------------------------------------------------
+
 app.use(cookieParser())
 app.use(session({
   secret : 's3Cur3',
@@ -39,13 +45,8 @@ app.use(session({
     // httpOnly: true,
   },
 }))
-app.use(cors({credentials: true, origin: 'http://192.168.16.106:8080'}))
+app.use(cors({credentials: true, origin: app.get('frontHost')}))
 app.use(bodyParser())
-// ----------------------------------------------------------------------------
-
-// ==================== SET GLOBAL VARIABLES ==================================
-app.set('port', process.env.PORT || 3001)
-app.set('host', process.env.HOST || getIpAddr())
 // ----------------------------------------------------------------------------
 
 // ==================== CONNECT TO MONGODB ====================================
