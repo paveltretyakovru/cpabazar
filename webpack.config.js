@@ -5,7 +5,7 @@ var autoprefixer = require('autoprefixer');
 var WebpackNotifierPlugin = require('webpack-notifier');
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
-const SERVER_HOST = process.env.SERVER_HOST || 'http://192.168.16.106:3000'
+const SERVER_HOST = process.env.SERVER_HOST || 'http://192.168.16.106:3001'
 
 const ENTRY = (NODE_ENV == 'development')
   ? [
