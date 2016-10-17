@@ -66,6 +66,6 @@ module.exports = {
     port: 8080,
     host: '192.168.16.106',
     contentBase: `${__dirname}/public`,
-    proxy: { '**': 'http://192.168.16.106:3000' },
+    proxy: { '**': 'http://192.168.16.106:3001' },
   },
 }

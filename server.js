@@ -1,6 +1,6 @@
 // ===================== DEVELOP REQUIRES =====================================
 const notifier = require('node-notifier'),
-      bodyParser = require('body-parser'),
+      bodyParser = require('body-parser')
       cors = require('cors')
 // ----------------------------------------------------------------------------
 
@@ -24,25 +24,9 @@ const mongoose = require('mongoose'),
 // ----------------------------------------------------------------------------
 
 // ==================== INIT EXPRESS APPLICATION ==============================
-//CORS middleware
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.header('Access-Control-Allow-Credentials', true)
-
-    next();
-}
-function enableCORSMiddleware (req,res,next) {
-   // You could use * instead of the url below to allow any origin, 
-   // but be careful, you're opening yourself up to all sorts of things!
-   res.setHeader('Access-Control-Allow-Origin',  "http://192.168.16.106:8080");
-   next()
-}
 
 const app = new (require('express'))()
 
-// app.use(allowCrossDomain)
 app.use(cookieParser())
 app.use(session({
   secret : 's3Cur3',
@@ -55,13 +39,12 @@ app.use(session({
     // httpOnly: true,
   },
 }))
-// app.use(cors({credentials: true}))
-app.use(enableCORSMiddleware)
+app.use(cors({credentials: true, origin: 'http://192.168.16.106:8080'}))
 app.use(bodyParser())
 // ----------------------------------------------------------------------------
 
 // ==================== SET GLOBAL VARIABLES ==================================
-app.set('port', process.env.PORT || 3000)
+app.set('port', process.env.PORT || 3001)
 app.set('host', process.env.HOST || getIpAddr())
 // ----------------------------------------------------------------------------
 
