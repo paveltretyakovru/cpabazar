@@ -1,29 +1,48 @@
 // ===================== DEVELOP REQUIRES =====================================
-const notifier = require('node-notifier')
-const bodyParser = require('body-parser')
+const notifier = require('node-notifier'),
+      bodyParser = require('body-parser'),
+      cors = require('cors')
 // ----------------------------------------------------------------------------
 
 // ===================== SELF FUNCTIONS REQUIRES ==============================
-const getIpAddr = require('./app/modules/helpers/getIpAddr')
-const loadUser = require('./app/modules/loadUser')
+const getIpAddr = require('./app/modules/helpers/getIpAddr'),
+      loadUser = require('./app/modules/loadUser')
 // ----------------------------------------------------------------------------
 
 // ===================== SELF EXPRESS APP REQURIES ============================
-const userRoute = require('./app/routes/user/userRoute')
-const proffersRoute = require('./app/routes/proffers/proffersRoute')
-const campaignRoute = require('./app/routes/campaign/campaignRoute')
-const fetchpageRoute = require('./app/routes/fetchpage/fetchpageRoute')
-const postprofferRoute = require('./app/routes/postproffer/postprofferRoute')
+const userRoute = require('./app/routes/user/userRoute'),
+      proffersRoute = require('./app/routes/proffers/proffersRoute'),
+      campaignRoute = require('./app/routes/campaign/campaignRoute'),
+      fetchpageRoute = require('./app/routes/fetchpage/fetchpageRoute'),
+      postprofferRoute = require('./app/routes/postproffer/postprofferRoute')
 // ----------------------------------------------------------------------------
 
 // ==================== REQUIRE DB DEPENDS ====================================
-const mongoose = require('mongoose')
-const session = require('express-session')
-const cookieParser = require('cookie-parser')
+const mongoose = require('mongoose'),
+      session = require('express-session'),
+      cookieParser = require('cookie-parser')
 // ----------------------------------------------------------------------------
 
 // ==================== INIT EXPRESS APPLICATION ==============================
+//CORS middleware
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Credentials', true)
+
+    next();
+}
+function enableCORSMiddleware (req,res,next) {
+   // You could use * instead of the url below to allow any origin, 
+   // but be careful, you're opening yourself up to all sorts of things!
+   res.setHeader('Access-Control-Allow-Origin',  "http://192.168.16.106:8080");
+   next()
+}
+
 const app = new (require('express'))()
+
+// app.use(allowCrossDomain)
 app.use(cookieParser())
 app.use(session({
   secret : 's3Cur3',
@@ -36,6 +55,8 @@ app.use(session({
     // httpOnly: true,
   },
 }))
+// app.use(cors({credentials: true}))
+app.use(enableCORSMiddleware)
 app.use(bodyParser())
 // ----------------------------------------------------------------------------
 
