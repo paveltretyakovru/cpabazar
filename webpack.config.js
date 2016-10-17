@@ -23,9 +23,9 @@ module.exports = {
   devtool: NODE_ENV == 'development' ? 'cheap-module-eval-source-map' : null,
   entry: ENTRY,
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
-    publicPath: '/public/',
+    // publicPath: '/public/',
   },
   plugins: [
     new webpack.DefinePlugin({

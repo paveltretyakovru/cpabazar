@@ -65,7 +65,7 @@ app.use('/proffers', loadUser, proffersRoute)
 app.use('/fetchpage', fetchpageRoute)
 app.use('/postproffer', postprofferRoute)
 app.get('/', (req,res) => {res.sendFile(`${__dirname}/public/index.html`)})
-app.get('/public/bundle.js', (req,res) => {res.sendFile(`${__dirname}/dist/bundle.js`)})
+app.get('/public/bundle.js', (req,res) => {res.sendFile(`${__dirname}/public/bundle.js`)})
 
 app.get('/test', (req, res) => {
   console.log('Fetching page', req.session);
