@@ -5,8 +5,8 @@ const notifier = require('node-notifier'),
 // ----------------------------------------------------------------------------
 
 // ===================== SELF FUNCTIONS REQUIRES ==============================
-const getIpAddr = require('./app/modules/helpers/getIpAddr'),
-      loadUser = require('./app/modules/loadUser')
+// const getIpAddr = require('./app/modules/helpers/getIpAddr'),
+     const loadUser = require('./app/modules/loadUser')
 // ----------------------------------------------------------------------------
 
 // ===================== SELF EXPRESS APP REQURIES ============================
@@ -28,9 +28,9 @@ const mongoose = require('mongoose'),
 const app = new (require('express'))()
 
 // ==================== SET GLOBAL VARIABLES ==================================
-app.set('port', process.env.PORT || 3001)
-app.set('host', process.env.SERVER_HOST || getIpAddr())
-app.set('frontHost', process.env.FRONT_HOST || 'http://192.168.16.106:8080')
+app.set('port', process.env.PORT || 3002)
+app.set('host', process.env.SERVER_HOST || '192.168.16.106')
+app.set('frontHost', process.env.FRONT_HOST || '192.168.16.106:8080')
 // ----------------------------------------------------------------------------
 
 app.use(cookieParser())

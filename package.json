@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "PORT=3001 SERVER_HOST=http://megalead.ru:3001 node node_modules/nodemon/bin/nodemon.js --watch server.js --watch app server.js",
+    "server": "node node_modules/nodemon/bin/nodemon.js --watch server.js --watch app server.js",
     "front": "webpack-dev-server",
-    "build": "NODE_ENV=production SERVER_HOST=http://megalead.ru:3001 FRONT_HOST=http://cpabazar.dailydiscount.ru webpack"
+    "build": "NODE_ENV=production webpack"
   },
   "author": "Tretyakov Pavel",
   "license": "ISC",
