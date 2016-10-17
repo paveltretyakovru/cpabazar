@@ -25,5 +25,6 @@
   "globals": {
       "Promise": true,
       "NODE_ENV": true,
+      "SERVER_HOST": true,
   }
 }

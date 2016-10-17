@@ -8,7 +8,7 @@ import { routerMiddleware, routerReducer } from 'react-router-redux'
 const router = routerMiddleware(hashHistory)
 const logger = createLogger()
 
-let middlewares = (NODE_ENV === 'production') 
+let middlewares = (NODE_ENV === 'development')
   ? applyMiddleware(logger, thunk, router)
   : applyMiddleware(thunk, router)
 

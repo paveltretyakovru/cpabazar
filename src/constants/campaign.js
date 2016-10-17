@@ -1,6 +1,6 @@
 export const SWITCH_DIALOG = 'SWITCH_DIALOG'
 export const SEND_PROFFER_DATA = 'SEND_PROFFER_DATA'
-export const SEND_PROFFER_DATA_URL = '/postproffer'
+export const SEND_PROFFER_DATA_URL = `${SERVER_HOST}/postproffer`
 export const SEND_PROFFER_DATA_FAIL = 'SEND_PROFFER_DATA_FAIL'
 export const SEND_PROFFER_DATA_SUCCESS = 'SEND_PROFFER_DATA_SUCCESS'
 
@@ -32,13 +32,13 @@ export const REMOVE_LANDING = 'REMOVE_LANDING'
 
 // ============== ADDING NEW CAMPAIGN CONSTANTS ================================
 export const NEW_CAMPAIGN_REQUEST = 'NEW_CAMPAIGN_REQUEST'
-export const NEW_CAMPAIGN_REQUEST_URL = '/campaign'
+export const NEW_CAMPAIGN_REQUEST_URL = `${SERVER_HOST}/campaign`
 export const NEW_CAMPAIGN_REQUEST_FAIL = 'NEW_CAMPAIGN_REQUEST_FAIL'
 export const NEW_CAMPAIGN_REQUEST_SUCCESS = 'NEW_CAMPAIGN_REQUEST_SUCCESS'
 
 // ============== КОНСТАНТЫ ДЛЯ РЕДАКТИРОВАНИЯ КАМПАНИИ ========================
 export const PUT_CAMPAIGN_REQUEST = 'PUT_CAMPAIGN_REQUEST'
-export const PUT_CAMPAIGN_REQUEST_URL = '/campaign'
+export const PUT_CAMPAIGN_REQUEST_URL = `${SERVER_HOST}/campaign`
 export const PUT_CAMPAIGN_REQUEST_FAIL = 'PUT_CAMPAIGN_REQUEST_FAIL'
 export const PUT_CAMPAIGN_REQUEST_SUCCESS = 'PUT_CAMPAIGN_REQUEST_SUCCESS'
 export const MOVE_CAMPAIGN_TO_ADDCAMPAIGN = 'MOVE_CAMPAIGN_TO_ADDCAMPAIGN'

@@ -5,6 +5,7 @@ var autoprefixer = require('autoprefixer');
 var WebpackNotifierPlugin = require('webpack-notifier');
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
+const SERVER_HOST = process.env.SERVER_HOST || 'http://192.168.16.106:3000'
 
 const ENTRY = (NODE_ENV == 'development')
   ? [
@@ -29,6 +30,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'NODE_ENV' : JSON.stringify(NODE_ENV),
+      'SERVER_HOST' : JSON.stringify(SERVER_HOST),
     }),
     new WebpackNotifierPlugin({title: 'Webpack!', alwaysNotify: true}),
     new webpack.optimize.OccurenceOrderPlugin(),

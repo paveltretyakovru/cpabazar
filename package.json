@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "PORT=3000 node node_modules/nodemon/bin/nodemon.js --watch server.js --watch app server.js",
     "front": "webpack-dev-server",
-    "build": "NODE_ENV=production webpack"
+    "build": "NODE_ENV=production SERVER_HOST=http://megalead.ru:3001 webpack"
   },
   "author": "Tretyakov Pavel",
   "license": "ISC",

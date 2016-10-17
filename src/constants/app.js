@@ -1,7 +1,7 @@
-export const LOGIN_URL = 'login'
+export const LOGIN_URL = `${SERVER_HOST}/login`
 export const FETCH_APP = 'FETCH_APP'
 export const SET_MESSAGE = 'SET_MESSAGE'
-export const FETCH_APP_URL = 'fetchpage'
+export const FETCH_APP_URL = `${SERVER_HOST}/fetchpage`
 export const CLEAR_MESSAGE = 'CLEAR_MESSAGE'
 export const FETCH_APP_FAIL = 'FETCH_APP_FAIL'
 export const FETCH_APP_SUCCESS = 'FETCH_APP_SUCCESS'
@@ -10,10 +10,10 @@ export const ADD_CAMPAIGN_TO_COLLECTION = 'ADD_CAMPAIGN_TO_COLLECTION'
 
 // =================== КОНСТАНТЫ ДЛЯ ПРЕДЛОЖЕНИЙ ===============================
 export const PROFFERS_FETCH_REQUEST = 'PROFFERS_FETCH_REQUEST'
-export const PROFFERS_FETCH_REQUEST_URL = '/proffers'
+export const PROFFERS_FETCH_REQUEST_URL = `${SERVER_HOST}/proffers`
 export const PROFFERS_FETCH_REQUEST_FAIL = 'PROFFERS_FETCH_REQUEST_FAIL'
 export const PROFFERS_FETCH_REQUEST_SUCCESS = 'PROFFERS_FETCH_REQUEST_SUCCESS'
 export const DELETE_PROFFER_REQUEST = 'DELETE_PROFFER_REQUEST'
-export const DELETE_PROFFER_REQUEST_URL = '/proffers'
+export const DELETE_PROFFER_REQUEST_URL = `${SERVER_HOST}/proffers`
 export const DELETE_PROFFER_REQUEST_FAIL = 'DELETE_PROFFER_REQUEST_FAIL'
 export const DELETE_PROFFER_REQUEST_SUCCESS = 'DELETE_PROFFER_REQUEST_SUCCESS'
