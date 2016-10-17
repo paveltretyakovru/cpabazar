@@ -4,20 +4,32 @@ var webpack = require('webpack')
 var autoprefixer = require('autoprefixer');
 var WebpackNotifierPlugin = require('webpack-notifier');
 
-module.exports = {
-  devtool: 'cheap-module-eval-source-map',
-  entry: [
+const NODE_ENV = process.env.NODE_ENV || 'development'
+
+const ENTRY = (NODE_ENV == 'development')
+  ? [
     'webpack-dev-server/client?http://192.168.16.106:8080/',
     'webpack/hot/dev-server',
     'babel-polyfill',
     './src/index',
-  ],
+  ]
+  : [
+    'babel-polyfill',
+    './src/index',
+  ]
+
+module.exports = {
+  devtool: NODE_ENV == 'development' ? 'cheap-module-eval-source-map' : null,
+  entry: ENTRY,
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/public/',
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'NODE_ENV' : JSON.stringify(NODE_ENV),
+    }),
     new WebpackNotifierPlugin({title: 'Webpack!', alwaysNotify: true}),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
