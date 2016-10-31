@@ -20,3 +20,8 @@ $ npm install
 
 * Открыть в браузере: http://192.168.16.16:8080 для режима разработки
 * Открыть в браузере: http://192.168.16.16:3000 для загрузки сайта с node сервера
+
+На сервере megalead.ru этот проект запущен командой -
+$ FRONT_HOST=http://cpabazar.dailydiscount.ru SERVER_HOST=178.62.26.249 nohup /usr/local/bin/npm --p refix /var/www/sftp/www/dailydiscount.ru/cpabazar run server > /dev/null 2>&1 &
+Это значит, что сервер запущен в фоновом режиме. Так же в этой команде можно увидеть путь до проекта
+Процесс можно посмотреть коммандой $ ps aux | grep node
