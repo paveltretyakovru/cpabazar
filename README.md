@@ -1,5 +1,6 @@
-# OnlyCampaigns project
+# [Cpabazar](http://cpabazar.dailydiscount.ru/)
 ------------------------
+Одностраничное приложение товаров, с административной панелью
 
 ## Установка
 ```
