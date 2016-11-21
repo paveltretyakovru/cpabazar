@@ -1,12 +1,12 @@
 // ===================== DEVELOP REQUIRES =====================================
 const notifier = require('node-notifier'),
-      bodyParser = require('body-parser')
+      bodyParser = require('body-parser'),
       cors = require('cors')
 // ----------------------------------------------------------------------------
 
 // ===================== SELF FUNCTIONS REQUIRES ==============================
 // const getIpAddr = require('./app/modules/helpers/getIpAddr'),
-     const loadUser = require('./app/modules/loadUser')
+const loadUser = require('./app/modules/loadUser')
 // ----------------------------------------------------------------------------
 
 // ===================== SELF EXPRESS APP REQURIES ============================
